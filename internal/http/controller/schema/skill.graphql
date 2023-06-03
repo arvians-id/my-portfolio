@@ -1,0 +1,7 @@
+type Skill {
+    id: ID!
+    category_skill_id: ID!
+    category_skill: CategorySkill! @goField(forceResolver: true)
+    name: String!
+    icon: String
+}

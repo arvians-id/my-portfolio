@@ -1,0 +1,28 @@
+type Certificate {
+    id: ID!
+    name: String!
+    organization: String!
+    issue_date: String!
+    expiration_date: String
+    credential_id: String
+    image_url: String
+}
+
+input CreateCertificateRequest {
+    name: String!
+    organization: String!
+    issue_date: String!
+    expiration_date: String
+    credential_id: String
+    image_url: String
+}
+
+input UpdateCertificateRequest {
+    id: ID!
+    name: String
+    organization: String
+    issue_date: String
+    expiration_date: String
+    credential_id: String
+    image_url: String
+}

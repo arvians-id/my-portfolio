@@ -1,0 +1,1 @@
+DROP TABLE IF EXISTS work_experience_skill;

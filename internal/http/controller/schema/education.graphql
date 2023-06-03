@@ -1,0 +1,31 @@
+type Education {
+    id: ID!
+    institution: String!
+    degree: String!
+    field_of_study: String!
+    grade: Float!
+    description: String
+    start_date: String!
+    end_date: String
+}
+
+input CreateEducationRequest {
+    institution: String!
+    degree: String!
+    field_of_study: String!
+    grade: Float!
+    description: String
+    start_date: String!
+    end_date: String
+}
+
+input UpdateEducationRequest {
+    id: ID!
+    institution: String
+    degree: String
+    field_of_study: String
+    grade: Float
+    description: String
+    start_date: String
+    end_date: String
+}

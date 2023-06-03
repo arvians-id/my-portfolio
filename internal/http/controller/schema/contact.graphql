@@ -1,0 +1,19 @@
+type Contact {
+    id: ID!
+    platform: String!
+    url: String!
+    icon: String
+}
+
+input CreateContactRequest {
+    platform: String!
+    url: String!
+    icon: String
+}
+
+input UpdateContactRequest {
+    id: ID!
+    platform: String
+    url: String
+    icon: String
+}

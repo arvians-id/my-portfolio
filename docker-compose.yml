@@ -1,0 +1,29 @@
+version: "3.9"
+
+services:
+  portfolio-db:
+    container_name: portfolio-db
+    image: postgres:latest
+    restart: always
+    volumes:
+      - ./database/postgres/data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=go_portfolio
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=root
+    ports:
+      - "5432:5432"
+    networks:
+      - portfolio-network
+  portfolio-redis:
+    container_name: portfolio-redis
+    image: redis:latest
+    ports:
+      - "6379:6379"
+    networks:
+      - portfolio-network
+    restart: always
+
+networks:
+  portfolio-network:
+    driver: bridge

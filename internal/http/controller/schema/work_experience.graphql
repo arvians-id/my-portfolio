@@ -1,0 +1,32 @@
+type WorkExperience {
+    id: ID!
+    role: String!
+    company: String!
+    description: String
+    start_date: String!
+    end_date: String
+    job_type: String!
+    skills: [Skill] @goField(forceResolver: true)
+    created_at: String
+    updated_at: String
+}
+
+input CreateWorkExperienceRequest {
+    role: String!
+    company: String!
+    description: String
+    start_date: String!
+    end_date: String
+    job_type: String!
+    skills: [ID!]!
+}
+
+input UpdateWorkExperienceRequest {
+    id: ID!
+    role: String
+    company: String
+    description: String
+    start_date: String
+    end_date: String
+    job_type: String
+}

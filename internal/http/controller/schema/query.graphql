@@ -1,0 +1,33 @@
+type Query {
+    # User
+    UserFindAll: [User!]!
+    UserFindById(id: ID!): User!
+
+    # Education
+    EducationFindAll: [Education!]!
+    EducationFindById(id: ID!): Education!
+
+    # Certificate
+    CertificateFindAll: [Certificate!]!
+    CertificateFindById(id: ID!): Certificate!
+
+    # Contact
+    ContactFindAll: [Contact!]!
+    ContactFindById(id: ID!): Contact!
+
+    # Project
+    ProjectFindAll: [Project!]!
+    ProjectFindById(id: ID!): Project!
+
+    # Skill
+    SkillFindAll: [Skill!]!
+    SkillFindById(id: ID!): Skill!
+
+    # Work Experience
+    WorkExperienceFindAll: [WorkExperience!]!
+    WorkExperienceFindById(id: ID!): WorkExperience!
+
+    # Category Skill
+    CategorySkillFindAll: [CategorySkill!]!
+    CategorySkillFindById(id: ID!): CategorySkill!
+}

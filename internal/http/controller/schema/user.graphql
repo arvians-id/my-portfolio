@@ -1,0 +1,34 @@
+type User {
+    id: ID!
+    name: String!
+    email: String!
+    password: String!
+    bio: String
+    pronouns: String!
+    country: String!
+    job_title: String!
+    image: String
+    created_at: String
+    updated_at: String
+}
+
+input CreateUserRequest {
+    name: String!
+    email: String!
+    password: String!
+    pronouns: String!
+    country: String!
+    job_title: String!
+}
+
+input UpdateUserRequest {
+    id: ID!
+    name: String
+    email: String
+    password: String
+    bio: String
+    pronouns: String
+    country: String
+    job_title: String
+    image: String
+}
