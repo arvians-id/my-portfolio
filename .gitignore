@@ -1,4 +1,6 @@
-database/postgres/postgres-data
+database/postgres/data
 .idea
 .vscode
 .env
+*/tmp
+application.exe
