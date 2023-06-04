@@ -60,8 +60,17 @@ func NewInitializedRoutes(configuration config.Config, logFile *os.File) (*fiber
 	userRepository := repository.NewUserRepository(db)
 	userService := service.NewUserService(userRepository)
 
+	contactRepository := repository.NewContactRepository(db)
+	contactService := service.NewContactService(contactRepository)
+
+	educationRepository := repository.NewEducationRepository(db)
+	educationService := service.NewEducationService(educationRepository)
+
+	certificateRepository := repository.NewCertificateRepository(db)
+	certificateService := service.NewCertificateService(certificateRepository)
+
 	// Set GraphQL Playground
-	app.Get("/playground", func(c *fiber.Ctx) error {
+	app.Get("/", func(c *fiber.Ctx) error {
 		h := playground.Handler("GraphQL", "/query")
 		fasthttpadaptor.NewFastHTTPHandlerFunc(func(writer http.ResponseWriter, request *http.Request) {
 			h.ServeHTTP(writer, request)
@@ -74,7 +83,10 @@ func NewInitializedRoutes(configuration config.Config, logFile *os.File) (*fiber
 		fasthttpadaptor.NewFastHTTPHandlerFunc(func(writer http.ResponseWriter, request *http.Request) {
 			generatedConfig := gql.Config{
 				Resolvers: &resolver.Resolver{
-					UserService: userService,
+					UserService:        userService,
+					ContactService:     contactService,
+					EducationService:   educationService,
+					CertificateService: certificateService,
 				},
 			}
 

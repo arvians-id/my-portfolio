@@ -2,16 +2,16 @@ type CategorySkill {
     id: ID!
     name: String!
     skills: [Skill] @goField(forceResolver: true)
-    created_at: String
-    updated_at: String
+    created_at: String!
+    updated_at: String!
 }
 
-input CreateCategorySkill {
+input CreateCategorySkillRequest {
     id: ID!
     name: String!
 }
 
-input UpdateCategorySkill {
+input UpdateCategorySkillRequest {
     id: ID!
     name: String
 }

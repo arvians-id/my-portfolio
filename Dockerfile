@@ -7,7 +7,7 @@ WORKDIR /app
 COPY /cmd/server/main.go .
 COPY . .
 
-EXPOSE 8080
+EXPOSE 3000
 
 RUN go mod tidy
 

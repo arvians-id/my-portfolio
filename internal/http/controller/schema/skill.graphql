@@ -5,3 +5,16 @@ type Skill {
     name: String!
     icon: String
 }
+
+input CreateSkillRequest {
+    category_skill_id: ID!
+    name: String!
+    icon: String
+}
+
+input UpdateSkillRequest {
+    id: ID!
+    category_skill_id: ID!
+    name: String!
+    icon: String
+}

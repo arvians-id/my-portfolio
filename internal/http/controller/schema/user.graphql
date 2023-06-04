@@ -8,8 +8,8 @@ type User {
     country: String!
     job_title: String!
     image: String
-    created_at: String
-    updated_at: String
+    created_at: String!
+    updated_at: String!
 }
 
 input CreateUserRequest {
@@ -24,7 +24,6 @@ input CreateUserRequest {
 input UpdateUserRequest {
     id: ID!
     name: String
-    email: String
     password: String
     bio: String
     pronouns: String

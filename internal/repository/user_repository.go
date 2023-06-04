@@ -11,7 +11,7 @@ type UserRepositoryContract interface {
 	FindAll(ctx context.Context) ([]*entity.User, error)
 	FindByID(ctx context.Context, id int64) (*entity.User, error)
 	Create(ctx context.Context, user *entity.User) (*entity.User, error)
-	Update(ctx context.Context, user *entity.User) (*entity.User, error)
+	Update(ctx context.Context, user *entity.User) error
 	Delete(ctx context.Context, id int64) error
 }
 
@@ -26,7 +26,7 @@ func NewUserRepository(db *gorm.DB) UserRepository {
 }
 
 func (repository *UserRepository) FindAll(ctx context.Context) ([]*entity.User, error) {
-	query := "SELECT * FROM users ORDER BY id DESC"
+	query := "SELECT * FROM users ORDER BY created_at DESC"
 	var users []*entity.User
 	err := repository.DB.WithContext(ctx).Raw(query).Scan(&users).Error
 	if err != nil {
@@ -41,7 +41,19 @@ func (repository *UserRepository) FindByID(ctx context.Context, id int64) (*enti
 	query := "SELECT * FROM users WHERE id = $1"
 	var user entity.User
 	row := repository.DB.WithContext(ctx).Raw(query, id).Row()
-	err := row.Scan(&user.ID, &user.Name, &user.Email, &user.Password, &user.CreatedAt, &user.UpdatedAt)
+	err := row.Scan(
+		&user.ID,
+		&user.Name,
+		&user.Email,
+		&user.Password,
+		&user.Bio,
+		&user.Pronouns,
+		&user.Country,
+		&user.JobTitle,
+		&user.Image,
+		&user.CreatedAt,
+		&user.UpdatedAt,
+	)
 	if err != nil {
 		log.Println("[UserRepository][FindByID] problem with scanning db row, err: ", err.Error())
 		return nil, err
@@ -51,7 +63,7 @@ func (repository *UserRepository) FindByID(ctx context.Context, id int64) (*enti
 }
 
 func (repository *UserRepository) Create(ctx context.Context, user *entity.User) (*entity.User, error) {
-	err := repository.DB.WithContext(ctx).Create(&user).Error
+	err := repository.DB.WithContext(ctx).Select("name", "email", "password", "pronouns", "country", "job_title").Create(&user).Error
 	if err != nil {
 		log.Println("[UserRepository][Create] problem with scanning db row, err: ", err.Error())
 		return nil, err
@@ -60,14 +72,14 @@ func (repository *UserRepository) Create(ctx context.Context, user *entity.User)
 	return user, nil
 }
 
-func (repository *UserRepository) Update(ctx context.Context, user *entity.User) (*entity.User, error) {
+func (repository *UserRepository) Update(ctx context.Context, user *entity.User) error {
 	err := repository.DB.WithContext(ctx).Updates(&user).Error
 	if err != nil {
 		log.Println("[UserRepository][Update] problem querying to db, err: ", err.Error())
-		return nil, err
+		return err
 	}
 
-	return user, nil
+	return nil
 }
 
 func (repository *UserRepository) Delete(ctx context.Context, id int64) error {

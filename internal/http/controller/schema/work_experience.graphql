@@ -7,8 +7,8 @@ type WorkExperience {
     end_date: String
     job_type: String!
     skills: [Skill] @goField(forceResolver: true)
-    created_at: String
-    updated_at: String
+    created_at: String!
+    updated_at: String!
 }
 
 input CreateWorkExperienceRequest {

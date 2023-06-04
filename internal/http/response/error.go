@@ -5,7 +5,7 @@ import (
 )
 
 var (
-	GrpcErrorNotFound = "rpc error: code = Unknown desc = sql: no rows in result set"
+	ErrorNotFound = "sql: no rows in result set"
 	//GrpcErrorNotFound = "rpc error: code = Unknown desc = sql: no rows in result set"
 )
 

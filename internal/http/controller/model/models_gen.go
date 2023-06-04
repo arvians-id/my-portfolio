@@ -6,8 +6,8 @@ type CategorySkill struct {
 	ID        int64    `json:"id"`
 	Name      string   `json:"name"`
 	Skills    []*Skill `json:"skills,omitempty"`
-	CreatedAt *string  `json:"created_at,omitempty"`
-	UpdatedAt *string  `json:"updated_at,omitempty"`
+	CreatedAt string   `json:"created_at"`
+	UpdatedAt string   `json:"updated_at"`
 }
 
 type Certificate struct {
@@ -27,7 +27,7 @@ type Contact struct {
 	Icon     *string `json:"icon,omitempty"`
 }
 
-type CreateCategorySkill struct {
+type CreateCategorySkillRequest struct {
 	ID   int64  `json:"id"`
 	Name string `json:"name"`
 }
@@ -67,6 +67,12 @@ type CreateProjectRequest struct {
 	Date        string  `json:"date"`
 	WorkingType string  `json:"working_type"`
 	Skills      []int64 `json:"skills"`
+}
+
+type CreateSkillRequest struct {
+	CategorySkillID int64   `json:"category_skill_id"`
+	Name            string  `json:"name"`
+	Icon            *string `json:"icon,omitempty"`
 }
 
 type CreateUserRequest struct {
@@ -110,8 +116,8 @@ type Project struct {
 	Date        string   `json:"date"`
 	WorkingType string   `json:"working_type"`
 	Skills      []*Skill `json:"skills,omitempty"`
-	CreatedAt   *string  `json:"created_at,omitempty"`
-	UpdatedAt   *string  `json:"updated_at,omitempty"`
+	CreatedAt   string   `json:"created_at"`
+	UpdatedAt   string   `json:"updated_at"`
 }
 
 type Skill struct {
@@ -122,7 +128,7 @@ type Skill struct {
 	Icon            *string        `json:"icon,omitempty"`
 }
 
-type UpdateCategorySkill struct {
+type UpdateCategorySkillRequest struct {
 	ID   int64   `json:"id"`
 	Name *string `json:"name,omitempty"`
 }
@@ -167,10 +173,16 @@ type UpdateProjectRequest struct {
 	WorkingType string  `json:"working_type"`
 }
 
+type UpdateSkillRequest struct {
+	ID              int64   `json:"id"`
+	CategorySkillID int64   `json:"category_skill_id"`
+	Name            string  `json:"name"`
+	Icon            *string `json:"icon,omitempty"`
+}
+
 type UpdateUserRequest struct {
 	ID       int64   `json:"id"`
 	Name     *string `json:"name,omitempty"`
-	Email    *string `json:"email,omitempty"`
 	Password *string `json:"password,omitempty"`
 	Bio      *string `json:"bio,omitempty"`
 	Pronouns *string `json:"pronouns,omitempty"`
@@ -199,8 +211,8 @@ type User struct {
 	Country   string  `json:"country"`
 	JobTitle  string  `json:"job_title"`
 	Image     *string `json:"image,omitempty"`
-	CreatedAt *string `json:"created_at,omitempty"`
-	UpdatedAt *string `json:"updated_at,omitempty"`
+	CreatedAt string  `json:"created_at"`
+	UpdatedAt string  `json:"updated_at"`
 }
 
 type WorkExperience struct {
@@ -212,6 +224,6 @@ type WorkExperience struct {
 	EndDate     *string  `json:"end_date,omitempty"`
 	JobType     string   `json:"job_type"`
 	Skills      []*Skill `json:"skills,omitempty"`
-	CreatedAt   *string  `json:"created_at,omitempty"`
-	UpdatedAt   *string  `json:"updated_at,omitempty"`
+	CreatedAt   string   `json:"created_at"`
+	UpdatedAt   string   `json:"updated_at"`
 }

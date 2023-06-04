@@ -1,3 +1,41 @@
 type Mutation {
+    # User
     CreateUser(input: CreateUserRequest!): User!
+    UpdateUser(input: UpdateUserRequest!): User!
+    DeleteUser(id: ID!): Boolean!
+
+    # Education
+    CreateEducation(input: CreateEducationRequest!): Education!
+    UpdateEducation(input: UpdateEducationRequest!): Education!
+    DeleteEducation(id: ID!): Boolean!
+
+    # Certificate
+    CreateCertificate(input: CreateCertificateRequest!): Certificate!
+    UpdateCertificate(input: UpdateCertificateRequest!): Certificate!
+    DeleteCertificate(id: ID!): Boolean!
+
+    # Contact
+    CreateContact(input: CreateContactRequest!): Contact!
+    UpdateContact(input: UpdateContactRequest!): Contact!
+    DeleteContact(id: ID!): Boolean!
+
+    # Project
+    CreateProject(input: CreateProjectRequest!): Project!
+    UpdateProject(input: UpdateProjectRequest!): Project!
+    DeleteProject(id: ID!): Boolean!
+
+    # Skill
+    CreateSkill(input: CreateSkillRequest!): Skill!
+    UpdateSkill(input: UpdateSkillRequest!): Skill!
+    DeleteSkill(id: ID!): Boolean!
+
+    # Work Experience
+    CreateWorkExperience(input: CreateWorkExperienceRequest!): WorkExperience!
+    UpdateWorkExperience(input: UpdateWorkExperienceRequest!): WorkExperience!
+    DeleteWorkExperience(id: ID!): Boolean!
+
+    # Category Skill
+    CreateCategorySkill(input: CreateCategorySkillRequest!): CategorySkill!
+    UpdateCategorySkill(input: UpdateCategorySkillRequest!): CategorySkill!
+    DeleteCategorySkill(id: ID!): Boolean!
 }

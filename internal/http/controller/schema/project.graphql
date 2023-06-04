@@ -9,8 +9,8 @@ type Project {
     date: String!
     working_type: String!
     skills: [Skill] @goField(forceResolver: true)
-    created_at: String
-    updated_at: String
+    created_at: String!
+    updated_at: String!
 }
 
 input CreateProjectRequest {

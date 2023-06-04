@@ -7,6 +7,6 @@ CREATE TABLE IF NOT EXISTS guest_testimonials (
    google_id    VARCHAR(255),
    message      VARCHAR(250) NOT NULL,
    is_published BOOLEAN DEFAULT FALSE,
-   created_at   TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+   created_at   TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
    PRIMARY KEY (id)
 )

@@ -8,7 +8,10 @@ import (
 // THIS CODE IS A STARTING POINT ONLY. IT WILL NOT BE UPDATED WITH SCHEMA CHANGES.
 
 type Resolver struct {
-	service.UserService
+	UserService        service.UserServiceContract
+	EducationService   service.EducationServiceContract
+	CertificateService service.CertificateServiceContract
+	ContactService     service.ContactServiceContract
 }
 
 // Mutation returns graph.MutationResolver implementation.
