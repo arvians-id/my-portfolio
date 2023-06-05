@@ -15,7 +15,7 @@ func (q queryResolver) FindAllEducation(ctx context.Context) ([]*model.Education
 }
 
 func (q queryResolver) FindByIDEducation(ctx context.Context, id int64) (*model.Education, error) {
-	education, err := q.EducationService.FindById(ctx, id)
+	education, err := q.EducationService.FindByID(ctx, id)
 	if err != nil {
 		return nil, err
 	}

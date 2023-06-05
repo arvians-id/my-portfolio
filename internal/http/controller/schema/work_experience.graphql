@@ -29,4 +29,5 @@ input UpdateWorkExperienceRequest {
     start_date: String
     end_date: String
     job_type: String
+    skills: [ID!]!
 }

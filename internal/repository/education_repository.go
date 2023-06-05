@@ -3,15 +3,16 @@ package repository
 import (
 	"context"
 	"github.com/arvians-id/go-portfolio/internal/entity"
+	"github.com/arvians-id/go-portfolio/internal/http/controller/model"
 	"gorm.io/gorm"
 	"log"
 )
 
 type EducationRepositoryContract interface {
 	FindAll(ctx context.Context) ([]*entity.Education, error)
-	FindById(ctx context.Context, id int64) (*entity.Education, error)
-	Create(ctx context.Context, education *entity.Education) (*entity.Education, error)
-	Update(ctx context.Context, education *entity.Education) error
+	FindByID(ctx context.Context, id int64) (*entity.Education, error)
+	Create(ctx context.Context, request *model.CreateEducationRequest) (*entity.Education, error)
+	Update(ctx context.Context, request *model.UpdateEducationRequest) error
 	Delete(ctx context.Context, id int64) error
 }
 
@@ -35,7 +36,7 @@ func (repository *EducationRepository) FindAll(ctx context.Context) ([]*entity.E
 	return educations, nil
 }
 
-func (repository *EducationRepository) FindById(ctx context.Context, id int64) (*entity.Education, error) {
+func (repository *EducationRepository) FindByID(ctx context.Context, id int64) (*entity.Education, error) {
 	query := "SELECT * FROM educations WHERE id = ?"
 	var education entity.Education
 	row := repository.DB.WithContext(ctx).Raw(query, id).Row()
@@ -57,17 +58,36 @@ func (repository *EducationRepository) FindById(ctx context.Context, id int64) (
 	return &education, nil
 }
 
-func (repository *EducationRepository) Create(ctx context.Context, education *entity.Education) (*entity.Education, error) {
+func (repository *EducationRepository) Create(ctx context.Context, request *model.CreateEducationRequest) (*entity.Education, error) {
+	var education entity.Education
+	education.Institution = request.Institution
+	education.Degree = request.Degree
+	education.FieldOfStudy = request.FieldOfStudy
+	education.Grade = request.Grade
+	education.Description = request.Description
+	education.StartDate = request.StartDate
+	education.EndDate = request.EndDate
+
 	err := repository.DB.WithContext(ctx).Create(&education).Error
 	if err != nil {
 		log.Println("[EducationRepository][Create] problem with scanning db row, err: ", err.Error())
 		return nil, err
 	}
 
-	return education, nil
+	return &education, nil
 }
 
-func (repository *EducationRepository) Update(ctx context.Context, education *entity.Education) error {
+func (repository *EducationRepository) Update(ctx context.Context, request *model.UpdateEducationRequest) error {
+	var education entity.Education
+	education.ID = request.ID
+	education.Institution = *request.Institution
+	education.Degree = *request.Degree
+	education.FieldOfStudy = *request.FieldOfStudy
+	education.Grade = *request.Grade
+	education.Description = request.Description
+	education.StartDate = *request.StartDate
+	education.EndDate = request.EndDate
+
 	err := repository.DB.WithContext(ctx).Updates(&education).Error
 	if err != nil {
 		log.Println("[EducationRepository][Update] problem querying to db, err: ", err.Error())

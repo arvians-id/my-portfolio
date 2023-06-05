@@ -15,7 +15,7 @@ func (q queryResolver) FindAllCertificate(ctx context.Context) ([]*model.Certifi
 }
 
 func (q queryResolver) FindByIDCertificate(ctx context.Context, id int64) (*model.Certificate, error) {
-	certificate, err := q.CertificateService.FindById(ctx, id)
+	certificate, err := q.CertificateService.FindByID(ctx, id)
 	if err != nil {
 		return nil, err
 	}

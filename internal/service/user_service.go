@@ -2,7 +2,6 @@ package service
 
 import (
 	"context"
-	"github.com/arvians-id/go-portfolio/internal/entity"
 	"github.com/arvians-id/go-portfolio/internal/http/controller/model"
 	"github.com/arvians-id/go-portfolio/internal/repository"
 	"github.com/arvians-id/go-portfolio/util"
@@ -34,23 +33,12 @@ func (service *UserService) FindAll(ctx context.Context) ([]*model.User, error) 
 		return nil, err
 	}
 
-	var usersModel []*model.User
+	var results []*model.User
 	for _, user := range users {
-		usersModel = append(usersModel, &model.User{
-			ID:        user.ID,
-			Name:      user.Name,
-			Email:     user.Email,
-			Bio:       user.Bio,
-			Pronouns:  user.Pronouns,
-			Country:   user.Country,
-			JobTitle:  user.JobTitle,
-			Image:     user.Image,
-			CreatedAt: user.CreatedAt.String(),
-			UpdatedAt: user.UpdatedAt.String(),
-		})
+		results = append(results, user.ToModel())
 	}
 
-	return usersModel, nil
+	return results, nil
 }
 
 func (service *UserService) FindByID(ctx context.Context, id int64) (*model.User, error) {
@@ -60,18 +48,7 @@ func (service *UserService) FindByID(ctx context.Context, id int64) (*model.User
 		return nil, err
 	}
 
-	return &model.User{
-		ID:        user.ID,
-		Name:      user.Name,
-		Email:     user.Email,
-		Bio:       user.Bio,
-		Pronouns:  user.Pronouns,
-		Country:   user.Country,
-		JobTitle:  user.JobTitle,
-		Image:     user.Image,
-		CreatedAt: user.CreatedAt.String(),
-		UpdatedAt: user.UpdatedAt.String(),
-	}, nil
+	return user.ToModel(), nil
 }
 
 func (service *UserService) Create(ctx context.Context, request *model.CreateUserRequest) (*model.User, error) {
@@ -81,36 +58,18 @@ func (service *UserService) Create(ctx context.Context, request *model.CreateUse
 		return nil, err
 	}
 
-	var user entity.User
-	user.Name = request.Name
-	user.Email = request.Email
-	user.Password = passwordHashed
-	user.Pronouns = request.Pronouns
-	user.Country = request.Country
-	user.JobTitle = request.JobTitle
-
-	userCreated, err := service.UserRepository.Create(ctx, &user)
+	request.Password = passwordHashed
+	userCreated, err := service.UserRepository.Create(ctx, request)
 	if err != nil {
 		log.Println("[UserService][Create] problem calling repository, err: ", err.Error())
 		return nil, err
 	}
 
-	return &model.User{
-		ID:        userCreated.ID,
-		Name:      userCreated.Name,
-		Email:     userCreated.Email,
-		Bio:       userCreated.Bio,
-		Pronouns:  userCreated.Pronouns,
-		Country:   userCreated.Country,
-		JobTitle:  userCreated.JobTitle,
-		Image:     userCreated.Image,
-		CreatedAt: userCreated.CreatedAt.String(),
-		UpdatedAt: userCreated.UpdatedAt.String(),
-	}, nil
+	return userCreated.ToModel(), nil
 }
 
 func (service *UserService) Update(ctx context.Context, request *model.UpdateUserRequest) (*model.User, error) {
-	userCheck, err := service.UserRepository.FindByID(ctx, request.ID)
+	_, err := service.UserRepository.FindByID(ctx, request.ID)
 	if err != nil {
 		log.Println("[UserService][FindByID] problem calling repository, err: ", err.Error())
 		return nil, err
@@ -123,52 +82,32 @@ func (service *UserService) Update(ctx context.Context, request *model.UpdateUse
 			return nil, err
 		}
 
-		userCheck.Password = hashedPassword
+		request.Password = &hashedPassword
 	}
 
-	userCheck.Name = *request.Name
-	userCheck.Bio = request.Bio
-	userCheck.Pronouns = *request.Pronouns
-	userCheck.Country = *request.Country
-	userCheck.JobTitle = *request.JobTitle
-	userCheck.Image = request.Image
-
-	err = service.UserRepository.Update(ctx, &entity.User{
-		ID:       userCheck.ID,
-		Name:     userCheck.Name,
-		Bio:      userCheck.Bio,
-		Pronouns: userCheck.Pronouns,
-		Country:  userCheck.Country,
-		JobTitle: userCheck.JobTitle,
-		Image:    userCheck.Image,
-	})
+	err = service.UserRepository.Update(ctx, request)
 	if err != nil {
 		log.Println("[UserService][Update] problem calling repository, err: ", err.Error())
 		return nil, err
 	}
 
-	return &model.User{
-		ID:        userCheck.ID,
-		Name:      userCheck.Name,
-		Email:     userCheck.Email,
-		Bio:       userCheck.Bio,
-		Pronouns:  userCheck.Pronouns,
-		Country:   userCheck.Country,
-		JobTitle:  userCheck.JobTitle,
-		Image:     userCheck.Image,
-		CreatedAt: userCheck.CreatedAt.String(),
-		UpdatedAt: userCheck.UpdatedAt.String(),
-	}, nil
+	userUpdated, err := service.UserRepository.FindByID(ctx, request.ID)
+	if err != nil {
+		log.Println("[UserService][FindByID] problem calling repository, err: ", err.Error())
+		return nil, err
+	}
+
+	return userUpdated.ToModel(), nil
 }
 
 func (service *UserService) Delete(ctx context.Context, id int64) error {
-	_, err := service.UserRepository.FindByID(ctx, id)
+	workExperienceCheck, err := service.UserRepository.FindByID(ctx, id)
 	if err != nil {
 		log.Println("[UserService][FindByID] problem calling repository, err: ", err.Error())
 		return err
 	}
 
-	err = service.UserRepository.Delete(ctx, id)
+	err = service.UserRepository.Delete(ctx, workExperienceCheck.ID)
 	if err != nil {
 		log.Println("[UserService][Delete] problem calling repository, err: ", err.Error())
 		return err

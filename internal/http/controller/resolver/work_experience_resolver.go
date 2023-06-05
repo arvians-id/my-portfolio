@@ -6,28 +6,48 @@ import (
 )
 
 func (q queryResolver) FindAllWorkExperience(ctx context.Context) ([]*model.WorkExperience, error) {
-	//TODO implement me
-	panic("implement me")
+	workExperiences, err := q.WorkExperienceService.FindAll(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	return workExperiences, nil
 }
 
 func (q queryResolver) FindByIDWorkExperience(ctx context.Context, id int64) (*model.WorkExperience, error) {
-	//TODO implement me
-	panic("implement me")
+	workExperience, err := q.WorkExperienceService.FindByID(ctx, id)
+	if err != nil {
+		return nil, err
+	}
+
+	return workExperience, nil
 }
 
 func (m mutationResolver) CreateWorkExperience(ctx context.Context, input model.CreateWorkExperienceRequest) (*model.WorkExperience, error) {
-	//TODO implement me
-	panic("implement me")
+	workExperience, err := m.WorkExperienceService.Create(ctx, &input)
+	if err != nil {
+		return nil, err
+	}
+
+	return workExperience, nil
 }
 
 func (m mutationResolver) UpdateWorkExperience(ctx context.Context, input model.UpdateWorkExperienceRequest) (*model.WorkExperience, error) {
-	//TODO implement me
-	panic("implement me")
+	workExperience, err := m.WorkExperienceService.Update(ctx, &input)
+	if err != nil {
+		return nil, err
+	}
+
+	return workExperience, nil
 }
 
 func (m mutationResolver) DeleteWorkExperience(ctx context.Context, id int64) (bool, error) {
-	//TODO implement me
-	panic("implement me")
+	err := m.WorkExperienceService.Delete(ctx, id)
+	if err != nil {
+		return false, err
+	}
+
+	return true, nil
 }
 
 func (w workExperienceResolver) Skills(ctx context.Context, obj *model.WorkExperience) ([]*model.Skill, error) {

@@ -6,28 +6,48 @@ import (
 )
 
 func (q queryResolver) FindAllSkill(ctx context.Context) ([]*model.Skill, error) {
-	//TODO implement me
-	panic("implement me")
+	skills, err := q.SkillService.FindAll(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	return skills, nil
 }
 
 func (q queryResolver) FindByIDSkill(ctx context.Context, id int64) (*model.Skill, error) {
-	//TODO implement me
-	panic("implement me")
+	skill, err := q.SkillService.FindByID(ctx, id)
+	if err != nil {
+		return nil, err
+	}
+
+	return skill, nil
 }
 
 func (m mutationResolver) CreateSkill(ctx context.Context, input model.CreateSkillRequest) (*model.Skill, error) {
-	//TODO implement me
-	panic("implement me")
+	skill, err := m.SkillService.Create(ctx, &input)
+	if err != nil {
+		return nil, err
+	}
+
+	return skill, nil
 }
 
 func (m mutationResolver) UpdateSkill(ctx context.Context, input model.UpdateSkillRequest) (*model.Skill, error) {
-	//TODO implement me
-	panic("implement me")
+	skill, err := m.SkillService.Update(ctx, &input)
+	if err != nil {
+		return nil, err
+	}
+
+	return skill, nil
 }
 
 func (m mutationResolver) DeleteSkill(ctx context.Context, id int64) (bool, error) {
-	//TODO implement me
-	panic("implement me")
+	err := m.SkillService.Delete(ctx, id)
+	if err != nil {
+		return false, err
+	}
+
+	return true, nil
 }
 
 func (q skillResolver) CategorySkill(ctx context.Context, obj *model.Skill) (*model.CategorySkill, error) {

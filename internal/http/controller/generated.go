@@ -851,96 +851,96 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Query.FindAllWorkExperience(childComplexity), true
 
-	case "Query.FindByIdCategorySkill":
+	case "Query.FindByIDCategorySkill":
 		if e.complexity.Query.FindByIDCategorySkill == nil {
 			break
 		}
 
-		args, err := ec.field_Query_FindByIdCategorySkill_args(context.TODO(), rawArgs)
+		args, err := ec.field_Query_FindByIDCategorySkill_args(context.TODO(), rawArgs)
 		if err != nil {
 			return 0, false
 		}
 
 		return e.complexity.Query.FindByIDCategorySkill(childComplexity, args["id"].(int64)), true
 
-	case "Query.FindByIdCertificate":
+	case "Query.FindByIDCertificate":
 		if e.complexity.Query.FindByIDCertificate == nil {
 			break
 		}
 
-		args, err := ec.field_Query_FindByIdCertificate_args(context.TODO(), rawArgs)
+		args, err := ec.field_Query_FindByIDCertificate_args(context.TODO(), rawArgs)
 		if err != nil {
 			return 0, false
 		}
 
 		return e.complexity.Query.FindByIDCertificate(childComplexity, args["id"].(int64)), true
 
-	case "Query.FindByIdContact":
+	case "Query.FindByIDContact":
 		if e.complexity.Query.FindByIDContact == nil {
 			break
 		}
 
-		args, err := ec.field_Query_FindByIdContact_args(context.TODO(), rawArgs)
+		args, err := ec.field_Query_FindByIDContact_args(context.TODO(), rawArgs)
 		if err != nil {
 			return 0, false
 		}
 
 		return e.complexity.Query.FindByIDContact(childComplexity, args["id"].(int64)), true
 
-	case "Query.FindByIdEducation":
+	case "Query.FindByIDEducation":
 		if e.complexity.Query.FindByIDEducation == nil {
 			break
 		}
 
-		args, err := ec.field_Query_FindByIdEducation_args(context.TODO(), rawArgs)
+		args, err := ec.field_Query_FindByIDEducation_args(context.TODO(), rawArgs)
 		if err != nil {
 			return 0, false
 		}
 
 		return e.complexity.Query.FindByIDEducation(childComplexity, args["id"].(int64)), true
 
-	case "Query.FindByIdProject":
+	case "Query.FindByIDProject":
 		if e.complexity.Query.FindByIDProject == nil {
 			break
 		}
 
-		args, err := ec.field_Query_FindByIdProject_args(context.TODO(), rawArgs)
+		args, err := ec.field_Query_FindByIDProject_args(context.TODO(), rawArgs)
 		if err != nil {
 			return 0, false
 		}
 
 		return e.complexity.Query.FindByIDProject(childComplexity, args["id"].(int64)), true
 
-	case "Query.FindByIdSkill":
+	case "Query.FindByIDSkill":
 		if e.complexity.Query.FindByIDSkill == nil {
 			break
 		}
 
-		args, err := ec.field_Query_FindByIdSkill_args(context.TODO(), rawArgs)
+		args, err := ec.field_Query_FindByIDSkill_args(context.TODO(), rawArgs)
 		if err != nil {
 			return 0, false
 		}
 
 		return e.complexity.Query.FindByIDSkill(childComplexity, args["id"].(int64)), true
 
-	case "Query.FindByIdUser":
+	case "Query.FindByIDUser":
 		if e.complexity.Query.FindByIDUser == nil {
 			break
 		}
 
-		args, err := ec.field_Query_FindByIdUser_args(context.TODO(), rawArgs)
+		args, err := ec.field_Query_FindByIDUser_args(context.TODO(), rawArgs)
 		if err != nil {
 			return 0, false
 		}
 
 		return e.complexity.Query.FindByIDUser(childComplexity, args["id"].(int64)), true
 
-	case "Query.FindByIdWorkExperience":
+	case "Query.FindByIDWorkExperience":
 		if e.complexity.Query.FindByIDWorkExperience == nil {
 			break
 		}
 
-		args, err := ec.field_Query_FindByIdWorkExperience_args(context.TODO(), rawArgs)
+		args, err := ec.field_Query_FindByIDWorkExperience_args(context.TODO(), rawArgs)
 		if err != nil {
 			return 0, false
 		}
@@ -1617,7 +1617,7 @@ func (ec *executionContext) field_Mutation_UpdateWorkExperience_args(ctx context
 	return args, nil
 }
 
-func (ec *executionContext) field_Query_FindByIdCategorySkill_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+func (ec *executionContext) field_Query_FindByIDCategorySkill_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
 	var err error
 	args := map[string]interface{}{}
 	var arg0 int64
@@ -1632,7 +1632,7 @@ func (ec *executionContext) field_Query_FindByIdCategorySkill_args(ctx context.C
 	return args, nil
 }
 
-func (ec *executionContext) field_Query_FindByIdCertificate_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+func (ec *executionContext) field_Query_FindByIDCertificate_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
 	var err error
 	args := map[string]interface{}{}
 	var arg0 int64
@@ -1647,7 +1647,7 @@ func (ec *executionContext) field_Query_FindByIdCertificate_args(ctx context.Con
 	return args, nil
 }
 
-func (ec *executionContext) field_Query_FindByIdContact_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+func (ec *executionContext) field_Query_FindByIDContact_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
 	var err error
 	args := map[string]interface{}{}
 	var arg0 int64
@@ -1662,7 +1662,7 @@ func (ec *executionContext) field_Query_FindByIdContact_args(ctx context.Context
 	return args, nil
 }
 
-func (ec *executionContext) field_Query_FindByIdEducation_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+func (ec *executionContext) field_Query_FindByIDEducation_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
 	var err error
 	args := map[string]interface{}{}
 	var arg0 int64
@@ -1677,7 +1677,7 @@ func (ec *executionContext) field_Query_FindByIdEducation_args(ctx context.Conte
 	return args, nil
 }
 
-func (ec *executionContext) field_Query_FindByIdProject_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+func (ec *executionContext) field_Query_FindByIDProject_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
 	var err error
 	args := map[string]interface{}{}
 	var arg0 int64
@@ -1692,7 +1692,7 @@ func (ec *executionContext) field_Query_FindByIdProject_args(ctx context.Context
 	return args, nil
 }
 
-func (ec *executionContext) field_Query_FindByIdSkill_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+func (ec *executionContext) field_Query_FindByIDSkill_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
 	var err error
 	args := map[string]interface{}{}
 	var arg0 int64
@@ -1707,7 +1707,7 @@ func (ec *executionContext) field_Query_FindByIdSkill_args(ctx context.Context, 
 	return args, nil
 }
 
-func (ec *executionContext) field_Query_FindByIdUser_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+func (ec *executionContext) field_Query_FindByIDUser_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
 	var err error
 	args := map[string]interface{}{}
 	var arg0 int64
@@ -1722,7 +1722,7 @@ func (ec *executionContext) field_Query_FindByIdUser_args(ctx context.Context, r
 	return args, nil
 }
 
-func (ec *executionContext) field_Query_FindByIdWorkExperience_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+func (ec *executionContext) field_Query_FindByIDWorkExperience_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
 	var err error
 	args := map[string]interface{}{}
 	var arg0 int64
@@ -5030,8 +5030,8 @@ func (ec *executionContext) fieldContext_Query_FindAllUser(ctx context.Context, 
 	return fc, nil
 }
 
-func (ec *executionContext) _Query_FindByIdUser(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Query_FindByIdUser(ctx, field)
+func (ec *executionContext) _Query_FindByIDUser(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Query_FindByIDUser(ctx, field)
 	if err != nil {
 		return graphql.Null
 	}
@@ -5061,7 +5061,7 @@ func (ec *executionContext) _Query_FindByIdUser(ctx context.Context, field graph
 	return ec.marshalNUser2ᚖgithubᚗcomᚋarviansᚑidᚋgoᚑportfolioᚋinternalᚋhttpᚋcontrollerᚋmodelᚐUser(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) fieldContext_Query_FindByIdUser(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+func (ec *executionContext) fieldContext_Query_FindByIDUser(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
 		Object:     "Query",
 		Field:      field,
@@ -5102,7 +5102,7 @@ func (ec *executionContext) fieldContext_Query_FindByIdUser(ctx context.Context,
 		}
 	}()
 	ctx = graphql.WithFieldContext(ctx, fc)
-	if fc.Args, err = ec.field_Query_FindByIdUser_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+	if fc.Args, err = ec.field_Query_FindByIDUser_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
 		ec.Error(ctx, err)
 		return
 	}
@@ -5171,8 +5171,8 @@ func (ec *executionContext) fieldContext_Query_FindAllEducation(ctx context.Cont
 	return fc, nil
 }
 
-func (ec *executionContext) _Query_FindByIdEducation(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Query_FindByIdEducation(ctx, field)
+func (ec *executionContext) _Query_FindByIDEducation(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Query_FindByIDEducation(ctx, field)
 	if err != nil {
 		return graphql.Null
 	}
@@ -5202,7 +5202,7 @@ func (ec *executionContext) _Query_FindByIdEducation(ctx context.Context, field 
 	return ec.marshalNEducation2ᚖgithubᚗcomᚋarviansᚑidᚋgoᚑportfolioᚋinternalᚋhttpᚋcontrollerᚋmodelᚐEducation(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) fieldContext_Query_FindByIdEducation(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+func (ec *executionContext) fieldContext_Query_FindByIDEducation(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
 		Object:     "Query",
 		Field:      field,
@@ -5237,7 +5237,7 @@ func (ec *executionContext) fieldContext_Query_FindByIdEducation(ctx context.Con
 		}
 	}()
 	ctx = graphql.WithFieldContext(ctx, fc)
-	if fc.Args, err = ec.field_Query_FindByIdEducation_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+	if fc.Args, err = ec.field_Query_FindByIDEducation_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
 		ec.Error(ctx, err)
 		return
 	}
@@ -5304,8 +5304,8 @@ func (ec *executionContext) fieldContext_Query_FindAllCertificate(ctx context.Co
 	return fc, nil
 }
 
-func (ec *executionContext) _Query_FindByIdCertificate(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Query_FindByIdCertificate(ctx, field)
+func (ec *executionContext) _Query_FindByIDCertificate(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Query_FindByIDCertificate(ctx, field)
 	if err != nil {
 		return graphql.Null
 	}
@@ -5335,7 +5335,7 @@ func (ec *executionContext) _Query_FindByIdCertificate(ctx context.Context, fiel
 	return ec.marshalNCertificate2ᚖgithubᚗcomᚋarviansᚑidᚋgoᚑportfolioᚋinternalᚋhttpᚋcontrollerᚋmodelᚐCertificate(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) fieldContext_Query_FindByIdCertificate(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+func (ec *executionContext) fieldContext_Query_FindByIDCertificate(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
 		Object:     "Query",
 		Field:      field,
@@ -5368,7 +5368,7 @@ func (ec *executionContext) fieldContext_Query_FindByIdCertificate(ctx context.C
 		}
 	}()
 	ctx = graphql.WithFieldContext(ctx, fc)
-	if fc.Args, err = ec.field_Query_FindByIdCertificate_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+	if fc.Args, err = ec.field_Query_FindByIDCertificate_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
 		ec.Error(ctx, err)
 		return
 	}
@@ -5429,8 +5429,8 @@ func (ec *executionContext) fieldContext_Query_FindAllContact(ctx context.Contex
 	return fc, nil
 }
 
-func (ec *executionContext) _Query_FindByIdContact(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Query_FindByIdContact(ctx, field)
+func (ec *executionContext) _Query_FindByIDContact(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Query_FindByIDContact(ctx, field)
 	if err != nil {
 		return graphql.Null
 	}
@@ -5460,7 +5460,7 @@ func (ec *executionContext) _Query_FindByIdContact(ctx context.Context, field gr
 	return ec.marshalNContact2ᚖgithubᚗcomᚋarviansᚑidᚋgoᚑportfolioᚋinternalᚋhttpᚋcontrollerᚋmodelᚐContact(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) fieldContext_Query_FindByIdContact(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+func (ec *executionContext) fieldContext_Query_FindByIDContact(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
 		Object:     "Query",
 		Field:      field,
@@ -5487,7 +5487,7 @@ func (ec *executionContext) fieldContext_Query_FindByIdContact(ctx context.Conte
 		}
 	}()
 	ctx = graphql.WithFieldContext(ctx, fc)
-	if fc.Args, err = ec.field_Query_FindByIdContact_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+	if fc.Args, err = ec.field_Query_FindByIDContact_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
 		ec.Error(ctx, err)
 		return
 	}
@@ -5564,8 +5564,8 @@ func (ec *executionContext) fieldContext_Query_FindAllProject(ctx context.Contex
 	return fc, nil
 }
 
-func (ec *executionContext) _Query_FindByIdProject(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Query_FindByIdProject(ctx, field)
+func (ec *executionContext) _Query_FindByIDProject(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Query_FindByIDProject(ctx, field)
 	if err != nil {
 		return graphql.Null
 	}
@@ -5595,7 +5595,7 @@ func (ec *executionContext) _Query_FindByIdProject(ctx context.Context, field gr
 	return ec.marshalNProject2ᚖgithubᚗcomᚋarviansᚑidᚋgoᚑportfolioᚋinternalᚋhttpᚋcontrollerᚋmodelᚐProject(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) fieldContext_Query_FindByIdProject(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+func (ec *executionContext) fieldContext_Query_FindByIDProject(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
 		Object:     "Query",
 		Field:      field,
@@ -5638,7 +5638,7 @@ func (ec *executionContext) fieldContext_Query_FindByIdProject(ctx context.Conte
 		}
 	}()
 	ctx = graphql.WithFieldContext(ctx, fc)
-	if fc.Args, err = ec.field_Query_FindByIdProject_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+	if fc.Args, err = ec.field_Query_FindByIDProject_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
 		ec.Error(ctx, err)
 		return
 	}
@@ -5701,8 +5701,8 @@ func (ec *executionContext) fieldContext_Query_FindAllSkill(ctx context.Context,
 	return fc, nil
 }
 
-func (ec *executionContext) _Query_FindByIdSkill(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Query_FindByIdSkill(ctx, field)
+func (ec *executionContext) _Query_FindByIDSkill(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Query_FindByIDSkill(ctx, field)
 	if err != nil {
 		return graphql.Null
 	}
@@ -5732,7 +5732,7 @@ func (ec *executionContext) _Query_FindByIdSkill(ctx context.Context, field grap
 	return ec.marshalNSkill2ᚖgithubᚗcomᚋarviansᚑidᚋgoᚑportfolioᚋinternalᚋhttpᚋcontrollerᚋmodelᚐSkill(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) fieldContext_Query_FindByIdSkill(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+func (ec *executionContext) fieldContext_Query_FindByIDSkill(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
 		Object:     "Query",
 		Field:      field,
@@ -5761,7 +5761,7 @@ func (ec *executionContext) fieldContext_Query_FindByIdSkill(ctx context.Context
 		}
 	}()
 	ctx = graphql.WithFieldContext(ctx, fc)
-	if fc.Args, err = ec.field_Query_FindByIdSkill_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+	if fc.Args, err = ec.field_Query_FindByIDSkill_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
 		ec.Error(ctx, err)
 		return
 	}
@@ -5834,8 +5834,8 @@ func (ec *executionContext) fieldContext_Query_FindAllWorkExperience(ctx context
 	return fc, nil
 }
 
-func (ec *executionContext) _Query_FindByIdWorkExperience(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Query_FindByIdWorkExperience(ctx, field)
+func (ec *executionContext) _Query_FindByIDWorkExperience(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Query_FindByIDWorkExperience(ctx, field)
 	if err != nil {
 		return graphql.Null
 	}
@@ -5865,7 +5865,7 @@ func (ec *executionContext) _Query_FindByIdWorkExperience(ctx context.Context, f
 	return ec.marshalNWorkExperience2ᚖgithubᚗcomᚋarviansᚑidᚋgoᚑportfolioᚋinternalᚋhttpᚋcontrollerᚋmodelᚐWorkExperience(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) fieldContext_Query_FindByIdWorkExperience(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+func (ec *executionContext) fieldContext_Query_FindByIDWorkExperience(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
 		Object:     "Query",
 		Field:      field,
@@ -5904,7 +5904,7 @@ func (ec *executionContext) fieldContext_Query_FindByIdWorkExperience(ctx contex
 		}
 	}()
 	ctx = graphql.WithFieldContext(ctx, fc)
-	if fc.Args, err = ec.field_Query_FindByIdWorkExperience_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+	if fc.Args, err = ec.field_Query_FindByIDWorkExperience_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
 		ec.Error(ctx, err)
 		return
 	}
@@ -5967,8 +5967,8 @@ func (ec *executionContext) fieldContext_Query_FindAllCategorySkill(ctx context.
 	return fc, nil
 }
 
-func (ec *executionContext) _Query_FindByIdCategorySkill(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Query_FindByIdCategorySkill(ctx, field)
+func (ec *executionContext) _Query_FindByIDCategorySkill(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Query_FindByIDCategorySkill(ctx, field)
 	if err != nil {
 		return graphql.Null
 	}
@@ -5998,7 +5998,7 @@ func (ec *executionContext) _Query_FindByIdCategorySkill(ctx context.Context, fi
 	return ec.marshalNCategorySkill2ᚖgithubᚗcomᚋarviansᚑidᚋgoᚑportfolioᚋinternalᚋhttpᚋcontrollerᚋmodelᚐCategorySkill(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) fieldContext_Query_FindByIdCategorySkill(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+func (ec *executionContext) fieldContext_Query_FindByIDCategorySkill(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
 		Object:     "Query",
 		Field:      field,
@@ -6027,7 +6027,7 @@ func (ec *executionContext) fieldContext_Query_FindByIdCategorySkill(ctx context
 		}
 	}()
 	ctx = graphql.WithFieldContext(ctx, fc)
-	if fc.Args, err = ec.field_Query_FindByIdCategorySkill_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+	if fc.Args, err = ec.field_Query_FindByIDCategorySkill_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
 		ec.Error(ctx, err)
 		return
 	}
@@ -9909,7 +9909,7 @@ func (ec *executionContext) unmarshalInputUpdateProjectRequest(ctx context.Conte
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"id", "category", "title", "description", "image", "url", "is_featured", "date", "working_type"}
+	fieldsInOrder := [...]string{"id", "category", "title", "description", "image", "url", "is_featured", "date", "working_type", "skills"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
@@ -9997,6 +9997,15 @@ func (ec *executionContext) unmarshalInputUpdateProjectRequest(ctx context.Conte
 				return it, err
 			}
 			it.WorkingType = data
+		case "skills":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("skills"))
+			data, err := ec.unmarshalNID2ᚕint64ᚄ(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Skills = data
 		}
 	}
 
@@ -10158,7 +10167,7 @@ func (ec *executionContext) unmarshalInputUpdateWorkExperienceRequest(ctx contex
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"id", "role", "company", "description", "start_date", "end_date", "job_type"}
+	fieldsInOrder := [...]string{"id", "role", "company", "description", "start_date", "end_date", "job_type", "skills"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
@@ -10228,6 +10237,15 @@ func (ec *executionContext) unmarshalInputUpdateWorkExperienceRequest(ctx contex
 				return it, err
 			}
 			it.JobType = data
+		case "skills":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("skills"))
+			data, err := ec.unmarshalNID2ᚕint64ᚄ(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Skills = data
 		}
 	}
 
@@ -10877,7 +10895,7 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 			out.Concurrently(i, func() graphql.Marshaler {
 				return rrm(innerCtx)
 			})
-		case "FindByIdUser":
+		case "FindByIDUser":
 			field := field
 
 			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
@@ -10886,7 +10904,7 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 						ec.Error(ctx, ec.Recover(ctx, r))
 					}
 				}()
-				res = ec._Query_FindByIdUser(ctx, field)
+				res = ec._Query_FindByIDUser(ctx, field)
 				if res == graphql.Null {
 					atomic.AddUint32(&invalids, 1)
 				}
@@ -10923,7 +10941,7 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 			out.Concurrently(i, func() graphql.Marshaler {
 				return rrm(innerCtx)
 			})
-		case "FindByIdEducation":
+		case "FindByIDEducation":
 			field := field
 
 			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
@@ -10932,7 +10950,7 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 						ec.Error(ctx, ec.Recover(ctx, r))
 					}
 				}()
-				res = ec._Query_FindByIdEducation(ctx, field)
+				res = ec._Query_FindByIDEducation(ctx, field)
 				if res == graphql.Null {
 					atomic.AddUint32(&invalids, 1)
 				}
@@ -10969,7 +10987,7 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 			out.Concurrently(i, func() graphql.Marshaler {
 				return rrm(innerCtx)
 			})
-		case "FindByIdCertificate":
+		case "FindByIDCertificate":
 			field := field
 
 			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
@@ -10978,7 +10996,7 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 						ec.Error(ctx, ec.Recover(ctx, r))
 					}
 				}()
-				res = ec._Query_FindByIdCertificate(ctx, field)
+				res = ec._Query_FindByIDCertificate(ctx, field)
 				if res == graphql.Null {
 					atomic.AddUint32(&invalids, 1)
 				}
@@ -11015,7 +11033,7 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 			out.Concurrently(i, func() graphql.Marshaler {
 				return rrm(innerCtx)
 			})
-		case "FindByIdContact":
+		case "FindByIDContact":
 			field := field
 
 			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
@@ -11024,7 +11042,7 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 						ec.Error(ctx, ec.Recover(ctx, r))
 					}
 				}()
-				res = ec._Query_FindByIdContact(ctx, field)
+				res = ec._Query_FindByIDContact(ctx, field)
 				if res == graphql.Null {
 					atomic.AddUint32(&invalids, 1)
 				}
@@ -11061,7 +11079,7 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 			out.Concurrently(i, func() graphql.Marshaler {
 				return rrm(innerCtx)
 			})
-		case "FindByIdProject":
+		case "FindByIDProject":
 			field := field
 
 			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
@@ -11070,7 +11088,7 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 						ec.Error(ctx, ec.Recover(ctx, r))
 					}
 				}()
-				res = ec._Query_FindByIdProject(ctx, field)
+				res = ec._Query_FindByIDProject(ctx, field)
 				if res == graphql.Null {
 					atomic.AddUint32(&invalids, 1)
 				}
@@ -11107,7 +11125,7 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 			out.Concurrently(i, func() graphql.Marshaler {
 				return rrm(innerCtx)
 			})
-		case "FindByIdSkill":
+		case "FindByIDSkill":
 			field := field
 
 			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
@@ -11116,7 +11134,7 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 						ec.Error(ctx, ec.Recover(ctx, r))
 					}
 				}()
-				res = ec._Query_FindByIdSkill(ctx, field)
+				res = ec._Query_FindByIDSkill(ctx, field)
 				if res == graphql.Null {
 					atomic.AddUint32(&invalids, 1)
 				}
@@ -11153,7 +11171,7 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 			out.Concurrently(i, func() graphql.Marshaler {
 				return rrm(innerCtx)
 			})
-		case "FindByIdWorkExperience":
+		case "FindByIDWorkExperience":
 			field := field
 
 			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
@@ -11162,7 +11180,7 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 						ec.Error(ctx, ec.Recover(ctx, r))
 					}
 				}()
-				res = ec._Query_FindByIdWorkExperience(ctx, field)
+				res = ec._Query_FindByIDWorkExperience(ctx, field)
 				if res == graphql.Null {
 					atomic.AddUint32(&invalids, 1)
 				}
@@ -11199,7 +11217,7 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 			out.Concurrently(i, func() graphql.Marshaler {
 				return rrm(innerCtx)
 			})
-		case "FindByIdCategorySkill":
+		case "FindByIDCategorySkill":
 			field := field
 
 			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
@@ -11208,7 +11226,7 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 						ec.Error(ctx, ec.Recover(ctx, r))
 					}
 				}()
-				res = ec._Query_FindByIdCategorySkill(ctx, field)
+				res = ec._Query_FindByIDCategorySkill(ctx, field)
 				if res == graphql.Null {
 					atomic.AddUint32(&invalids, 1)
 				}

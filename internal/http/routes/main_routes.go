@@ -16,6 +16,8 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/etag"
 	"github.com/gofiber/fiber/v2/middleware/logger"
+	"github.com/gofiber/fiber/v2/middleware/recover"
+	"github.com/gofiber/fiber/v2/middleware/requestid"
 	"github.com/valyala/fasthttp/fasthttpadaptor"
 	"net/http"
 	"os"
@@ -37,6 +39,8 @@ func NewInitializedRoutes(configuration config.Config, logFile *os.File) (*fiber
 		},
 	})
 	app.Use(etag.New())
+	app.Use(requestid.New())
+	app.Use(recover.New())
 	app.Use(logger.New(logger.Config{
 		Format:     "[${time}] | ${status} | ${latency} | ${ip} | ${method} | ${path} | ${error}\n",
 		Output:     logFile,
@@ -69,6 +73,18 @@ func NewInitializedRoutes(configuration config.Config, logFile *os.File) (*fiber
 	certificateRepository := repository.NewCertificateRepository(db)
 	certificateService := service.NewCertificateService(certificateRepository)
 
+	projectRepository := repository.NewProjectRepository(db)
+	projectService := service.NewProjectService(projectRepository)
+
+	categorySkillRepository := repository.NewCategorySkillRepository(db)
+	categorySkillService := service.NewCategorySkillService(categorySkillRepository)
+
+	workExperienceRepository := repository.NewWorkExperienceRepository(db)
+	workExperienceService := service.NewWorkExperienceService(workExperienceRepository)
+
+	skillRepository := repository.NewSkillRepository(db)
+	skillService := service.NewSkillService(skillRepository)
+
 	// Set GraphQL Playground
 	app.Get("/", func(c *fiber.Ctx) error {
 		h := playground.Handler("GraphQL", "/query")
@@ -83,10 +99,14 @@ func NewInitializedRoutes(configuration config.Config, logFile *os.File) (*fiber
 		fasthttpadaptor.NewFastHTTPHandlerFunc(func(writer http.ResponseWriter, request *http.Request) {
 			generatedConfig := gql.Config{
 				Resolvers: &resolver.Resolver{
-					UserService:        userService,
-					ContactService:     contactService,
-					EducationService:   educationService,
-					CertificateService: certificateService,
+					UserService:           userService,
+					ContactService:        contactService,
+					EducationService:      educationService,
+					CertificateService:    certificateService,
+					ProjectService:        projectService,
+					CategorySkillService:  categorySkillService,
+					WorkExperienceService: workExperienceService,
+					SkillService:          skillService,
 				},
 			}
 

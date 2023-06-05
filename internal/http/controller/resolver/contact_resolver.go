@@ -15,7 +15,7 @@ func (q queryResolver) FindAllContact(ctx context.Context) ([]*model.Contact, er
 }
 
 func (q queryResolver) FindByIDContact(ctx context.Context, id int64) (*model.Contact, error) {
-	contact, err := q.ContactService.FindById(ctx, id)
+	contact, err := q.ContactService.FindByID(ctx, id)
 	if err != nil {
 		return nil, err
 	}

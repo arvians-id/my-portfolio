@@ -2,7 +2,6 @@ package service
 
 import (
 	"context"
-	"github.com/arvians-id/go-portfolio/internal/entity"
 	"github.com/arvians-id/go-portfolio/internal/http/controller/model"
 	"github.com/arvians-id/go-portfolio/internal/repository"
 	"log"
@@ -10,7 +9,7 @@ import (
 
 type CertificateServiceContract interface {
 	FindAll(ctx context.Context) ([]*model.Certificate, error)
-	FindById(ctx context.Context, id int64) (*model.Certificate, error)
+	FindByID(ctx context.Context, id int64) (*model.Certificate, error)
 	Create(ctx context.Context, request *model.CreateCertificateRequest) (*model.Certificate, error)
 	Update(ctx context.Context, request *model.UpdateCertificateRequest) (*model.Certificate, error)
 	Delete(ctx context.Context, id int64) error
@@ -33,67 +32,58 @@ func (service *CertificateService) FindAll(ctx context.Context) ([]*model.Certif
 		return nil, err
 	}
 
-	var certificatesModel []*model.Certificate
+	var results []*model.Certificate
 	for _, certificate := range certificates {
-		certificatesModel = append(certificatesModel, (*model.Certificate)(certificate))
+		results = append(results, certificate.ToModel())
 	}
 
-	return certificatesModel, nil
+	return results, nil
 }
 
-func (service *CertificateService) FindById(ctx context.Context, id int64) (*model.Certificate, error) {
-	certificate, err := service.CertificateRepository.FindById(ctx, id)
+func (service *CertificateService) FindByID(ctx context.Context, id int64) (*model.Certificate, error) {
+	certificate, err := service.CertificateRepository.FindByID(ctx, id)
 	if err != nil {
-		log.Println("[CertificateService][FindById] problem calling repository, err: ", err.Error())
+		log.Println("[CertificateService][FindByID] problem calling repository, err: ", err.Error())
 		return nil, err
 	}
 
-	return (*model.Certificate)(certificate), nil
+	return certificate.ToModel(), nil
 }
 
 func (service *CertificateService) Create(ctx context.Context, request *model.CreateCertificateRequest) (*model.Certificate, error) {
-	var certificate entity.Certificate
-	certificate.Name = request.Name
-	certificate.Organization = request.Organization
-	certificate.IssueDate = request.IssueDate
-	certificate.ExpirationDate = request.ExpirationDate
-	certificate.CredentialID = request.CredentialID
-	certificate.ImageURL = request.ImageURL
-
-	certificateCreated, err := service.CertificateRepository.Create(ctx, &certificate)
+	certificateCreated, err := service.CertificateRepository.Create(ctx, request)
 	if err != nil {
 		log.Println("[CertificateService][Create] problem calling repository, err: ", err.Error())
 		return nil, err
 	}
 
-	return (*model.Certificate)(certificateCreated), nil
+	return certificateCreated.ToModel(), nil
 }
 
 func (service *CertificateService) Update(ctx context.Context, request *model.UpdateCertificateRequest) (*model.Certificate, error) {
-	certificateCheck, err := service.CertificateRepository.FindById(ctx, request.ID)
+	_, err := service.CertificateRepository.FindByID(ctx, request.ID)
 	if err != nil {
 		log.Println("[CertificateService][Update] problem calling repository, err: ", err.Error())
 		return nil, err
 	}
 
-	certificateCheck.Name = *request.Name
-	certificateCheck.Organization = *request.Organization
-	certificateCheck.IssueDate = *request.IssueDate
-	certificateCheck.ExpirationDate = request.ExpirationDate
-	certificateCheck.CredentialID = request.CredentialID
-	certificateCheck.ImageURL = request.ImageURL
-
-	err = service.CertificateRepository.Update(ctx, certificateCheck)
+	err = service.CertificateRepository.Update(ctx, request)
 	if err != nil {
 		log.Println("[CertificateService][Update] problem calling repository, err: ", err.Error())
 		return nil, err
 	}
 
-	return (*model.Certificate)(certificateCheck), nil
+	certificateUpdated, err := service.CertificateRepository.FindByID(ctx, request.ID)
+	if err != nil {
+		log.Println("[CertificateService][Update] problem calling repository, err: ", err.Error())
+		return nil, err
+	}
+
+	return certificateUpdated.ToModel(), nil
 }
 
 func (service *CertificateService) Delete(ctx context.Context, id int64) error {
-	certificateCheck, err := service.CertificateRepository.FindById(ctx, id)
+	certificateCheck, err := service.CertificateRepository.FindByID(ctx, id)
 	if err != nil {
 		log.Println("[CertificateService][Delete] problem calling repository, err: ", err.Error())
 		return err

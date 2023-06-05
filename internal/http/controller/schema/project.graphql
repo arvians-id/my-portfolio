@@ -35,4 +35,5 @@ input UpdateProjectRequest {
     is_featured: Boolean
     date: String!
     working_type: String!
+    skills: [ID!]!
 }

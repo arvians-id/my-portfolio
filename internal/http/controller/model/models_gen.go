@@ -171,6 +171,7 @@ type UpdateProjectRequest struct {
 	IsFeatured  *bool   `json:"is_featured,omitempty"`
 	Date        string  `json:"date"`
 	WorkingType string  `json:"working_type"`
+	Skills      []int64 `json:"skills"`
 }
 
 type UpdateSkillRequest struct {
@@ -199,6 +200,7 @@ type UpdateWorkExperienceRequest struct {
 	StartDate   *string `json:"start_date,omitempty"`
 	EndDate     *string `json:"end_date,omitempty"`
 	JobType     *string `json:"job_type,omitempty"`
+	Skills      []int64 `json:"skills"`
 }
 
 type User struct {

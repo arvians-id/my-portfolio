@@ -6,28 +6,48 @@ import (
 )
 
 func (q queryResolver) FindAllProject(ctx context.Context) ([]*model.Project, error) {
-	//TODO implement me
-	panic("implement me")
+	projects, err := q.ProjectService.FindAll(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	return projects, nil
 }
 
 func (q queryResolver) FindByIDProject(ctx context.Context, id int64) (*model.Project, error) {
-	//TODO implement me
-	panic("implement me")
+	project, err := q.ProjectService.FindByID(ctx, id)
+	if err != nil {
+		return nil, err
+	}
+
+	return project, nil
 }
 
 func (m mutationResolver) CreateProject(ctx context.Context, input model.CreateProjectRequest) (*model.Project, error) {
-	//TODO implement me
-	panic("implement me")
+	project, err := m.ProjectService.Create(ctx, &input)
+	if err != nil {
+		return nil, err
+	}
+
+	return project, nil
 }
 
 func (m mutationResolver) UpdateProject(ctx context.Context, input model.UpdateProjectRequest) (*model.Project, error) {
-	//TODO implement me
-	panic("implement me")
+	project, err := m.ProjectService.Update(ctx, &input)
+	if err != nil {
+		return nil, err
+	}
+
+	return project, nil
 }
 
 func (m mutationResolver) DeleteProject(ctx context.Context, id int64) (bool, error) {
-	//TODO implement me
-	panic("implement me")
+	err := m.ProjectService.Delete(ctx, id)
+	if err != nil {
+		return false, err
+	}
+
+	return true, nil
 }
 
 func (p projectResolver) Skills(ctx context.Context, obj *model.Project) ([]*model.Skill, error) {
