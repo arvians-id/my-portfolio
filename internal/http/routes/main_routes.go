@@ -1,8 +1,10 @@
 package routes
 
 import (
+	"context"
 	"errors"
 	"fmt"
+	"github.com/99designs/gqlgen/graphql"
 	"github.com/99designs/gqlgen/graphql/handler"
 	"github.com/99designs/gqlgen/graphql/playground"
 	"github.com/arvians-id/go-portfolio/cmd/config"
@@ -16,12 +18,12 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/etag"
-	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/gofiber/fiber/v2/middleware/recover"
 	"github.com/gofiber/fiber/v2/middleware/requestid"
 	"github.com/valyala/fasthttp/fasthttpadaptor"
 	"net/http"
 	"os"
+	"time"
 )
 
 func NewInitializedRoutes(configuration config.Config, logFile *os.File) (*fiber.App, error) {
@@ -42,14 +44,14 @@ func NewInitializedRoutes(configuration config.Config, logFile *os.File) (*fiber
 	app.Use(etag.New())
 	app.Use(requestid.New())
 	app.Use(recover.New())
-	app.Use(logger.New(logger.Config{
-		Format:     "[${time}] | ${status} | ${latency} | ${ip} | ${method} | ${path} | ${error}\n",
-		Output:     logFile,
-		TimeFormat: "02-Jan-2006 15:04:05",
-		Done: func(c *fiber.Ctx, logString []byte) {
-			fmt.Print(string(logString))
-		},
-	}))
+	//app.Use(logger.New(logger.Config{
+	//	Format:     "[${time}] | ${status} | ${latency} | ${ip} | ${method} | ${path} | ${error}\n",
+	//	Output:     logFile,
+	//	TimeFormat: "02-Jan-2006 15:04:05",
+	//	Done: func(c *fiber.Ctx, logString []byte) {
+	//		fmt.Print(string(logString))
+	//	},
+	//}))
 	app.Use(cors.New(cors.Config{
 		AllowOrigins:     "*",
 		AllowHeaders:     "Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization, accept, origin, Cache-Control, X-Requested-With, X-API-KEY",
@@ -115,6 +117,19 @@ func NewInitializedRoutes(configuration config.Config, logFile *os.File) (*fiber
 			generatedConfig.Directives.IsLoggedIn = middleware.NewJWTMiddlewareGraphQL
 
 			h := handler.NewDefaultServer(gql.NewExecutableSchema(generatedConfig))
+			h.AroundOperations(func(ctx context.Context, next graphql.OperationHandler) graphql.ResponseHandler {
+				oc := graphql.GetOperationContext(ctx)
+				_, err := logFile.WriteString(fmt.Sprintf("[%s] | query history: %s %s\n",
+					time.Now().Format(time.RFC822),
+					oc.OperationName,
+					oc.RawQuery,
+				))
+				if err != nil {
+					panic(err)
+				}
+
+				return next(ctx)
+			})
 			h.ServeHTTP(writer, request)
 		})(c.Context())
 
