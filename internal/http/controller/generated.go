@@ -50,6 +50,10 @@ type DirectiveRoot struct {
 }
 
 type ComplexityRoot struct {
+	AuthLoginResponse struct {
+		Token func(childComplexity int) int
+	}
+
 	CategorySkill struct {
 		CreatedAt func(childComplexity int) int
 		ID        func(childComplexity int) int
@@ -103,6 +107,7 @@ type ComplexityRoot struct {
 		DeleteSkill          func(childComplexity int, id int64) int
 		DeleteUser           func(childComplexity int, id int64) int
 		DeleteWorkExperience func(childComplexity int, id int64) int
+		Login                func(childComplexity int, input model.AuthLoginRequest) int
 		UpdateCategorySkill  func(childComplexity int, input model.UpdateCategorySkillRequest) int
 		UpdateCertificate    func(childComplexity int, input model.UpdateCertificateRequest) int
 		UpdateContact        func(childComplexity int, input model.UpdateContactRequest) int
@@ -211,6 +216,7 @@ type MutationResolver interface {
 	CreateCategorySkill(ctx context.Context, input model.CreateCategorySkillRequest) (*model.CategorySkill, error)
 	UpdateCategorySkill(ctx context.Context, input model.UpdateCategorySkillRequest) (*model.CategorySkill, error)
 	DeleteCategorySkill(ctx context.Context, id int64) (bool, error)
+	Login(ctx context.Context, input model.AuthLoginRequest) (*model.AuthLoginResponse, error)
 }
 type ProjectResolver interface {
 	Skills(ctx context.Context, obj *model.Project) ([]*model.Skill, error)
@@ -254,6 +260,13 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 	ec := executionContext{nil, e}
 	_ = ec
 	switch typeName + "." + field {
+
+	case "AuthLoginResponse.token":
+		if e.complexity.AuthLoginResponse.Token == nil {
+			break
+		}
+
+		return e.complexity.AuthLoginResponse.Token(childComplexity), true
 
 	case "CategorySkill.created_at":
 		if e.complexity.CategorySkill.CreatedAt == nil {
@@ -614,6 +627,18 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.Mutation.DeleteWorkExperience(childComplexity, args["id"].(int64)), true
+
+	case "Mutation.Login":
+		if e.complexity.Mutation.Login == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_Login_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.Login(childComplexity, args["input"].(model.AuthLoginRequest)), true
 
 	case "Mutation.UpdateCategorySkill":
 		if e.complexity.Mutation.UpdateCategorySkill == nil {
@@ -1137,6 +1162,7 @@ func (e *executableSchema) Exec(ctx context.Context) graphql.ResponseHandler {
 	rc := graphql.GetOperationContext(ctx)
 	ec := executionContext{rc, e}
 	inputUnmarshalMap := graphql.BuildUnmarshalerMap(
+		ec.unmarshalInputAuthLoginRequest,
 		ec.unmarshalInputCreateCategorySkillRequest,
 		ec.unmarshalInputCreateCertificateRequest,
 		ec.unmarshalInputCreateContactRequest,
@@ -1212,7 +1238,7 @@ func (ec *executionContext) introspectType(name string) (*introspection.Type, er
 	return introspection.WrapTypeFromDef(parsedSchema, parsedSchema.Types[name]), nil
 }
 
-//go:embed "schema/category_skill.graphql" "schema/certificate.graphql" "schema/contact.graphql" "schema/education.graphql" "schema/main.graphql" "schema/mutation.graphql" "schema/project.graphql" "schema/query.graphql" "schema/skill.graphql" "schema/user.graphql" "schema/work_experience.graphql"
+//go:embed "schema/auth.graphql" "schema/category_skill.graphql" "schema/certificate.graphql" "schema/contact.graphql" "schema/education.graphql" "schema/main.graphql" "schema/mutation.graphql" "schema/project.graphql" "schema/query.graphql" "schema/skill.graphql" "schema/user.graphql" "schema/work_experience.graphql"
 var sourcesFS embed.FS
 
 func sourceData(filename string) string {
@@ -1224,6 +1250,7 @@ func sourceData(filename string) string {
 }
 
 var sources = []*ast.Source{
+	{Name: "schema/auth.graphql", Input: sourceData("schema/auth.graphql"), BuiltIn: false},
 	{Name: "schema/category_skill.graphql", Input: sourceData("schema/category_skill.graphql"), BuiltIn: false},
 	{Name: "schema/certificate.graphql", Input: sourceData("schema/certificate.graphql"), BuiltIn: false},
 	{Name: "schema/contact.graphql", Input: sourceData("schema/contact.graphql"), BuiltIn: false},
@@ -1494,6 +1521,21 @@ func (ec *executionContext) field_Mutation_DeleteWorkExperience_args(ctx context
 		}
 	}
 	args["id"] = arg0
+	return args, nil
+}
+
+func (ec *executionContext) field_Mutation_Login_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	var err error
+	args := map[string]interface{}{}
+	var arg0 model.AuthLoginRequest
+	if tmp, ok := rawArgs["input"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
+		arg0, err = ec.unmarshalNAuthLoginRequest2githubᚗcomᚋarviansᚑidᚋgoᚑportfolioᚋinternalᚋhttpᚋcontrollerᚋmodelᚐAuthLoginRequest(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["input"] = arg0
 	return args, nil
 }
 
@@ -1789,6 +1831,50 @@ func (ec *executionContext) field___Type_fields_args(ctx context.Context, rawArg
 // endregion ************************** directives.gotpl **************************
 
 // region    **************************** field.gotpl *****************************
+
+func (ec *executionContext) _AuthLoginResponse_token(ctx context.Context, field graphql.CollectedField, obj *model.AuthLoginResponse) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_AuthLoginResponse_token(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Token, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_AuthLoginResponse_token(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "AuthLoginResponse",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
 
 func (ec *executionContext) _CategorySkill_id(ctx context.Context, field graphql.CollectedField, obj *model.CategorySkill) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_CategorySkill_id(ctx, field)
@@ -2850,8 +2936,32 @@ func (ec *executionContext) _Mutation_CreateUser(ctx context.Context, field grap
 		}
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().CreateUser(rctx, fc.Args["input"].(model.CreateUserRequest))
+		directive0 := func(rctx context.Context) (interface{}, error) {
+			ctx = rctx // use context from middleware stack in children
+			return ec.resolvers.Mutation().CreateUser(rctx, fc.Args["input"].(model.CreateUserRequest))
+		}
+		directive1 := func(ctx context.Context) (interface{}, error) {
+			isLogged, err := ec.unmarshalNBoolean2bool(ctx, true)
+			if err != nil {
+				return nil, err
+			}
+			if ec.directives.IsLoggedIn == nil {
+				return nil, errors.New("directive isLoggedIn is not implemented")
+			}
+			return ec.directives.IsLoggedIn(ctx, nil, directive0, isLogged)
+		}
+
+		tmp, err := directive1(rctx)
+		if err != nil {
+			return nil, graphql.ErrorOnPath(ctx, err)
+		}
+		if tmp == nil {
+			return nil, nil
+		}
+		if data, ok := tmp.(*model.User); ok {
+			return data, nil
+		}
+		return nil, fmt.Errorf(`unexpected type %T from directive, should be *github.com/arvians-id/go-portfolio/internal/http/controller/model.User`, tmp)
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -2929,8 +3039,32 @@ func (ec *executionContext) _Mutation_UpdateUser(ctx context.Context, field grap
 		}
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().UpdateUser(rctx, fc.Args["input"].(model.UpdateUserRequest))
+		directive0 := func(rctx context.Context) (interface{}, error) {
+			ctx = rctx // use context from middleware stack in children
+			return ec.resolvers.Mutation().UpdateUser(rctx, fc.Args["input"].(model.UpdateUserRequest))
+		}
+		directive1 := func(ctx context.Context) (interface{}, error) {
+			isLogged, err := ec.unmarshalNBoolean2bool(ctx, true)
+			if err != nil {
+				return nil, err
+			}
+			if ec.directives.IsLoggedIn == nil {
+				return nil, errors.New("directive isLoggedIn is not implemented")
+			}
+			return ec.directives.IsLoggedIn(ctx, nil, directive0, isLogged)
+		}
+
+		tmp, err := directive1(rctx)
+		if err != nil {
+			return nil, graphql.ErrorOnPath(ctx, err)
+		}
+		if tmp == nil {
+			return nil, nil
+		}
+		if data, ok := tmp.(*model.User); ok {
+			return data, nil
+		}
+		return nil, fmt.Errorf(`unexpected type %T from directive, should be *github.com/arvians-id/go-portfolio/internal/http/controller/model.User`, tmp)
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -3008,8 +3142,32 @@ func (ec *executionContext) _Mutation_DeleteUser(ctx context.Context, field grap
 		}
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().DeleteUser(rctx, fc.Args["id"].(int64))
+		directive0 := func(rctx context.Context) (interface{}, error) {
+			ctx = rctx // use context from middleware stack in children
+			return ec.resolvers.Mutation().DeleteUser(rctx, fc.Args["id"].(int64))
+		}
+		directive1 := func(ctx context.Context) (interface{}, error) {
+			isLogged, err := ec.unmarshalNBoolean2bool(ctx, true)
+			if err != nil {
+				return nil, err
+			}
+			if ec.directives.IsLoggedIn == nil {
+				return nil, errors.New("directive isLoggedIn is not implemented")
+			}
+			return ec.directives.IsLoggedIn(ctx, nil, directive0, isLogged)
+		}
+
+		tmp, err := directive1(rctx)
+		if err != nil {
+			return nil, graphql.ErrorOnPath(ctx, err)
+		}
+		if tmp == nil {
+			return nil, nil
+		}
+		if data, ok := tmp.(bool); ok {
+			return data, nil
+		}
+		return nil, fmt.Errorf(`unexpected type %T from directive, should be bool`, tmp)
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -3063,8 +3221,32 @@ func (ec *executionContext) _Mutation_CreateEducation(ctx context.Context, field
 		}
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().CreateEducation(rctx, fc.Args["input"].(model.CreateEducationRequest))
+		directive0 := func(rctx context.Context) (interface{}, error) {
+			ctx = rctx // use context from middleware stack in children
+			return ec.resolvers.Mutation().CreateEducation(rctx, fc.Args["input"].(model.CreateEducationRequest))
+		}
+		directive1 := func(ctx context.Context) (interface{}, error) {
+			isLogged, err := ec.unmarshalNBoolean2bool(ctx, true)
+			if err != nil {
+				return nil, err
+			}
+			if ec.directives.IsLoggedIn == nil {
+				return nil, errors.New("directive isLoggedIn is not implemented")
+			}
+			return ec.directives.IsLoggedIn(ctx, nil, directive0, isLogged)
+		}
+
+		tmp, err := directive1(rctx)
+		if err != nil {
+			return nil, graphql.ErrorOnPath(ctx, err)
+		}
+		if tmp == nil {
+			return nil, nil
+		}
+		if data, ok := tmp.(*model.Education); ok {
+			return data, nil
+		}
+		return nil, fmt.Errorf(`unexpected type %T from directive, should be *github.com/arvians-id/go-portfolio/internal/http/controller/model.Education`, tmp)
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -3136,8 +3318,32 @@ func (ec *executionContext) _Mutation_UpdateEducation(ctx context.Context, field
 		}
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().UpdateEducation(rctx, fc.Args["input"].(model.UpdateEducationRequest))
+		directive0 := func(rctx context.Context) (interface{}, error) {
+			ctx = rctx // use context from middleware stack in children
+			return ec.resolvers.Mutation().UpdateEducation(rctx, fc.Args["input"].(model.UpdateEducationRequest))
+		}
+		directive1 := func(ctx context.Context) (interface{}, error) {
+			isLogged, err := ec.unmarshalNBoolean2bool(ctx, true)
+			if err != nil {
+				return nil, err
+			}
+			if ec.directives.IsLoggedIn == nil {
+				return nil, errors.New("directive isLoggedIn is not implemented")
+			}
+			return ec.directives.IsLoggedIn(ctx, nil, directive0, isLogged)
+		}
+
+		tmp, err := directive1(rctx)
+		if err != nil {
+			return nil, graphql.ErrorOnPath(ctx, err)
+		}
+		if tmp == nil {
+			return nil, nil
+		}
+		if data, ok := tmp.(*model.Education); ok {
+			return data, nil
+		}
+		return nil, fmt.Errorf(`unexpected type %T from directive, should be *github.com/arvians-id/go-portfolio/internal/http/controller/model.Education`, tmp)
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -3209,8 +3415,32 @@ func (ec *executionContext) _Mutation_DeleteEducation(ctx context.Context, field
 		}
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().DeleteEducation(rctx, fc.Args["id"].(int64))
+		directive0 := func(rctx context.Context) (interface{}, error) {
+			ctx = rctx // use context from middleware stack in children
+			return ec.resolvers.Mutation().DeleteEducation(rctx, fc.Args["id"].(int64))
+		}
+		directive1 := func(ctx context.Context) (interface{}, error) {
+			isLogged, err := ec.unmarshalNBoolean2bool(ctx, true)
+			if err != nil {
+				return nil, err
+			}
+			if ec.directives.IsLoggedIn == nil {
+				return nil, errors.New("directive isLoggedIn is not implemented")
+			}
+			return ec.directives.IsLoggedIn(ctx, nil, directive0, isLogged)
+		}
+
+		tmp, err := directive1(rctx)
+		if err != nil {
+			return nil, graphql.ErrorOnPath(ctx, err)
+		}
+		if tmp == nil {
+			return nil, nil
+		}
+		if data, ok := tmp.(bool); ok {
+			return data, nil
+		}
+		return nil, fmt.Errorf(`unexpected type %T from directive, should be bool`, tmp)
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -3264,8 +3494,32 @@ func (ec *executionContext) _Mutation_CreateCertificate(ctx context.Context, fie
 		}
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().CreateCertificate(rctx, fc.Args["input"].(model.CreateCertificateRequest))
+		directive0 := func(rctx context.Context) (interface{}, error) {
+			ctx = rctx // use context from middleware stack in children
+			return ec.resolvers.Mutation().CreateCertificate(rctx, fc.Args["input"].(model.CreateCertificateRequest))
+		}
+		directive1 := func(ctx context.Context) (interface{}, error) {
+			isLogged, err := ec.unmarshalNBoolean2bool(ctx, true)
+			if err != nil {
+				return nil, err
+			}
+			if ec.directives.IsLoggedIn == nil {
+				return nil, errors.New("directive isLoggedIn is not implemented")
+			}
+			return ec.directives.IsLoggedIn(ctx, nil, directive0, isLogged)
+		}
+
+		tmp, err := directive1(rctx)
+		if err != nil {
+			return nil, graphql.ErrorOnPath(ctx, err)
+		}
+		if tmp == nil {
+			return nil, nil
+		}
+		if data, ok := tmp.(*model.Certificate); ok {
+			return data, nil
+		}
+		return nil, fmt.Errorf(`unexpected type %T from directive, should be *github.com/arvians-id/go-portfolio/internal/http/controller/model.Certificate`, tmp)
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -3335,8 +3589,32 @@ func (ec *executionContext) _Mutation_UpdateCertificate(ctx context.Context, fie
 		}
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().UpdateCertificate(rctx, fc.Args["input"].(model.UpdateCertificateRequest))
+		directive0 := func(rctx context.Context) (interface{}, error) {
+			ctx = rctx // use context from middleware stack in children
+			return ec.resolvers.Mutation().UpdateCertificate(rctx, fc.Args["input"].(model.UpdateCertificateRequest))
+		}
+		directive1 := func(ctx context.Context) (interface{}, error) {
+			isLogged, err := ec.unmarshalNBoolean2bool(ctx, true)
+			if err != nil {
+				return nil, err
+			}
+			if ec.directives.IsLoggedIn == nil {
+				return nil, errors.New("directive isLoggedIn is not implemented")
+			}
+			return ec.directives.IsLoggedIn(ctx, nil, directive0, isLogged)
+		}
+
+		tmp, err := directive1(rctx)
+		if err != nil {
+			return nil, graphql.ErrorOnPath(ctx, err)
+		}
+		if tmp == nil {
+			return nil, nil
+		}
+		if data, ok := tmp.(*model.Certificate); ok {
+			return data, nil
+		}
+		return nil, fmt.Errorf(`unexpected type %T from directive, should be *github.com/arvians-id/go-portfolio/internal/http/controller/model.Certificate`, tmp)
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -3406,8 +3684,32 @@ func (ec *executionContext) _Mutation_DeleteCertificate(ctx context.Context, fie
 		}
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().DeleteCertificate(rctx, fc.Args["id"].(int64))
+		directive0 := func(rctx context.Context) (interface{}, error) {
+			ctx = rctx // use context from middleware stack in children
+			return ec.resolvers.Mutation().DeleteCertificate(rctx, fc.Args["id"].(int64))
+		}
+		directive1 := func(ctx context.Context) (interface{}, error) {
+			isLogged, err := ec.unmarshalNBoolean2bool(ctx, true)
+			if err != nil {
+				return nil, err
+			}
+			if ec.directives.IsLoggedIn == nil {
+				return nil, errors.New("directive isLoggedIn is not implemented")
+			}
+			return ec.directives.IsLoggedIn(ctx, nil, directive0, isLogged)
+		}
+
+		tmp, err := directive1(rctx)
+		if err != nil {
+			return nil, graphql.ErrorOnPath(ctx, err)
+		}
+		if tmp == nil {
+			return nil, nil
+		}
+		if data, ok := tmp.(bool); ok {
+			return data, nil
+		}
+		return nil, fmt.Errorf(`unexpected type %T from directive, should be bool`, tmp)
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -3461,8 +3763,32 @@ func (ec *executionContext) _Mutation_CreateContact(ctx context.Context, field g
 		}
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().CreateContact(rctx, fc.Args["input"].(model.CreateContactRequest))
+		directive0 := func(rctx context.Context) (interface{}, error) {
+			ctx = rctx // use context from middleware stack in children
+			return ec.resolvers.Mutation().CreateContact(rctx, fc.Args["input"].(model.CreateContactRequest))
+		}
+		directive1 := func(ctx context.Context) (interface{}, error) {
+			isLogged, err := ec.unmarshalNBoolean2bool(ctx, true)
+			if err != nil {
+				return nil, err
+			}
+			if ec.directives.IsLoggedIn == nil {
+				return nil, errors.New("directive isLoggedIn is not implemented")
+			}
+			return ec.directives.IsLoggedIn(ctx, nil, directive0, isLogged)
+		}
+
+		tmp, err := directive1(rctx)
+		if err != nil {
+			return nil, graphql.ErrorOnPath(ctx, err)
+		}
+		if tmp == nil {
+			return nil, nil
+		}
+		if data, ok := tmp.(*model.Contact); ok {
+			return data, nil
+		}
+		return nil, fmt.Errorf(`unexpected type %T from directive, should be *github.com/arvians-id/go-portfolio/internal/http/controller/model.Contact`, tmp)
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -3526,8 +3852,32 @@ func (ec *executionContext) _Mutation_UpdateContact(ctx context.Context, field g
 		}
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().UpdateContact(rctx, fc.Args["input"].(model.UpdateContactRequest))
+		directive0 := func(rctx context.Context) (interface{}, error) {
+			ctx = rctx // use context from middleware stack in children
+			return ec.resolvers.Mutation().UpdateContact(rctx, fc.Args["input"].(model.UpdateContactRequest))
+		}
+		directive1 := func(ctx context.Context) (interface{}, error) {
+			isLogged, err := ec.unmarshalNBoolean2bool(ctx, true)
+			if err != nil {
+				return nil, err
+			}
+			if ec.directives.IsLoggedIn == nil {
+				return nil, errors.New("directive isLoggedIn is not implemented")
+			}
+			return ec.directives.IsLoggedIn(ctx, nil, directive0, isLogged)
+		}
+
+		tmp, err := directive1(rctx)
+		if err != nil {
+			return nil, graphql.ErrorOnPath(ctx, err)
+		}
+		if tmp == nil {
+			return nil, nil
+		}
+		if data, ok := tmp.(*model.Contact); ok {
+			return data, nil
+		}
+		return nil, fmt.Errorf(`unexpected type %T from directive, should be *github.com/arvians-id/go-portfolio/internal/http/controller/model.Contact`, tmp)
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -3591,8 +3941,32 @@ func (ec *executionContext) _Mutation_DeleteContact(ctx context.Context, field g
 		}
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().DeleteContact(rctx, fc.Args["id"].(int64))
+		directive0 := func(rctx context.Context) (interface{}, error) {
+			ctx = rctx // use context from middleware stack in children
+			return ec.resolvers.Mutation().DeleteContact(rctx, fc.Args["id"].(int64))
+		}
+		directive1 := func(ctx context.Context) (interface{}, error) {
+			isLogged, err := ec.unmarshalNBoolean2bool(ctx, true)
+			if err != nil {
+				return nil, err
+			}
+			if ec.directives.IsLoggedIn == nil {
+				return nil, errors.New("directive isLoggedIn is not implemented")
+			}
+			return ec.directives.IsLoggedIn(ctx, nil, directive0, isLogged)
+		}
+
+		tmp, err := directive1(rctx)
+		if err != nil {
+			return nil, graphql.ErrorOnPath(ctx, err)
+		}
+		if tmp == nil {
+			return nil, nil
+		}
+		if data, ok := tmp.(bool); ok {
+			return data, nil
+		}
+		return nil, fmt.Errorf(`unexpected type %T from directive, should be bool`, tmp)
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -3646,8 +4020,32 @@ func (ec *executionContext) _Mutation_CreateProject(ctx context.Context, field g
 		}
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().CreateProject(rctx, fc.Args["input"].(model.CreateProjectRequest))
+		directive0 := func(rctx context.Context) (interface{}, error) {
+			ctx = rctx // use context from middleware stack in children
+			return ec.resolvers.Mutation().CreateProject(rctx, fc.Args["input"].(model.CreateProjectRequest))
+		}
+		directive1 := func(ctx context.Context) (interface{}, error) {
+			isLogged, err := ec.unmarshalNBoolean2bool(ctx, true)
+			if err != nil {
+				return nil, err
+			}
+			if ec.directives.IsLoggedIn == nil {
+				return nil, errors.New("directive isLoggedIn is not implemented")
+			}
+			return ec.directives.IsLoggedIn(ctx, nil, directive0, isLogged)
+		}
+
+		tmp, err := directive1(rctx)
+		if err != nil {
+			return nil, graphql.ErrorOnPath(ctx, err)
+		}
+		if tmp == nil {
+			return nil, nil
+		}
+		if data, ok := tmp.(*model.Project); ok {
+			return data, nil
+		}
+		return nil, fmt.Errorf(`unexpected type %T from directive, should be *github.com/arvians-id/go-portfolio/internal/http/controller/model.Project`, tmp)
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -3727,8 +4125,32 @@ func (ec *executionContext) _Mutation_UpdateProject(ctx context.Context, field g
 		}
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().UpdateProject(rctx, fc.Args["input"].(model.UpdateProjectRequest))
+		directive0 := func(rctx context.Context) (interface{}, error) {
+			ctx = rctx // use context from middleware stack in children
+			return ec.resolvers.Mutation().UpdateProject(rctx, fc.Args["input"].(model.UpdateProjectRequest))
+		}
+		directive1 := func(ctx context.Context) (interface{}, error) {
+			isLogged, err := ec.unmarshalNBoolean2bool(ctx, true)
+			if err != nil {
+				return nil, err
+			}
+			if ec.directives.IsLoggedIn == nil {
+				return nil, errors.New("directive isLoggedIn is not implemented")
+			}
+			return ec.directives.IsLoggedIn(ctx, nil, directive0, isLogged)
+		}
+
+		tmp, err := directive1(rctx)
+		if err != nil {
+			return nil, graphql.ErrorOnPath(ctx, err)
+		}
+		if tmp == nil {
+			return nil, nil
+		}
+		if data, ok := tmp.(*model.Project); ok {
+			return data, nil
+		}
+		return nil, fmt.Errorf(`unexpected type %T from directive, should be *github.com/arvians-id/go-portfolio/internal/http/controller/model.Project`, tmp)
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -3808,8 +4230,32 @@ func (ec *executionContext) _Mutation_DeleteProject(ctx context.Context, field g
 		}
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().DeleteProject(rctx, fc.Args["id"].(int64))
+		directive0 := func(rctx context.Context) (interface{}, error) {
+			ctx = rctx // use context from middleware stack in children
+			return ec.resolvers.Mutation().DeleteProject(rctx, fc.Args["id"].(int64))
+		}
+		directive1 := func(ctx context.Context) (interface{}, error) {
+			isLogged, err := ec.unmarshalNBoolean2bool(ctx, true)
+			if err != nil {
+				return nil, err
+			}
+			if ec.directives.IsLoggedIn == nil {
+				return nil, errors.New("directive isLoggedIn is not implemented")
+			}
+			return ec.directives.IsLoggedIn(ctx, nil, directive0, isLogged)
+		}
+
+		tmp, err := directive1(rctx)
+		if err != nil {
+			return nil, graphql.ErrorOnPath(ctx, err)
+		}
+		if tmp == nil {
+			return nil, nil
+		}
+		if data, ok := tmp.(bool); ok {
+			return data, nil
+		}
+		return nil, fmt.Errorf(`unexpected type %T from directive, should be bool`, tmp)
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -3863,8 +4309,32 @@ func (ec *executionContext) _Mutation_CreateSkill(ctx context.Context, field gra
 		}
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().CreateSkill(rctx, fc.Args["input"].(model.CreateSkillRequest))
+		directive0 := func(rctx context.Context) (interface{}, error) {
+			ctx = rctx // use context from middleware stack in children
+			return ec.resolvers.Mutation().CreateSkill(rctx, fc.Args["input"].(model.CreateSkillRequest))
+		}
+		directive1 := func(ctx context.Context) (interface{}, error) {
+			isLogged, err := ec.unmarshalNBoolean2bool(ctx, true)
+			if err != nil {
+				return nil, err
+			}
+			if ec.directives.IsLoggedIn == nil {
+				return nil, errors.New("directive isLoggedIn is not implemented")
+			}
+			return ec.directives.IsLoggedIn(ctx, nil, directive0, isLogged)
+		}
+
+		tmp, err := directive1(rctx)
+		if err != nil {
+			return nil, graphql.ErrorOnPath(ctx, err)
+		}
+		if tmp == nil {
+			return nil, nil
+		}
+		if data, ok := tmp.(*model.Skill); ok {
+			return data, nil
+		}
+		return nil, fmt.Errorf(`unexpected type %T from directive, should be *github.com/arvians-id/go-portfolio/internal/http/controller/model.Skill`, tmp)
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -3930,8 +4400,32 @@ func (ec *executionContext) _Mutation_UpdateSkill(ctx context.Context, field gra
 		}
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().UpdateSkill(rctx, fc.Args["input"].(model.UpdateSkillRequest))
+		directive0 := func(rctx context.Context) (interface{}, error) {
+			ctx = rctx // use context from middleware stack in children
+			return ec.resolvers.Mutation().UpdateSkill(rctx, fc.Args["input"].(model.UpdateSkillRequest))
+		}
+		directive1 := func(ctx context.Context) (interface{}, error) {
+			isLogged, err := ec.unmarshalNBoolean2bool(ctx, true)
+			if err != nil {
+				return nil, err
+			}
+			if ec.directives.IsLoggedIn == nil {
+				return nil, errors.New("directive isLoggedIn is not implemented")
+			}
+			return ec.directives.IsLoggedIn(ctx, nil, directive0, isLogged)
+		}
+
+		tmp, err := directive1(rctx)
+		if err != nil {
+			return nil, graphql.ErrorOnPath(ctx, err)
+		}
+		if tmp == nil {
+			return nil, nil
+		}
+		if data, ok := tmp.(*model.Skill); ok {
+			return data, nil
+		}
+		return nil, fmt.Errorf(`unexpected type %T from directive, should be *github.com/arvians-id/go-portfolio/internal/http/controller/model.Skill`, tmp)
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -3997,8 +4491,32 @@ func (ec *executionContext) _Mutation_DeleteSkill(ctx context.Context, field gra
 		}
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().DeleteSkill(rctx, fc.Args["id"].(int64))
+		directive0 := func(rctx context.Context) (interface{}, error) {
+			ctx = rctx // use context from middleware stack in children
+			return ec.resolvers.Mutation().DeleteSkill(rctx, fc.Args["id"].(int64))
+		}
+		directive1 := func(ctx context.Context) (interface{}, error) {
+			isLogged, err := ec.unmarshalNBoolean2bool(ctx, true)
+			if err != nil {
+				return nil, err
+			}
+			if ec.directives.IsLoggedIn == nil {
+				return nil, errors.New("directive isLoggedIn is not implemented")
+			}
+			return ec.directives.IsLoggedIn(ctx, nil, directive0, isLogged)
+		}
+
+		tmp, err := directive1(rctx)
+		if err != nil {
+			return nil, graphql.ErrorOnPath(ctx, err)
+		}
+		if tmp == nil {
+			return nil, nil
+		}
+		if data, ok := tmp.(bool); ok {
+			return data, nil
+		}
+		return nil, fmt.Errorf(`unexpected type %T from directive, should be bool`, tmp)
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -4052,8 +4570,32 @@ func (ec *executionContext) _Mutation_CreateWorkExperience(ctx context.Context, 
 		}
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().CreateWorkExperience(rctx, fc.Args["input"].(model.CreateWorkExperienceRequest))
+		directive0 := func(rctx context.Context) (interface{}, error) {
+			ctx = rctx // use context from middleware stack in children
+			return ec.resolvers.Mutation().CreateWorkExperience(rctx, fc.Args["input"].(model.CreateWorkExperienceRequest))
+		}
+		directive1 := func(ctx context.Context) (interface{}, error) {
+			isLogged, err := ec.unmarshalNBoolean2bool(ctx, true)
+			if err != nil {
+				return nil, err
+			}
+			if ec.directives.IsLoggedIn == nil {
+				return nil, errors.New("directive isLoggedIn is not implemented")
+			}
+			return ec.directives.IsLoggedIn(ctx, nil, directive0, isLogged)
+		}
+
+		tmp, err := directive1(rctx)
+		if err != nil {
+			return nil, graphql.ErrorOnPath(ctx, err)
+		}
+		if tmp == nil {
+			return nil, nil
+		}
+		if data, ok := tmp.(*model.WorkExperience); ok {
+			return data, nil
+		}
+		return nil, fmt.Errorf(`unexpected type %T from directive, should be *github.com/arvians-id/go-portfolio/internal/http/controller/model.WorkExperience`, tmp)
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -4129,8 +4671,32 @@ func (ec *executionContext) _Mutation_UpdateWorkExperience(ctx context.Context, 
 		}
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().UpdateWorkExperience(rctx, fc.Args["input"].(model.UpdateWorkExperienceRequest))
+		directive0 := func(rctx context.Context) (interface{}, error) {
+			ctx = rctx // use context from middleware stack in children
+			return ec.resolvers.Mutation().UpdateWorkExperience(rctx, fc.Args["input"].(model.UpdateWorkExperienceRequest))
+		}
+		directive1 := func(ctx context.Context) (interface{}, error) {
+			isLogged, err := ec.unmarshalNBoolean2bool(ctx, true)
+			if err != nil {
+				return nil, err
+			}
+			if ec.directives.IsLoggedIn == nil {
+				return nil, errors.New("directive isLoggedIn is not implemented")
+			}
+			return ec.directives.IsLoggedIn(ctx, nil, directive0, isLogged)
+		}
+
+		tmp, err := directive1(rctx)
+		if err != nil {
+			return nil, graphql.ErrorOnPath(ctx, err)
+		}
+		if tmp == nil {
+			return nil, nil
+		}
+		if data, ok := tmp.(*model.WorkExperience); ok {
+			return data, nil
+		}
+		return nil, fmt.Errorf(`unexpected type %T from directive, should be *github.com/arvians-id/go-portfolio/internal/http/controller/model.WorkExperience`, tmp)
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -4206,8 +4772,32 @@ func (ec *executionContext) _Mutation_DeleteWorkExperience(ctx context.Context, 
 		}
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().DeleteWorkExperience(rctx, fc.Args["id"].(int64))
+		directive0 := func(rctx context.Context) (interface{}, error) {
+			ctx = rctx // use context from middleware stack in children
+			return ec.resolvers.Mutation().DeleteWorkExperience(rctx, fc.Args["id"].(int64))
+		}
+		directive1 := func(ctx context.Context) (interface{}, error) {
+			isLogged, err := ec.unmarshalNBoolean2bool(ctx, true)
+			if err != nil {
+				return nil, err
+			}
+			if ec.directives.IsLoggedIn == nil {
+				return nil, errors.New("directive isLoggedIn is not implemented")
+			}
+			return ec.directives.IsLoggedIn(ctx, nil, directive0, isLogged)
+		}
+
+		tmp, err := directive1(rctx)
+		if err != nil {
+			return nil, graphql.ErrorOnPath(ctx, err)
+		}
+		if tmp == nil {
+			return nil, nil
+		}
+		if data, ok := tmp.(bool); ok {
+			return data, nil
+		}
+		return nil, fmt.Errorf(`unexpected type %T from directive, should be bool`, tmp)
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -4261,8 +4851,32 @@ func (ec *executionContext) _Mutation_CreateCategorySkill(ctx context.Context, f
 		}
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().CreateCategorySkill(rctx, fc.Args["input"].(model.CreateCategorySkillRequest))
+		directive0 := func(rctx context.Context) (interface{}, error) {
+			ctx = rctx // use context from middleware stack in children
+			return ec.resolvers.Mutation().CreateCategorySkill(rctx, fc.Args["input"].(model.CreateCategorySkillRequest))
+		}
+		directive1 := func(ctx context.Context) (interface{}, error) {
+			isLogged, err := ec.unmarshalNBoolean2bool(ctx, true)
+			if err != nil {
+				return nil, err
+			}
+			if ec.directives.IsLoggedIn == nil {
+				return nil, errors.New("directive isLoggedIn is not implemented")
+			}
+			return ec.directives.IsLoggedIn(ctx, nil, directive0, isLogged)
+		}
+
+		tmp, err := directive1(rctx)
+		if err != nil {
+			return nil, graphql.ErrorOnPath(ctx, err)
+		}
+		if tmp == nil {
+			return nil, nil
+		}
+		if data, ok := tmp.(*model.CategorySkill); ok {
+			return data, nil
+		}
+		return nil, fmt.Errorf(`unexpected type %T from directive, should be *github.com/arvians-id/go-portfolio/internal/http/controller/model.CategorySkill`, tmp)
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -4328,8 +4942,32 @@ func (ec *executionContext) _Mutation_UpdateCategorySkill(ctx context.Context, f
 		}
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().UpdateCategorySkill(rctx, fc.Args["input"].(model.UpdateCategorySkillRequest))
+		directive0 := func(rctx context.Context) (interface{}, error) {
+			ctx = rctx // use context from middleware stack in children
+			return ec.resolvers.Mutation().UpdateCategorySkill(rctx, fc.Args["input"].(model.UpdateCategorySkillRequest))
+		}
+		directive1 := func(ctx context.Context) (interface{}, error) {
+			isLogged, err := ec.unmarshalNBoolean2bool(ctx, true)
+			if err != nil {
+				return nil, err
+			}
+			if ec.directives.IsLoggedIn == nil {
+				return nil, errors.New("directive isLoggedIn is not implemented")
+			}
+			return ec.directives.IsLoggedIn(ctx, nil, directive0, isLogged)
+		}
+
+		tmp, err := directive1(rctx)
+		if err != nil {
+			return nil, graphql.ErrorOnPath(ctx, err)
+		}
+		if tmp == nil {
+			return nil, nil
+		}
+		if data, ok := tmp.(*model.CategorySkill); ok {
+			return data, nil
+		}
+		return nil, fmt.Errorf(`unexpected type %T from directive, should be *github.com/arvians-id/go-portfolio/internal/http/controller/model.CategorySkill`, tmp)
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -4395,8 +5033,32 @@ func (ec *executionContext) _Mutation_DeleteCategorySkill(ctx context.Context, f
 		}
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().DeleteCategorySkill(rctx, fc.Args["id"].(int64))
+		directive0 := func(rctx context.Context) (interface{}, error) {
+			ctx = rctx // use context from middleware stack in children
+			return ec.resolvers.Mutation().DeleteCategorySkill(rctx, fc.Args["id"].(int64))
+		}
+		directive1 := func(ctx context.Context) (interface{}, error) {
+			isLogged, err := ec.unmarshalNBoolean2bool(ctx, true)
+			if err != nil {
+				return nil, err
+			}
+			if ec.directives.IsLoggedIn == nil {
+				return nil, errors.New("directive isLoggedIn is not implemented")
+			}
+			return ec.directives.IsLoggedIn(ctx, nil, directive0, isLogged)
+		}
+
+		tmp, err := directive1(rctx)
+		if err != nil {
+			return nil, graphql.ErrorOnPath(ctx, err)
+		}
+		if tmp == nil {
+			return nil, nil
+		}
+		if data, ok := tmp.(bool); ok {
+			return data, nil
+		}
+		return nil, fmt.Errorf(`unexpected type %T from directive, should be bool`, tmp)
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -4431,6 +5093,89 @@ func (ec *executionContext) fieldContext_Mutation_DeleteCategorySkill(ctx contex
 	}()
 	ctx = graphql.WithFieldContext(ctx, fc)
 	if fc.Args, err = ec.field_Mutation_DeleteCategorySkill_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Mutation_Login(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_Login(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		directive0 := func(rctx context.Context) (interface{}, error) {
+			ctx = rctx // use context from middleware stack in children
+			return ec.resolvers.Mutation().Login(rctx, fc.Args["input"].(model.AuthLoginRequest))
+		}
+		directive1 := func(ctx context.Context) (interface{}, error) {
+			isLogged, err := ec.unmarshalNBoolean2bool(ctx, false)
+			if err != nil {
+				return nil, err
+			}
+			if ec.directives.IsLoggedIn == nil {
+				return nil, errors.New("directive isLoggedIn is not implemented")
+			}
+			return ec.directives.IsLoggedIn(ctx, nil, directive0, isLogged)
+		}
+
+		tmp, err := directive1(rctx)
+		if err != nil {
+			return nil, graphql.ErrorOnPath(ctx, err)
+		}
+		if tmp == nil {
+			return nil, nil
+		}
+		if data, ok := tmp.(*model.AuthLoginResponse); ok {
+			return data, nil
+		}
+		return nil, fmt.Errorf(`unexpected type %T from directive, should be *github.com/arvians-id/go-portfolio/internal/http/controller/model.AuthLoginResponse`, tmp)
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.AuthLoginResponse)
+	fc.Result = res
+	return ec.marshalNAuthLoginResponse2ᚖgithubᚗcomᚋarviansᚑidᚋgoᚑportfolioᚋinternalᚋhttpᚋcontrollerᚋmodelᚐAuthLoginResponse(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_Login(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "token":
+				return ec.fieldContext_AuthLoginResponse_token(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type AuthLoginResponse", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_Login_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
 		ec.Error(ctx, err)
 		return
 	}
@@ -4975,8 +5720,32 @@ func (ec *executionContext) _Query_FindAllUser(ctx context.Context, field graphq
 		}
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Query().FindAllUser(rctx)
+		directive0 := func(rctx context.Context) (interface{}, error) {
+			ctx = rctx // use context from middleware stack in children
+			return ec.resolvers.Query().FindAllUser(rctx)
+		}
+		directive1 := func(ctx context.Context) (interface{}, error) {
+			isLogged, err := ec.unmarshalNBoolean2bool(ctx, true)
+			if err != nil {
+				return nil, err
+			}
+			if ec.directives.IsLoggedIn == nil {
+				return nil, errors.New("directive isLoggedIn is not implemented")
+			}
+			return ec.directives.IsLoggedIn(ctx, nil, directive0, isLogged)
+		}
+
+		tmp, err := directive1(rctx)
+		if err != nil {
+			return nil, graphql.ErrorOnPath(ctx, err)
+		}
+		if tmp == nil {
+			return nil, nil
+		}
+		if data, ok := tmp.([]*model.User); ok {
+			return data, nil
+		}
+		return nil, fmt.Errorf(`unexpected type %T from directive, should be []*github.com/arvians-id/go-portfolio/internal/http/controller/model.User`, tmp)
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -5043,8 +5812,32 @@ func (ec *executionContext) _Query_FindByIDUser(ctx context.Context, field graph
 		}
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Query().FindByIDUser(rctx, fc.Args["id"].(int64))
+		directive0 := func(rctx context.Context) (interface{}, error) {
+			ctx = rctx // use context from middleware stack in children
+			return ec.resolvers.Query().FindByIDUser(rctx, fc.Args["id"].(int64))
+		}
+		directive1 := func(ctx context.Context) (interface{}, error) {
+			isLogged, err := ec.unmarshalNBoolean2bool(ctx, true)
+			if err != nil {
+				return nil, err
+			}
+			if ec.directives.IsLoggedIn == nil {
+				return nil, errors.New("directive isLoggedIn is not implemented")
+			}
+			return ec.directives.IsLoggedIn(ctx, nil, directive0, isLogged)
+		}
+
+		tmp, err := directive1(rctx)
+		if err != nil {
+			return nil, graphql.ErrorOnPath(ctx, err)
+		}
+		if tmp == nil {
+			return nil, nil
+		}
+		if data, ok := tmp.(*model.User); ok {
+			return data, nil
+		}
+		return nil, fmt.Errorf(`unexpected type %T from directive, should be *github.com/arvians-id/go-portfolio/internal/http/controller/model.User`, tmp)
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -5122,8 +5915,32 @@ func (ec *executionContext) _Query_FindAllEducation(ctx context.Context, field g
 		}
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Query().FindAllEducation(rctx)
+		directive0 := func(rctx context.Context) (interface{}, error) {
+			ctx = rctx // use context from middleware stack in children
+			return ec.resolvers.Query().FindAllEducation(rctx)
+		}
+		directive1 := func(ctx context.Context) (interface{}, error) {
+			isLogged, err := ec.unmarshalNBoolean2bool(ctx, false)
+			if err != nil {
+				return nil, err
+			}
+			if ec.directives.IsLoggedIn == nil {
+				return nil, errors.New("directive isLoggedIn is not implemented")
+			}
+			return ec.directives.IsLoggedIn(ctx, nil, directive0, isLogged)
+		}
+
+		tmp, err := directive1(rctx)
+		if err != nil {
+			return nil, graphql.ErrorOnPath(ctx, err)
+		}
+		if tmp == nil {
+			return nil, nil
+		}
+		if data, ok := tmp.([]*model.Education); ok {
+			return data, nil
+		}
+		return nil, fmt.Errorf(`unexpected type %T from directive, should be []*github.com/arvians-id/go-portfolio/internal/http/controller/model.Education`, tmp)
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -5184,8 +6001,32 @@ func (ec *executionContext) _Query_FindByIDEducation(ctx context.Context, field 
 		}
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Query().FindByIDEducation(rctx, fc.Args["id"].(int64))
+		directive0 := func(rctx context.Context) (interface{}, error) {
+			ctx = rctx // use context from middleware stack in children
+			return ec.resolvers.Query().FindByIDEducation(rctx, fc.Args["id"].(int64))
+		}
+		directive1 := func(ctx context.Context) (interface{}, error) {
+			isLogged, err := ec.unmarshalNBoolean2bool(ctx, false)
+			if err != nil {
+				return nil, err
+			}
+			if ec.directives.IsLoggedIn == nil {
+				return nil, errors.New("directive isLoggedIn is not implemented")
+			}
+			return ec.directives.IsLoggedIn(ctx, nil, directive0, isLogged)
+		}
+
+		tmp, err := directive1(rctx)
+		if err != nil {
+			return nil, graphql.ErrorOnPath(ctx, err)
+		}
+		if tmp == nil {
+			return nil, nil
+		}
+		if data, ok := tmp.(*model.Education); ok {
+			return data, nil
+		}
+		return nil, fmt.Errorf(`unexpected type %T from directive, should be *github.com/arvians-id/go-portfolio/internal/http/controller/model.Education`, tmp)
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -5257,8 +6098,32 @@ func (ec *executionContext) _Query_FindAllCertificate(ctx context.Context, field
 		}
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Query().FindAllCertificate(rctx)
+		directive0 := func(rctx context.Context) (interface{}, error) {
+			ctx = rctx // use context from middleware stack in children
+			return ec.resolvers.Query().FindAllCertificate(rctx)
+		}
+		directive1 := func(ctx context.Context) (interface{}, error) {
+			isLogged, err := ec.unmarshalNBoolean2bool(ctx, false)
+			if err != nil {
+				return nil, err
+			}
+			if ec.directives.IsLoggedIn == nil {
+				return nil, errors.New("directive isLoggedIn is not implemented")
+			}
+			return ec.directives.IsLoggedIn(ctx, nil, directive0, isLogged)
+		}
+
+		tmp, err := directive1(rctx)
+		if err != nil {
+			return nil, graphql.ErrorOnPath(ctx, err)
+		}
+		if tmp == nil {
+			return nil, nil
+		}
+		if data, ok := tmp.([]*model.Certificate); ok {
+			return data, nil
+		}
+		return nil, fmt.Errorf(`unexpected type %T from directive, should be []*github.com/arvians-id/go-portfolio/internal/http/controller/model.Certificate`, tmp)
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -5317,8 +6182,32 @@ func (ec *executionContext) _Query_FindByIDCertificate(ctx context.Context, fiel
 		}
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Query().FindByIDCertificate(rctx, fc.Args["id"].(int64))
+		directive0 := func(rctx context.Context) (interface{}, error) {
+			ctx = rctx // use context from middleware stack in children
+			return ec.resolvers.Query().FindByIDCertificate(rctx, fc.Args["id"].(int64))
+		}
+		directive1 := func(ctx context.Context) (interface{}, error) {
+			isLogged, err := ec.unmarshalNBoolean2bool(ctx, false)
+			if err != nil {
+				return nil, err
+			}
+			if ec.directives.IsLoggedIn == nil {
+				return nil, errors.New("directive isLoggedIn is not implemented")
+			}
+			return ec.directives.IsLoggedIn(ctx, nil, directive0, isLogged)
+		}
+
+		tmp, err := directive1(rctx)
+		if err != nil {
+			return nil, graphql.ErrorOnPath(ctx, err)
+		}
+		if tmp == nil {
+			return nil, nil
+		}
+		if data, ok := tmp.(*model.Certificate); ok {
+			return data, nil
+		}
+		return nil, fmt.Errorf(`unexpected type %T from directive, should be *github.com/arvians-id/go-portfolio/internal/http/controller/model.Certificate`, tmp)
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -5388,8 +6277,32 @@ func (ec *executionContext) _Query_FindAllContact(ctx context.Context, field gra
 		}
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Query().FindAllContact(rctx)
+		directive0 := func(rctx context.Context) (interface{}, error) {
+			ctx = rctx // use context from middleware stack in children
+			return ec.resolvers.Query().FindAllContact(rctx)
+		}
+		directive1 := func(ctx context.Context) (interface{}, error) {
+			isLogged, err := ec.unmarshalNBoolean2bool(ctx, false)
+			if err != nil {
+				return nil, err
+			}
+			if ec.directives.IsLoggedIn == nil {
+				return nil, errors.New("directive isLoggedIn is not implemented")
+			}
+			return ec.directives.IsLoggedIn(ctx, nil, directive0, isLogged)
+		}
+
+		tmp, err := directive1(rctx)
+		if err != nil {
+			return nil, graphql.ErrorOnPath(ctx, err)
+		}
+		if tmp == nil {
+			return nil, nil
+		}
+		if data, ok := tmp.([]*model.Contact); ok {
+			return data, nil
+		}
+		return nil, fmt.Errorf(`unexpected type %T from directive, should be []*github.com/arvians-id/go-portfolio/internal/http/controller/model.Contact`, tmp)
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -5442,8 +6355,32 @@ func (ec *executionContext) _Query_FindByIDContact(ctx context.Context, field gr
 		}
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Query().FindByIDContact(rctx, fc.Args["id"].(int64))
+		directive0 := func(rctx context.Context) (interface{}, error) {
+			ctx = rctx // use context from middleware stack in children
+			return ec.resolvers.Query().FindByIDContact(rctx, fc.Args["id"].(int64))
+		}
+		directive1 := func(ctx context.Context) (interface{}, error) {
+			isLogged, err := ec.unmarshalNBoolean2bool(ctx, false)
+			if err != nil {
+				return nil, err
+			}
+			if ec.directives.IsLoggedIn == nil {
+				return nil, errors.New("directive isLoggedIn is not implemented")
+			}
+			return ec.directives.IsLoggedIn(ctx, nil, directive0, isLogged)
+		}
+
+		tmp, err := directive1(rctx)
+		if err != nil {
+			return nil, graphql.ErrorOnPath(ctx, err)
+		}
+		if tmp == nil {
+			return nil, nil
+		}
+		if data, ok := tmp.(*model.Contact); ok {
+			return data, nil
+		}
+		return nil, fmt.Errorf(`unexpected type %T from directive, should be *github.com/arvians-id/go-portfolio/internal/http/controller/model.Contact`, tmp)
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -5507,8 +6444,32 @@ func (ec *executionContext) _Query_FindAllProject(ctx context.Context, field gra
 		}
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Query().FindAllProject(rctx)
+		directive0 := func(rctx context.Context) (interface{}, error) {
+			ctx = rctx // use context from middleware stack in children
+			return ec.resolvers.Query().FindAllProject(rctx)
+		}
+		directive1 := func(ctx context.Context) (interface{}, error) {
+			isLogged, err := ec.unmarshalNBoolean2bool(ctx, false)
+			if err != nil {
+				return nil, err
+			}
+			if ec.directives.IsLoggedIn == nil {
+				return nil, errors.New("directive isLoggedIn is not implemented")
+			}
+			return ec.directives.IsLoggedIn(ctx, nil, directive0, isLogged)
+		}
+
+		tmp, err := directive1(rctx)
+		if err != nil {
+			return nil, graphql.ErrorOnPath(ctx, err)
+		}
+		if tmp == nil {
+			return nil, nil
+		}
+		if data, ok := tmp.([]*model.Project); ok {
+			return data, nil
+		}
+		return nil, fmt.Errorf(`unexpected type %T from directive, should be []*github.com/arvians-id/go-portfolio/internal/http/controller/model.Project`, tmp)
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -5577,8 +6538,32 @@ func (ec *executionContext) _Query_FindByIDProject(ctx context.Context, field gr
 		}
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Query().FindByIDProject(rctx, fc.Args["id"].(int64))
+		directive0 := func(rctx context.Context) (interface{}, error) {
+			ctx = rctx // use context from middleware stack in children
+			return ec.resolvers.Query().FindByIDProject(rctx, fc.Args["id"].(int64))
+		}
+		directive1 := func(ctx context.Context) (interface{}, error) {
+			isLogged, err := ec.unmarshalNBoolean2bool(ctx, false)
+			if err != nil {
+				return nil, err
+			}
+			if ec.directives.IsLoggedIn == nil {
+				return nil, errors.New("directive isLoggedIn is not implemented")
+			}
+			return ec.directives.IsLoggedIn(ctx, nil, directive0, isLogged)
+		}
+
+		tmp, err := directive1(rctx)
+		if err != nil {
+			return nil, graphql.ErrorOnPath(ctx, err)
+		}
+		if tmp == nil {
+			return nil, nil
+		}
+		if data, ok := tmp.(*model.Project); ok {
+			return data, nil
+		}
+		return nil, fmt.Errorf(`unexpected type %T from directive, should be *github.com/arvians-id/go-portfolio/internal/http/controller/model.Project`, tmp)
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -5658,8 +6643,32 @@ func (ec *executionContext) _Query_FindAllSkill(ctx context.Context, field graph
 		}
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Query().FindAllSkill(rctx)
+		directive0 := func(rctx context.Context) (interface{}, error) {
+			ctx = rctx // use context from middleware stack in children
+			return ec.resolvers.Query().FindAllSkill(rctx)
+		}
+		directive1 := func(ctx context.Context) (interface{}, error) {
+			isLogged, err := ec.unmarshalNBoolean2bool(ctx, false)
+			if err != nil {
+				return nil, err
+			}
+			if ec.directives.IsLoggedIn == nil {
+				return nil, errors.New("directive isLoggedIn is not implemented")
+			}
+			return ec.directives.IsLoggedIn(ctx, nil, directive0, isLogged)
+		}
+
+		tmp, err := directive1(rctx)
+		if err != nil {
+			return nil, graphql.ErrorOnPath(ctx, err)
+		}
+		if tmp == nil {
+			return nil, nil
+		}
+		if data, ok := tmp.([]*model.Skill); ok {
+			return data, nil
+		}
+		return nil, fmt.Errorf(`unexpected type %T from directive, should be []*github.com/arvians-id/go-portfolio/internal/http/controller/model.Skill`, tmp)
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -5714,8 +6723,32 @@ func (ec *executionContext) _Query_FindByIDSkill(ctx context.Context, field grap
 		}
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Query().FindByIDSkill(rctx, fc.Args["id"].(int64))
+		directive0 := func(rctx context.Context) (interface{}, error) {
+			ctx = rctx // use context from middleware stack in children
+			return ec.resolvers.Query().FindByIDSkill(rctx, fc.Args["id"].(int64))
+		}
+		directive1 := func(ctx context.Context) (interface{}, error) {
+			isLogged, err := ec.unmarshalNBoolean2bool(ctx, false)
+			if err != nil {
+				return nil, err
+			}
+			if ec.directives.IsLoggedIn == nil {
+				return nil, errors.New("directive isLoggedIn is not implemented")
+			}
+			return ec.directives.IsLoggedIn(ctx, nil, directive0, isLogged)
+		}
+
+		tmp, err := directive1(rctx)
+		if err != nil {
+			return nil, graphql.ErrorOnPath(ctx, err)
+		}
+		if tmp == nil {
+			return nil, nil
+		}
+		if data, ok := tmp.(*model.Skill); ok {
+			return data, nil
+		}
+		return nil, fmt.Errorf(`unexpected type %T from directive, should be *github.com/arvians-id/go-portfolio/internal/http/controller/model.Skill`, tmp)
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -5781,8 +6814,32 @@ func (ec *executionContext) _Query_FindAllWorkExperience(ctx context.Context, fi
 		}
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Query().FindAllWorkExperience(rctx)
+		directive0 := func(rctx context.Context) (interface{}, error) {
+			ctx = rctx // use context from middleware stack in children
+			return ec.resolvers.Query().FindAllWorkExperience(rctx)
+		}
+		directive1 := func(ctx context.Context) (interface{}, error) {
+			isLogged, err := ec.unmarshalNBoolean2bool(ctx, false)
+			if err != nil {
+				return nil, err
+			}
+			if ec.directives.IsLoggedIn == nil {
+				return nil, errors.New("directive isLoggedIn is not implemented")
+			}
+			return ec.directives.IsLoggedIn(ctx, nil, directive0, isLogged)
+		}
+
+		tmp, err := directive1(rctx)
+		if err != nil {
+			return nil, graphql.ErrorOnPath(ctx, err)
+		}
+		if tmp == nil {
+			return nil, nil
+		}
+		if data, ok := tmp.([]*model.WorkExperience); ok {
+			return data, nil
+		}
+		return nil, fmt.Errorf(`unexpected type %T from directive, should be []*github.com/arvians-id/go-portfolio/internal/http/controller/model.WorkExperience`, tmp)
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -5847,8 +6904,32 @@ func (ec *executionContext) _Query_FindByIDWorkExperience(ctx context.Context, f
 		}
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Query().FindByIDWorkExperience(rctx, fc.Args["id"].(int64))
+		directive0 := func(rctx context.Context) (interface{}, error) {
+			ctx = rctx // use context from middleware stack in children
+			return ec.resolvers.Query().FindByIDWorkExperience(rctx, fc.Args["id"].(int64))
+		}
+		directive1 := func(ctx context.Context) (interface{}, error) {
+			isLogged, err := ec.unmarshalNBoolean2bool(ctx, false)
+			if err != nil {
+				return nil, err
+			}
+			if ec.directives.IsLoggedIn == nil {
+				return nil, errors.New("directive isLoggedIn is not implemented")
+			}
+			return ec.directives.IsLoggedIn(ctx, nil, directive0, isLogged)
+		}
+
+		tmp, err := directive1(rctx)
+		if err != nil {
+			return nil, graphql.ErrorOnPath(ctx, err)
+		}
+		if tmp == nil {
+			return nil, nil
+		}
+		if data, ok := tmp.(*model.WorkExperience); ok {
+			return data, nil
+		}
+		return nil, fmt.Errorf(`unexpected type %T from directive, should be *github.com/arvians-id/go-portfolio/internal/http/controller/model.WorkExperience`, tmp)
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -5924,8 +7005,32 @@ func (ec *executionContext) _Query_FindAllCategorySkill(ctx context.Context, fie
 		}
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Query().FindAllCategorySkill(rctx)
+		directive0 := func(rctx context.Context) (interface{}, error) {
+			ctx = rctx // use context from middleware stack in children
+			return ec.resolvers.Query().FindAllCategorySkill(rctx)
+		}
+		directive1 := func(ctx context.Context) (interface{}, error) {
+			isLogged, err := ec.unmarshalNBoolean2bool(ctx, false)
+			if err != nil {
+				return nil, err
+			}
+			if ec.directives.IsLoggedIn == nil {
+				return nil, errors.New("directive isLoggedIn is not implemented")
+			}
+			return ec.directives.IsLoggedIn(ctx, nil, directive0, isLogged)
+		}
+
+		tmp, err := directive1(rctx)
+		if err != nil {
+			return nil, graphql.ErrorOnPath(ctx, err)
+		}
+		if tmp == nil {
+			return nil, nil
+		}
+		if data, ok := tmp.([]*model.CategorySkill); ok {
+			return data, nil
+		}
+		return nil, fmt.Errorf(`unexpected type %T from directive, should be []*github.com/arvians-id/go-portfolio/internal/http/controller/model.CategorySkill`, tmp)
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -5980,8 +7085,32 @@ func (ec *executionContext) _Query_FindByIDCategorySkill(ctx context.Context, fi
 		}
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Query().FindByIDCategorySkill(rctx, fc.Args["id"].(int64))
+		directive0 := func(rctx context.Context) (interface{}, error) {
+			ctx = rctx // use context from middleware stack in children
+			return ec.resolvers.Query().FindByIDCategorySkill(rctx, fc.Args["id"].(int64))
+		}
+		directive1 := func(ctx context.Context) (interface{}, error) {
+			isLogged, err := ec.unmarshalNBoolean2bool(ctx, false)
+			if err != nil {
+				return nil, err
+			}
+			if ec.directives.IsLoggedIn == nil {
+				return nil, errors.New("directive isLoggedIn is not implemented")
+			}
+			return ec.directives.IsLoggedIn(ctx, nil, directive0, isLogged)
+		}
+
+		tmp, err := directive1(rctx)
+		if err != nil {
+			return nil, graphql.ErrorOnPath(ctx, err)
+		}
+		if tmp == nil {
+			return nil, nil
+		}
+		if data, ok := tmp.(*model.CategorySkill); ok {
+			return data, nil
+		}
+		return nil, fmt.Errorf(`unexpected type %T from directive, should be *github.com/arvians-id/go-portfolio/internal/http/controller/model.CategorySkill`, tmp)
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -9086,6 +10215,44 @@ func (ec *executionContext) fieldContext___Type_specifiedByURL(ctx context.Conte
 
 // region    **************************** input.gotpl *****************************
 
+func (ec *executionContext) unmarshalInputAuthLoginRequest(ctx context.Context, obj interface{}) (model.AuthLoginRequest, error) {
+	var it model.AuthLoginRequest
+	asMap := map[string]interface{}{}
+	for k, v := range obj.(map[string]interface{}) {
+		asMap[k] = v
+	}
+
+	fieldsInOrder := [...]string{"email", "password"}
+	for _, k := range fieldsInOrder {
+		v, ok := asMap[k]
+		if !ok {
+			continue
+		}
+		switch k {
+		case "email":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("email"))
+			data, err := ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Email = data
+		case "password":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("password"))
+			data, err := ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Password = data
+		}
+	}
+
+	return it, nil
+}
+
 func (ec *executionContext) unmarshalInputCreateCategorySkillRequest(ctx context.Context, obj interface{}) (model.CreateCategorySkillRequest, error) {
 	var it model.CreateCategorySkillRequest
 	asMap := map[string]interface{}{}
@@ -10251,6 +11418,34 @@ func (ec *executionContext) unmarshalInputUpdateWorkExperienceRequest(ctx contex
 
 // region    **************************** object.gotpl ****************************
 
+var authLoginResponseImplementors = []string{"AuthLoginResponse"}
+
+func (ec *executionContext) _AuthLoginResponse(ctx context.Context, sel ast.SelectionSet, obj *model.AuthLoginResponse) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, authLoginResponseImplementors)
+	out := graphql.NewFieldSet(fields)
+	var invalids uint32
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("AuthLoginResponse")
+		case "token":
+
+			out.Values[i] = ec._AuthLoginResponse_token(ctx, field, obj)
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch()
+	if invalids > 0 {
+		return graphql.Null
+	}
+	return out
+}
+
 var categorySkillImplementors = []string{"CategorySkill"}
 
 func (ec *executionContext) _CategorySkill(ctx context.Context, sel ast.SelectionSet, obj *model.CategorySkill) graphql.Marshaler {
@@ -10725,6 +11920,15 @@ func (ec *executionContext) _Mutation(ctx context.Context, sel ast.SelectionSet)
 
 			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
 				return ec._Mutation_DeleteCategorySkill(ctx, field)
+			})
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "Login":
+
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_Login(ctx, field)
 			})
 
 			if out.Values[i] == graphql.Null {
@@ -11824,6 +13028,25 @@ func (ec *executionContext) ___Type(ctx context.Context, sel ast.SelectionSet, o
 // endregion **************************** object.gotpl ****************************
 
 // region    ***************************** type.gotpl *****************************
+
+func (ec *executionContext) unmarshalNAuthLoginRequest2githubᚗcomᚋarviansᚑidᚋgoᚑportfolioᚋinternalᚋhttpᚋcontrollerᚋmodelᚐAuthLoginRequest(ctx context.Context, v interface{}) (model.AuthLoginRequest, error) {
+	res, err := ec.unmarshalInputAuthLoginRequest(ctx, v)
+	return res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) marshalNAuthLoginResponse2githubᚗcomᚋarviansᚑidᚋgoᚑportfolioᚋinternalᚋhttpᚋcontrollerᚋmodelᚐAuthLoginResponse(ctx context.Context, sel ast.SelectionSet, v model.AuthLoginResponse) graphql.Marshaler {
+	return ec._AuthLoginResponse(ctx, sel, &v)
+}
+
+func (ec *executionContext) marshalNAuthLoginResponse2ᚖgithubᚗcomᚋarviansᚑidᚋgoᚑportfolioᚋinternalᚋhttpᚋcontrollerᚋmodelᚐAuthLoginResponse(ctx context.Context, sel ast.SelectionSet, v *model.AuthLoginResponse) graphql.Marshaler {
+	if v == nil {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
+		}
+		return graphql.Null
+	}
+	return ec._AuthLoginResponse(ctx, sel, v)
+}
 
 func (ec *executionContext) unmarshalNBoolean2bool(ctx context.Context, v interface{}) (bool, error) {
 	res, err := graphql.UnmarshalBoolean(v)

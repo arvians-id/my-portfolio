@@ -1,0 +1,8 @@
+input AuthLoginRequest {
+    email: String!
+    password: String!
+}
+
+type AuthLoginResponse {
+    token: String!
+}

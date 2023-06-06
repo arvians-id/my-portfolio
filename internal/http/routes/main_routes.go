@@ -56,6 +56,7 @@ func NewInitializedRoutes(configuration config.Config, logFile *os.File) (*fiber
 		AllowMethods:     "POST, DELETE, PUT, PATCH, GET",
 		AllowCredentials: true,
 	}))
+	app.Use(middleware.ExposeFiberContext())
 
 	db, err := config.NewPostgresSQLGorm(configuration)
 	if err != nil {
@@ -111,6 +112,7 @@ func NewInitializedRoutes(configuration config.Config, logFile *os.File) (*fiber
 					SkillService:          skillService,
 				},
 			}
+			generatedConfig.Directives.IsLoggedIn = middleware.NewJWTMiddlewareGraphQL
 
 			h := handler.NewDefaultServer(gql.NewExecutableSchema(generatedConfig))
 			h.ServeHTTP(writer, request)

@@ -10,6 +10,7 @@ import (
 type UserRepositoryContract interface {
 	FindAll(ctx context.Context) ([]*entity.User, error)
 	FindByID(ctx context.Context, id int64) (*entity.User, error)
+	FindByEmail(ctx context.Context, email string) (*entity.User, error)
 	Create(ctx context.Context, user *entity.User) (*entity.User, error)
 	Update(ctx context.Context, user *entity.User) error
 	Delete(ctx context.Context, id int64) error
@@ -56,6 +57,31 @@ func (repository *UserRepository) FindByID(ctx context.Context, id int64) (*enti
 	)
 	if err != nil {
 		log.Println("[UserRepository][FindByID] problem with scanning db row, err: ", err.Error())
+		return nil, err
+	}
+
+	return &user, nil
+}
+
+func (repository *UserRepository) FindByEmail(ctx context.Context, email string) (*entity.User, error) {
+	query := "SELECT * FROM users WHERE email = ?"
+	var user entity.User
+	row := repository.DB.WithContext(ctx).Raw(query, email).Row()
+	err := row.Scan(
+		&user.ID,
+		&user.Name,
+		&user.Email,
+		&user.Password,
+		&user.Bio,
+		&user.Pronouns,
+		&user.Country,
+		&user.JobTitle,
+		&user.Image,
+		&user.CreatedAt,
+		&user.UpdatedAt,
+	)
+	if err != nil {
+		log.Println("[UserRepository][FindByEmail] problem with scanning db row, err: ", err.Error())
 		return nil, err
 	}
 

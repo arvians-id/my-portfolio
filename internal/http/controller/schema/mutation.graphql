@@ -1,41 +1,44 @@
 type Mutation {
     # User
-    CreateUser(input: CreateUserRequest!): User!
-    UpdateUser(input: UpdateUserRequest!): User!
-    DeleteUser(id: ID!): Boolean!
+    CreateUser(input: CreateUserRequest!): User! @isLoggedIn(isLogged: true)
+    UpdateUser(input: UpdateUserRequest!): User! @isLoggedIn(isLogged: true)
+    DeleteUser(id: ID!): Boolean! @isLoggedIn(isLogged: true)
 
     # Education
-    CreateEducation(input: CreateEducationRequest!): Education!
-    UpdateEducation(input: UpdateEducationRequest!): Education!
-    DeleteEducation(id: ID!): Boolean!
+    CreateEducation(input: CreateEducationRequest!): Education! @isLoggedIn(isLogged: true)
+    UpdateEducation(input: UpdateEducationRequest!): Education! @isLoggedIn(isLogged: true)
+    DeleteEducation(id: ID!): Boolean! @isLoggedIn(isLogged: true)
 
     # Certificate
-    CreateCertificate(input: CreateCertificateRequest!): Certificate!
-    UpdateCertificate(input: UpdateCertificateRequest!): Certificate!
-    DeleteCertificate(id: ID!): Boolean!
+    CreateCertificate(input: CreateCertificateRequest!): Certificate! @isLoggedIn(isLogged: true)
+    UpdateCertificate(input: UpdateCertificateRequest!): Certificate! @isLoggedIn(isLogged: true)
+    DeleteCertificate(id: ID!): Boolean! @isLoggedIn(isLogged: true)
 
     # Contact
-    CreateContact(input: CreateContactRequest!): Contact!
-    UpdateContact(input: UpdateContactRequest!): Contact!
-    DeleteContact(id: ID!): Boolean!
+    CreateContact(input: CreateContactRequest!): Contact! @isLoggedIn(isLogged: true)
+    UpdateContact(input: UpdateContactRequest!): Contact! @isLoggedIn(isLogged: true)
+    DeleteContact(id: ID!): Boolean! @isLoggedIn(isLogged: true)
 
     # Project
-    CreateProject(input: CreateProjectRequest!): Project!
-    UpdateProject(input: UpdateProjectRequest!): Project!
-    DeleteProject(id: ID!): Boolean!
+    CreateProject(input: CreateProjectRequest!): Project! @isLoggedIn(isLogged: true)
+    UpdateProject(input: UpdateProjectRequest!): Project! @isLoggedIn(isLogged: true)
+    DeleteProject(id: ID!): Boolean! @isLoggedIn(isLogged: true)
 
     # Skill
-    CreateSkill(input: CreateSkillRequest!): Skill!
-    UpdateSkill(input: UpdateSkillRequest!): Skill!
-    DeleteSkill(id: ID!): Boolean!
+    CreateSkill(input: CreateSkillRequest!): Skill! @isLoggedIn(isLogged: true)
+    UpdateSkill(input: UpdateSkillRequest!): Skill! @isLoggedIn(isLogged: true)
+    DeleteSkill(id: ID!): Boolean! @isLoggedIn(isLogged: true)
 
     # Work Experience
-    CreateWorkExperience(input: CreateWorkExperienceRequest!): WorkExperience!
-    UpdateWorkExperience(input: UpdateWorkExperienceRequest!): WorkExperience!
-    DeleteWorkExperience(id: ID!): Boolean!
+    CreateWorkExperience(input: CreateWorkExperienceRequest!): WorkExperience! @isLoggedIn(isLogged: true)
+    UpdateWorkExperience(input: UpdateWorkExperienceRequest!): WorkExperience! @isLoggedIn(isLogged: true)
+    DeleteWorkExperience(id: ID!): Boolean! @isLoggedIn(isLogged: true)
 
     # Category Skill
-    CreateCategorySkill(input: CreateCategorySkillRequest!): CategorySkill!
-    UpdateCategorySkill(input: UpdateCategorySkillRequest!): CategorySkill!
-    DeleteCategorySkill(id: ID!): Boolean!
+    CreateCategorySkill(input: CreateCategorySkillRequest!): CategorySkill! @isLoggedIn(isLogged: true)
+    UpdateCategorySkill(input: UpdateCategorySkillRequest!): CategorySkill! @isLoggedIn(isLogged: true)
+    DeleteCategorySkill(id: ID!): Boolean! @isLoggedIn(isLogged: true)
+
+    # Auth
+    Login(input: AuthLoginRequest!): AuthLoginResponse! @isLoggedIn(isLogged: false)
 }

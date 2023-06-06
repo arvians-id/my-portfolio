@@ -2,6 +2,15 @@
 
 package model
 
+type AuthLoginRequest struct {
+	Email    string `json:"email"`
+	Password string `json:"password"`
+}
+
+type AuthLoginResponse struct {
+	Token string `json:"token"`
+}
+
 type CategorySkill struct {
 	ID        int64    `json:"id"`
 	Name      string   `json:"name"`

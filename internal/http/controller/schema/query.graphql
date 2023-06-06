@@ -1,33 +1,33 @@
 type Query {
     # User
-    FindAllUser: [User!]!
-    FindByIDUser(id: ID!): User!
+    FindAllUser: [User!]!  @isLoggedIn(isLogged: true)
+    FindByIDUser(id: ID!): User!  @isLoggedIn(isLogged: true)
 
     # Education
-    FindAllEducation: [Education!]!
-    FindByIDEducation(id: ID!): Education!
+    FindAllEducation: [Education!]!  @isLoggedIn(isLogged: false)
+    FindByIDEducation(id: ID!): Education!  @isLoggedIn(isLogged: false)
 
     # Certificate
-    FindAllCertificate: [Certificate!]!
-    FindByIDCertificate(id: ID!): Certificate!
+    FindAllCertificate: [Certificate!]!  @isLoggedIn(isLogged: false)
+    FindByIDCertificate(id: ID!): Certificate!  @isLoggedIn(isLogged: false)
 
     # Contact
-    FindAllContact: [Contact!]!
-    FindByIDContact(id: ID!): Contact!
+    FindAllContact: [Contact!]!  @isLoggedIn(isLogged: false)
+    FindByIDContact(id: ID!): Contact!  @isLoggedIn(isLogged: false)
 
     # Project
-    FindAllProject: [Project!]!
-    FindByIDProject(id: ID!): Project!
+    FindAllProject: [Project!]!  @isLoggedIn(isLogged: false)
+    FindByIDProject(id: ID!): Project!  @isLoggedIn(isLogged: false)
 
     # Skill
-    FindAllSkill: [Skill!]!
-    FindByIDSkill(id: ID!): Skill!
+    FindAllSkill: [Skill!]!  @isLoggedIn(isLogged: false)
+    FindByIDSkill(id: ID!): Skill!  @isLoggedIn(isLogged: false)
 
     # Work Experience
-    FindAllWorkExperience: [WorkExperience!]!
-    FindByIDWorkExperience(id: ID!): WorkExperience!
+    FindAllWorkExperience: [WorkExperience!]!  @isLoggedIn(isLogged: false)
+    FindByIDWorkExperience(id: ID!): WorkExperience!  @isLoggedIn(isLogged: false)
 
     # Category Skill
-    FindAllCategorySkill: [CategorySkill!]!
-    FindByIDCategorySkill(id: ID!): CategorySkill!
+    FindAllCategorySkill: [CategorySkill!]!  @isLoggedIn(isLogged: false)
+    FindByIDCategorySkill(id: ID!): CategorySkill!  @isLoggedIn(isLogged: false)
 }
