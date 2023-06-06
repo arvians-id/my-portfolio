@@ -2,17 +2,17 @@ package service
 
 import (
 	"context"
-	"github.com/arvians-id/go-portfolio/internal/http/controller/model"
+	"github.com/arvians-id/go-portfolio/internal/entity"
 	"github.com/arvians-id/go-portfolio/internal/repository"
 	"log"
 )
 
 type ProjectServiceContract interface {
-	FindAll(ctx context.Context) ([]*model.Project, error)
-	FindAllByCategory(ctx context.Context, category string) ([]*model.Project, error)
-	FindByID(ctx context.Context, id int64) (*model.Project, error)
-	Create(ctx context.Context, request *model.CreateProjectRequest) (*model.Project, error)
-	Update(ctx context.Context, request *model.UpdateProjectRequest) (*model.Project, error)
+	FindAll(ctx context.Context) ([]*entity.Project, error)
+	FindAllByCategory(ctx context.Context, category string) ([]*entity.Project, error)
+	FindByID(ctx context.Context, id int64) (*entity.Project, error)
+	Create(ctx context.Context, project *entity.Project) (*entity.Project, error)
+	Update(ctx context.Context, project *entity.Project) (*entity.Project, error)
 	Delete(ctx context.Context, id int64) error
 }
 
@@ -26,76 +26,65 @@ func NewProjectService(projectRepository repository.ProjectRepositoryContract) P
 	}
 }
 
-func (repository *ProjectService) FindAll(ctx context.Context) ([]*model.Project, error) {
+func (repository *ProjectService) FindAll(ctx context.Context) ([]*entity.Project, error) {
 	projects, err := repository.ProjectRepository.FindAll(ctx)
 	if err != nil {
 		return nil, err
 	}
 
-	var results []*model.Project
-	for _, project := range projects {
-		results = append(results, project.ToModel())
-	}
-
-	return results, nil
+	return projects, nil
 }
 
-func (repository *ProjectService) FindAllByCategory(ctx context.Context, category string) ([]*model.Project, error) {
+func (repository *ProjectService) FindAllByCategory(ctx context.Context, category string) ([]*entity.Project, error) {
 	projects, err := repository.ProjectRepository.FindAllByCategory(ctx, category)
 	if err != nil {
 		log.Println("[ProjectService][FindAll] problem calling repository, err: ", err.Error())
 		return nil, err
 	}
 
-	var results []*model.Project
-	for _, project := range projects {
-		results = append(results, project.ToModel())
-	}
-
-	return results, nil
-
+	return projects, nil
 }
 
-func (repository *ProjectService) FindByID(ctx context.Context, id int64) (*model.Project, error) {
+func (repository *ProjectService) FindByID(ctx context.Context, id int64) (*entity.Project, error) {
 	project, err := repository.ProjectRepository.FindByID(ctx, id)
 	if err != nil {
 		log.Println("[ProjectService][FindByID] problem calling repository, err: ", err.Error())
 		return nil, err
 	}
 
-	return project.ToModel(), nil
+	return project, nil
 }
 
-func (repository *ProjectService) Create(ctx context.Context, request *model.CreateProjectRequest) (*model.Project, error) {
-	project, err := repository.ProjectRepository.Create(ctx, request)
+func (repository *ProjectService) Create(ctx context.Context, project *entity.Project) (*entity.Project, error) {
+	project, err := repository.ProjectRepository.Create(ctx, project)
 	if err != nil {
 		log.Println("[ProjectService][Create] problem calling repository, err: ", err.Error())
 		return nil, err
 	}
 
-	return project.ToModel(), nil
+	return project, nil
 }
 
-func (repository *ProjectService) Update(ctx context.Context, request *model.UpdateProjectRequest) (*model.Project, error) {
-	_, err := repository.ProjectRepository.FindByID(ctx, request.ID)
+func (repository *ProjectService) Update(ctx context.Context, project *entity.Project) (*entity.Project, error) {
+	_, err := repository.ProjectRepository.FindByID(ctx, project.ID)
 	if err != nil {
 		log.Println("[ProjectService][FindByID] problem calling repository, err: ", err.Error())
 		return nil, err
 	}
 
-	err = repository.ProjectRepository.Update(ctx, request)
+	err = repository.ProjectRepository.Update(ctx, project)
 	if err != nil {
 		log.Println("[ProjectService][Update] problem calling repository, err: ", err.Error())
 		return nil, err
 	}
 
-	projectUpdated, err := repository.ProjectRepository.FindByID(ctx, request.ID)
+	projectUpdated, err := repository.ProjectRepository.FindByID(ctx, project.ID)
 	if err != nil {
 		log.Println("[ProjectService][FindByID] problem calling repository, err: ", err.Error())
 		return nil, err
 	}
 
-	return projectUpdated.ToModel(), nil
+	return projectUpdated, nil
 }
 
 func (repository *ProjectService) Delete(ctx context.Context, id int64) error {

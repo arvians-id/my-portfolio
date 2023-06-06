@@ -3,7 +3,6 @@ package repository
 import (
 	"context"
 	"github.com/arvians-id/go-portfolio/internal/entity"
-	"github.com/arvians-id/go-portfolio/internal/http/controller/model"
 	"gorm.io/gorm"
 	"log"
 )
@@ -14,8 +13,8 @@ type SkillRepositoryContract interface {
 	FindAllByWorkExperienceIDs(ctx context.Context, workExperienceIDs []int64) ([]*entity.SkillBelongsTo, error)
 	FindAllByCategorySkillIDs(ctx context.Context, categorySkillIDs []int64) ([]*entity.Skill, error)
 	FindByID(ctx context.Context, id int64) (*entity.Skill, error)
-	Create(ctx context.Context, request *model.CreateSkillRequest) (*entity.Skill, error)
-	Update(ctx context.Context, request *model.UpdateSkillRequest) error
+	Create(ctx context.Context, skill *entity.Skill) (*entity.Skill, error)
+	Update(ctx context.Context, skill *entity.Skill) error
 	Delete(ctx context.Context, id int64) error
 }
 
@@ -77,7 +76,7 @@ func (repository *SkillRepository) FindAllByCategorySkillIDs(ctx context.Context
 
 func (repository *SkillRepository) FindByID(ctx context.Context, id int64) (*entity.Skill, error) {
 	query := "SELECT * FROM skills WHERE id = ?"
-	var skill *entity.Skill
+	var skill entity.Skill
 	row := repository.DB.WithContext(ctx).Raw(query, id).Row()
 	err := row.Scan(&skill.ID, &skill.CategorySkillID, &skill.Name, &skill.Icon)
 	if err != nil {
@@ -85,31 +84,20 @@ func (repository *SkillRepository) FindByID(ctx context.Context, id int64) (*ent
 		return nil, err
 	}
 
-	return skill, nil
+	return &skill, nil
 }
 
-func (repository *SkillRepository) Create(ctx context.Context, request *model.CreateSkillRequest) (*entity.Skill, error) {
-	var skill entity.Skill
-	skill.CategorySkillID = request.CategorySkillID
-	skill.Name = request.Name
-	skill.Icon = request.Icon
-
+func (repository *SkillRepository) Create(ctx context.Context, skill *entity.Skill) (*entity.Skill, error) {
 	err := repository.DB.WithContext(ctx).Create(&skill).Error
 	if err != nil {
 		log.Println("[SkillRepository][Create] problem querying to db, err: ", err.Error())
 		return nil, err
 	}
 
-	return &skill, nil
+	return skill, nil
 }
 
-func (repository *SkillRepository) Update(ctx context.Context, request *model.UpdateSkillRequest) error {
-	var skill entity.Skill
-	skill.ID = request.ID
-	skill.CategorySkillID = request.CategorySkillID
-	skill.Name = request.Name
-	skill.Icon = request.Icon
-
+func (repository *SkillRepository) Update(ctx context.Context, skill *entity.Skill) error {
 	err := repository.DB.WithContext(ctx).Updates(&skill).Error
 	if err != nil {
 		log.Println("[SkillRepository][Updates] problem querying to db, err: ", err.Error())

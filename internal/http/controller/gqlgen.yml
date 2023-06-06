@@ -24,7 +24,7 @@ resolver:
   type: Resolver
 
 autobind:
-#  - "github.com/arvians-id/go-rabbitmq/gateway/api/gql/entity"
+#  - "github.com/arvians-id/go-portfolio/internal/http/controller/model"
 
 models:
   ID:

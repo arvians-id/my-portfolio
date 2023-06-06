@@ -2,7 +2,9 @@ package resolver
 
 import (
 	"context"
+	"github.com/arvians-id/go-portfolio/internal/entity"
 	"github.com/arvians-id/go-portfolio/internal/http/controller/model"
+	"github.com/arvians-id/go-portfolio/internal/http/middleware"
 )
 
 func (q queryResolver) FindAllProject(ctx context.Context) ([]*model.Project, error) {
@@ -11,7 +13,24 @@ func (q queryResolver) FindAllProject(ctx context.Context) ([]*model.Project, er
 		return nil, err
 	}
 
-	return projects, nil
+	var results []*model.Project
+	for _, project := range projects {
+		results = append(results, &model.Project{
+			ID:          project.ID,
+			Category:    project.Category,
+			Title:       project.Title,
+			Description: project.Description,
+			Image:       project.Image,
+			URL:         project.URL,
+			IsFeatured:  project.IsFeatured,
+			Date:        project.Date,
+			WorkingType: project.WorkingType,
+			CreatedAt:   project.CreatedAt.String(),
+			UpdatedAt:   project.UpdatedAt.String(),
+		})
+	}
+
+	return results, nil
 }
 
 func (q queryResolver) FindByIDProject(ctx context.Context, id int64) (*model.Project, error) {
@@ -20,25 +39,91 @@ func (q queryResolver) FindByIDProject(ctx context.Context, id int64) (*model.Pr
 		return nil, err
 	}
 
-	return project, nil
+	return &model.Project{
+		ID:          project.ID,
+		Category:    project.Category,
+		Title:       project.Title,
+		Description: project.Description,
+		Image:       project.Image,
+		URL:         project.URL,
+		IsFeatured:  project.IsFeatured,
+		Date:        project.Date,
+		WorkingType: project.WorkingType,
+		CreatedAt:   project.CreatedAt.String(),
+		UpdatedAt:   project.UpdatedAt.String(),
+	}, nil
 }
 
 func (m mutationResolver) CreateProject(ctx context.Context, input model.CreateProjectRequest) (*model.Project, error) {
-	project, err := m.ProjectService.Create(ctx, &input)
+	skills := make([]*entity.Skill, len(input.Skills))
+	for i, id := range input.Skills {
+		skills[i].ID = id
+	}
+
+	project, err := m.ProjectService.Create(ctx, &entity.Project{
+		Category:    input.Category,
+		Title:       input.Title,
+		Description: input.Description,
+		Image:       input.Image,
+		URL:         input.URL,
+		IsFeatured:  input.IsFeatured,
+		Date:        input.Date,
+		WorkingType: input.WorkingType,
+		Skills:      skills,
+	})
 	if err != nil {
 		return nil, err
 	}
 
-	return project, nil
+	return &model.Project{
+		ID:          project.ID,
+		Category:    project.Category,
+		Title:       project.Title,
+		Description: project.Description,
+		Image:       project.Image,
+		URL:         project.URL,
+		IsFeatured:  project.IsFeatured,
+		Date:        project.Date,
+		WorkingType: project.WorkingType,
+		CreatedAt:   project.CreatedAt.String(),
+		UpdatedAt:   project.UpdatedAt.String(),
+	}, nil
 }
 
 func (m mutationResolver) UpdateProject(ctx context.Context, input model.UpdateProjectRequest) (*model.Project, error) {
-	project, err := m.ProjectService.Update(ctx, &input)
+	skills := make([]*entity.Skill, len(input.Skills))
+	for i, id := range input.Skills {
+		skills[i].ID = id
+	}
+
+	project, err := m.ProjectService.Update(ctx, &entity.Project{
+		Category:    input.Category,
+		Title:       input.Title,
+		Description: input.Description,
+		Image:       input.Image,
+		URL:         input.URL,
+		IsFeatured:  input.IsFeatured,
+		Date:        input.Date,
+		WorkingType: input.WorkingType,
+		Skills:      skills,
+	})
 	if err != nil {
 		return nil, err
 	}
 
-	return project, nil
+	return &model.Project{
+		ID:          project.ID,
+		Category:    project.Category,
+		Title:       project.Title,
+		Description: project.Description,
+		Image:       project.Image,
+		URL:         project.URL,
+		IsFeatured:  project.IsFeatured,
+		Date:        project.Date,
+		WorkingType: project.WorkingType,
+		CreatedAt:   project.CreatedAt.String(),
+		UpdatedAt:   project.UpdatedAt.String(),
+	}, nil
 }
 
 func (m mutationResolver) DeleteProject(ctx context.Context, id int64) (bool, error) {
@@ -51,6 +136,10 @@ func (m mutationResolver) DeleteProject(ctx context.Context, id int64) (bool, er
 }
 
 func (p projectResolver) Skills(ctx context.Context, obj *model.Project) ([]*model.Skill, error) {
-	//TODO implement me
-	panic("implement me")
+	skills, err := middleware.GetLoaders(ctx).ListSkillsByProjectIDs.Load(obj.ID)
+	if err != nil {
+		return nil, err
+	}
+
+	return skills, nil
 }

@@ -8,6 +8,7 @@ import (
 	"github.com/arvians-id/go-portfolio/cmd/config"
 	gql "github.com/arvians-id/go-portfolio/internal/http/controller"
 	"github.com/arvians-id/go-portfolio/internal/http/controller/resolver"
+	"github.com/arvians-id/go-portfolio/internal/http/middleware"
 	"github.com/arvians-id/go-portfolio/internal/http/response"
 	"github.com/arvians-id/go-portfolio/internal/repository"
 	"github.com/arvians-id/go-portfolio/internal/service"
@@ -95,6 +96,7 @@ func NewInitializedRoutes(configuration config.Config, logFile *os.File) (*fiber
 		return nil
 	})
 
+	app.Use(middleware.DataLoaders(skillService, categorySkillService))
 	app.Post("/query", func(c *fiber.Ctx) error {
 		fasthttpadaptor.NewFastHTTPHandlerFunc(func(writer http.ResponseWriter, request *http.Request) {
 			generatedConfig := gql.Config{

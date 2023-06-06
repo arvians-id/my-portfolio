@@ -28,7 +28,6 @@ type Contact struct {
 }
 
 type CreateCategorySkillRequest struct {
-	ID   int64  `json:"id"`
 	Name string `json:"name"`
 }
 

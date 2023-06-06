@@ -3,7 +3,6 @@ package repository
 import (
 	"context"
 	"github.com/arvians-id/go-portfolio/internal/entity"
-	"github.com/arvians-id/go-portfolio/internal/http/controller/model"
 	"gorm.io/gorm"
 	"log"
 )
@@ -11,8 +10,8 @@ import (
 type ContactRepositoryContract interface {
 	FindAll(ctx context.Context) ([]*entity.Contact, error)
 	FindByID(ctx context.Context, id int64) (*entity.Contact, error)
-	Create(ctx context.Context, request *model.CreateContactRequest) (*entity.Contact, error)
-	Update(ctx context.Context, request *model.UpdateContactRequest) error
+	Create(ctx context.Context, contact *entity.Contact) (*entity.Contact, error)
+	Update(ctx context.Context, contact *entity.Contact) error
 	Delete(ctx context.Context, id int64) error
 }
 
@@ -54,28 +53,17 @@ func (repository *ContactRepository) FindByID(ctx context.Context, id int64) (*e
 	return &contact, nil
 }
 
-func (repository *ContactRepository) Create(ctx context.Context, request *model.CreateContactRequest) (*entity.Contact, error) {
-	var contact entity.Contact
-	contact.Platform = request.Platform
-	contact.URL = request.URL
-	contact.Icon = request.Icon
-
+func (repository *ContactRepository) Create(ctx context.Context, contact *entity.Contact) (*entity.Contact, error) {
 	err := repository.DB.WithContext(ctx).Create(&contact).Error
 	if err != nil {
 		log.Println("[ContactRepository][Create] problem with scanning db row, err: ", err.Error())
 		return nil, err
 	}
 
-	return &contact, nil
+	return contact, nil
 }
 
-func (repository *ContactRepository) Update(ctx context.Context, request *model.UpdateContactRequest) error {
-	var contact entity.Contact
-	contact.ID = request.ID
-	contact.Platform = *request.Platform
-	contact.URL = *request.URL
-	contact.Icon = request.Icon
-
+func (repository *ContactRepository) Update(ctx context.Context, contact *entity.Contact) error {
 	err := repository.DB.WithContext(ctx).Updates(&contact).Error
 	if err != nil {
 		log.Println("[ContactRepository][Update] problem querying to db, err: ", err.Error())

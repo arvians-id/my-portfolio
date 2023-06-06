@@ -7,7 +7,6 @@ type CategorySkill {
 }
 
 input CreateCategorySkillRequest {
-    id: ID!
     name: String!
 }
 

@@ -3,7 +3,6 @@ package repository
 import (
 	"context"
 	"github.com/arvians-id/go-portfolio/internal/entity"
-	"github.com/arvians-id/go-portfolio/internal/http/controller/model"
 	"gorm.io/gorm"
 	"log"
 )
@@ -12,8 +11,8 @@ type CategorySkillRepositoryContract interface {
 	FindAll(ctx context.Context) ([]*entity.CategorySkill, error)
 	FindAllByIDs(ctx context.Context, ids []int64) ([]*entity.CategorySkill, error)
 	FindByID(ctx context.Context, id int64) (*entity.CategorySkill, error)
-	Create(ctx context.Context, request *model.CreateCategorySkillRequest) (*entity.CategorySkill, error)
-	Update(ctx context.Context, request *model.UpdateCategorySkillRequest) error
+	Create(ctx context.Context, categorySkill *entity.CategorySkill) (*entity.CategorySkill, error)
+	Update(ctx context.Context, categorySkill *entity.CategorySkill) error
 	Delete(ctx context.Context, id int64) error
 }
 
@@ -63,24 +62,17 @@ func (repository *CategorySkillRepository) FindByID(ctx context.Context, id int6
 	return &categorySkill, nil
 }
 
-func (repository *CategorySkillRepository) Create(ctx context.Context, request *model.CreateCategorySkillRequest) (*entity.CategorySkill, error) {
-	var categorySkill entity.CategorySkill
-	categorySkill.Name = request.Name
-
+func (repository *CategorySkillRepository) Create(ctx context.Context, categorySkill *entity.CategorySkill) (*entity.CategorySkill, error) {
 	err := repository.DB.WithContext(ctx).Create(&categorySkill).Error
 	if err != nil {
 		log.Println("[CategorySkillRepository][Create] problem querying to db, err: ", err.Error())
 		return nil, err
 	}
 
-	return &categorySkill, nil
+	return categorySkill, nil
 }
 
-func (repository *CategorySkillRepository) Update(ctx context.Context, request *model.UpdateCategorySkillRequest) error {
-	var categorySkill entity.CategorySkill
-	categorySkill.ID = request.ID
-	categorySkill.Name = *request.Name
-
+func (repository *CategorySkillRepository) Update(ctx context.Context, categorySkill *entity.CategorySkill) error {
 	err := repository.DB.WithContext(ctx).Updates(&categorySkill).Error
 	if err != nil {
 		log.Println("[CategorySkillRepository][Update] problem querying to db, err: ", err.Error())

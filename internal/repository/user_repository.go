@@ -3,7 +3,6 @@ package repository
 import (
 	"context"
 	"github.com/arvians-id/go-portfolio/internal/entity"
-	"github.com/arvians-id/go-portfolio/internal/http/controller/model"
 	"gorm.io/gorm"
 	"log"
 )
@@ -11,8 +10,8 @@ import (
 type UserRepositoryContract interface {
 	FindAll(ctx context.Context) ([]*entity.User, error)
 	FindByID(ctx context.Context, id int64) (*entity.User, error)
-	Create(ctx context.Context, request *model.CreateUserRequest) (*entity.User, error)
-	Update(ctx context.Context, request *model.UpdateUserRequest) error
+	Create(ctx context.Context, user *entity.User) (*entity.User, error)
+	Update(ctx context.Context, user *entity.User) error
 	Delete(ctx context.Context, id int64) error
 }
 
@@ -63,35 +62,17 @@ func (repository *UserRepository) FindByID(ctx context.Context, id int64) (*enti
 	return &user, nil
 }
 
-func (repository *UserRepository) Create(ctx context.Context, request *model.CreateUserRequest) (*entity.User, error) {
-	var user entity.User
-	user.Name = request.Name
-	user.Email = request.Email
-	user.Password = request.Password
-	user.Pronouns = request.Pronouns
-	user.Country = request.Country
-	user.JobTitle = request.JobTitle
-	
+func (repository *UserRepository) Create(ctx context.Context, user *entity.User) (*entity.User, error) {
 	err := repository.DB.WithContext(ctx).Select("name", "email", "password", "pronouns", "country", "job_title").Create(&user).Error
 	if err != nil {
 		log.Println("[UserRepository][Create] problem with scanning db row, err: ", err.Error())
 		return nil, err
 	}
 
-	return &user, nil
+	return user, nil
 }
 
-func (repository *UserRepository) Update(ctx context.Context, request *model.UpdateUserRequest) error {
-	var user entity.User
-	user.ID = request.ID
-	user.Name = *request.Name
-	user.Password = *request.Password
-	user.Bio = request.Bio
-	user.Pronouns = *request.Pronouns
-	user.Country = *request.Country
-	user.JobTitle = *request.JobTitle
-	user.Image = request.Image
-
+func (repository *UserRepository) Update(ctx context.Context, user *entity.User) error {
 	err := repository.DB.WithContext(ctx).Updates(&user).Error
 	if err != nil {
 		log.Println("[UserRepository][Update] problem querying to db, err: ", err.Error())

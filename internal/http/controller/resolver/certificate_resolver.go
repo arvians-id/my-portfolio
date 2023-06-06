@@ -2,6 +2,7 @@ package resolver
 
 import (
 	"context"
+	"github.com/arvians-id/go-portfolio/internal/entity"
 	"github.com/arvians-id/go-portfolio/internal/http/controller/model"
 )
 
@@ -11,7 +12,20 @@ func (q queryResolver) FindAllCertificate(ctx context.Context) ([]*model.Certifi
 		return nil, err
 	}
 
-	return certificates, nil
+	var results []*model.Certificate
+	for _, certificate := range certificates {
+		results = append(results, &model.Certificate{
+			ID:             certificate.ID,
+			Name:           certificate.Name,
+			Organization:   certificate.Organization,
+			IssueDate:      certificate.IssueDate,
+			ExpirationDate: certificate.ExpirationDate,
+			CredentialID:   certificate.CredentialID,
+			ImageURL:       certificate.ImageURL,
+		})
+	}
+
+	return results, nil
 }
 
 func (q queryResolver) FindByIDCertificate(ctx context.Context, id int64) (*model.Certificate, error) {
@@ -20,25 +34,64 @@ func (q queryResolver) FindByIDCertificate(ctx context.Context, id int64) (*mode
 		return nil, err
 	}
 
-	return certificate, nil
+	return &model.Certificate{
+		ID:             certificate.ID,
+		Name:           certificate.Name,
+		Organization:   certificate.Organization,
+		IssueDate:      certificate.IssueDate,
+		ExpirationDate: certificate.ExpirationDate,
+		CredentialID:   certificate.CredentialID,
+		ImageURL:       certificate.ImageURL,
+	}, nil
 }
 
 func (m mutationResolver) CreateCertificate(ctx context.Context, input model.CreateCertificateRequest) (*model.Certificate, error) {
-	certificate, err := m.CertificateService.Create(ctx, &input)
+	certificate, err := m.CertificateService.Create(ctx, &entity.Certificate{
+		Name:           input.Name,
+		Organization:   input.Organization,
+		IssueDate:      input.IssueDate,
+		ExpirationDate: input.ExpirationDate,
+		CredentialID:   input.CredentialID,
+		ImageURL:       input.ImageURL,
+	})
 	if err != nil {
 		return nil, err
 	}
 
-	return certificate, nil
+	return &model.Certificate{
+		ID:             certificate.ID,
+		Name:           certificate.Name,
+		Organization:   certificate.Organization,
+		IssueDate:      certificate.IssueDate,
+		ExpirationDate: certificate.ExpirationDate,
+		CredentialID:   certificate.CredentialID,
+		ImageURL:       certificate.ImageURL,
+	}, nil
 }
 
 func (m mutationResolver) UpdateCertificate(ctx context.Context, input model.UpdateCertificateRequest) (*model.Certificate, error) {
-	certificate, err := m.CertificateService.Update(ctx, &input)
+	certificate, err := m.CertificateService.Update(ctx, &entity.Certificate{
+		ID:             input.ID,
+		Name:           *input.Name,
+		Organization:   *input.Organization,
+		IssueDate:      *input.IssueDate,
+		ExpirationDate: input.ExpirationDate,
+		CredentialID:   input.CredentialID,
+		ImageURL:       input.ImageURL,
+	})
 	if err != nil {
 		return nil, err
 	}
 
-	return certificate, nil
+	return &model.Certificate{
+		ID:             certificate.ID,
+		Name:           certificate.Name,
+		Organization:   certificate.Organization,
+		IssueDate:      certificate.IssueDate,
+		ExpirationDate: certificate.ExpirationDate,
+		CredentialID:   certificate.CredentialID,
+		ImageURL:       certificate.ImageURL,
+	}, nil
 }
 
 func (m mutationResolver) DeleteCertificate(ctx context.Context, id int64) (bool, error) {

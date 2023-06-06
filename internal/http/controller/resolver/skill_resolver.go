@@ -2,7 +2,9 @@ package resolver
 
 import (
 	"context"
+	"github.com/arvians-id/go-portfolio/internal/entity"
 	"github.com/arvians-id/go-portfolio/internal/http/controller/model"
+	"github.com/arvians-id/go-portfolio/internal/http/middleware"
 )
 
 func (q queryResolver) FindAllSkill(ctx context.Context) ([]*model.Skill, error) {
@@ -11,7 +13,17 @@ func (q queryResolver) FindAllSkill(ctx context.Context) ([]*model.Skill, error)
 		return nil, err
 	}
 
-	return skills, nil
+	var results []*model.Skill
+	for _, skill := range skills {
+		results = append(results, &model.Skill{
+			ID:              skill.ID,
+			CategorySkillID: skill.CategorySkillID,
+			Name:            skill.Name,
+			Icon:            skill.Icon,
+		})
+	}
+
+	return results, nil
 }
 
 func (q queryResolver) FindByIDSkill(ctx context.Context, id int64) (*model.Skill, error) {
@@ -20,25 +32,49 @@ func (q queryResolver) FindByIDSkill(ctx context.Context, id int64) (*model.Skil
 		return nil, err
 	}
 
-	return skill, nil
+	return &model.Skill{
+		ID:              skill.ID,
+		CategorySkillID: skill.CategorySkillID,
+		Name:            skill.Name,
+		Icon:            skill.Icon,
+	}, nil
 }
 
 func (m mutationResolver) CreateSkill(ctx context.Context, input model.CreateSkillRequest) (*model.Skill, error) {
-	skill, err := m.SkillService.Create(ctx, &input)
+	skill, err := m.SkillService.Create(ctx, &entity.Skill{
+		CategorySkillID: input.CategorySkillID,
+		Name:            input.Name,
+		Icon:            input.Icon,
+	})
 	if err != nil {
 		return nil, err
 	}
 
-	return skill, nil
+	return &model.Skill{
+		ID:              skill.ID,
+		CategorySkillID: skill.CategorySkillID,
+		Name:            skill.Name,
+		Icon:            skill.Icon,
+	}, nil
 }
 
 func (m mutationResolver) UpdateSkill(ctx context.Context, input model.UpdateSkillRequest) (*model.Skill, error) {
-	skill, err := m.SkillService.Update(ctx, &input)
+	skill, err := m.SkillService.Update(ctx, &entity.Skill{
+		ID:              input.ID,
+		CategorySkillID: input.CategorySkillID,
+		Name:            input.Name,
+		Icon:            input.Icon,
+	})
 	if err != nil {
 		return nil, err
 	}
 
-	return skill, nil
+	return &model.Skill{
+		ID:              skill.ID,
+		CategorySkillID: skill.CategorySkillID,
+		Name:            skill.Name,
+		Icon:            skill.Icon,
+	}, nil
 }
 
 func (m mutationResolver) DeleteSkill(ctx context.Context, id int64) (bool, error) {
@@ -51,6 +87,10 @@ func (m mutationResolver) DeleteSkill(ctx context.Context, id int64) (bool, erro
 }
 
 func (q skillResolver) CategorySkill(ctx context.Context, obj *model.Skill) (*model.CategorySkill, error) {
-	//TODO implement me
-	panic("implement me")
+	categorySkill, err := middleware.GetLoaders(ctx).ListCategoryBySkillIDs.Load(obj.ID)
+	if err != nil {
+		return nil, err
+	}
+
+	return categorySkill, nil
 }

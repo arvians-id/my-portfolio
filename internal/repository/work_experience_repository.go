@@ -4,7 +4,6 @@ import (
 	"context"
 	"errors"
 	"github.com/arvians-id/go-portfolio/internal/entity"
-	"github.com/arvians-id/go-portfolio/internal/http/controller/model"
 	"gorm.io/gorm"
 	"log"
 )
@@ -12,8 +11,8 @@ import (
 type WorkExperienceRepositoryContract interface {
 	FindAll(ctx context.Context) ([]*entity.WorkExperience, error)
 	FindByID(ctx context.Context, id int64) (*entity.WorkExperience, error)
-	Create(ctx context.Context, request *model.CreateWorkExperienceRequest) (*entity.WorkExperience, error)
-	Update(ctx context.Context, request *model.UpdateWorkExperienceRequest) error
+	Create(ctx context.Context, workExperience *entity.WorkExperience) (*entity.WorkExperience, error)
+	Update(ctx context.Context, workExperience *entity.WorkExperience) error
 	Delete(ctx context.Context, id int64) error
 }
 
@@ -62,11 +61,10 @@ func (repository *WorkExperienceRepository) FindByID(ctx context.Context, id int
 	return &workExperience, nil
 }
 
-func (repository *WorkExperienceRepository) Create(ctx context.Context, request *model.CreateWorkExperienceRequest) (*entity.WorkExperience, error) {
-	var workExperience entity.WorkExperience
+func (repository *WorkExperienceRepository) Create(ctx context.Context, workExperience *entity.WorkExperience) (*entity.WorkExperience, error) {
 	err := repository.DB.WithContext(ctx).Transaction(func(tx *gorm.DB) error {
 		var skills []*entity.Skill
-		for _, id := range request.Skills {
+		for _, id := range workExperience.Skills {
 			query := "SELECT id FROM skills WHERE id = ? LIMIT 1"
 			var skill entity.Skill
 			row := tx.WithContext(ctx).Raw(query, id).Row()
@@ -79,12 +77,6 @@ func (repository *WorkExperienceRepository) Create(ctx context.Context, request 
 			skills = append(skills, &skill)
 		}
 
-		workExperience.Role = request.Role
-		workExperience.Company = request.Company
-		workExperience.Description = request.Description
-		workExperience.StartDate = request.StartDate
-		workExperience.EndDate = request.EndDate
-		workExperience.JobType = request.JobType
 		workExperience.Skills = skills
 
 		err := tx.WithContext(ctx).Create(&workExperience).Error
@@ -99,14 +91,13 @@ func (repository *WorkExperienceRepository) Create(ctx context.Context, request 
 		return nil, err
 	}
 
-	return &workExperience, nil
+	return workExperience, nil
 }
 
-func (repository *WorkExperienceRepository) Update(ctx context.Context, request *model.UpdateWorkExperienceRequest) error {
-	var workExperience entity.WorkExperience
+func (repository *WorkExperienceRepository) Update(ctx context.Context, workExperience *entity.WorkExperience) error {
 	err := repository.DB.WithContext(ctx).Transaction(func(tx *gorm.DB) error {
 		var skills []*entity.Skill
-		for _, id := range request.Skills {
+		for _, id := range workExperience.Skills {
 			query := "SELECT id FROM skills WHERE id = ? LIMIT 1"
 			var skill entity.Skill
 			row := tx.WithContext(ctx).Raw(query, id).Row()
@@ -119,13 +110,6 @@ func (repository *WorkExperienceRepository) Update(ctx context.Context, request 
 			skills = append(skills, &skill)
 		}
 
-		workExperience.ID = request.ID
-		workExperience.Role = *request.Role
-		workExperience.Company = *request.Company
-		workExperience.Description = request.Description
-		workExperience.StartDate = *request.StartDate
-		workExperience.EndDate = request.EndDate
-		workExperience.JobType = *request.JobType
 		workExperience.Skills = skills
 
 		err := tx.WithContext(ctx).Updates(&workExperience).Error
@@ -150,8 +134,7 @@ func (repository *WorkExperienceRepository) Update(ctx context.Context, request 
 }
 
 func (repository *WorkExperienceRepository) Delete(ctx context.Context, id int64) error {
-	query := "DELETE FROM work_experiences WHERE id = ?"
-	err := repository.DB.WithContext(ctx).Raw(query, id).Error
+	err := repository.DB.WithContext(ctx).Delete(&entity.WorkExperience{}, id).Error
 	if err != nil {
 		log.Println("[WorkExperienceRepository][Delete] problem querying to db, err: ", err.Error())
 		return err

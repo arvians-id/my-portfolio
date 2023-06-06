@@ -4,7 +4,6 @@ import (
 	"context"
 	"errors"
 	"github.com/arvians-id/go-portfolio/internal/entity"
-	"github.com/arvians-id/go-portfolio/internal/http/controller/model"
 	"gorm.io/gorm"
 	"log"
 )
@@ -13,8 +12,8 @@ type ProjectRepositoryContract interface {
 	FindAll(ctx context.Context) ([]*entity.Project, error)
 	FindAllByCategory(ctx context.Context, category string) ([]*entity.Project, error)
 	FindByID(ctx context.Context, id int64) (*entity.Project, error)
-	Create(ctx context.Context, request *model.CreateProjectRequest) (*entity.Project, error)
-	Update(ctx context.Context, request *model.UpdateProjectRequest) error
+	Create(ctx context.Context, project *entity.Project) (*entity.Project, error)
+	Update(ctx context.Context, project *entity.Project) error
 	Delete(ctx context.Context, id int64) error
 }
 
@@ -76,11 +75,10 @@ func (repository *ProjectRepository) FindByID(ctx context.Context, id int64) (*e
 	return &project, nil
 }
 
-func (repository *ProjectRepository) Create(ctx context.Context, request *model.CreateProjectRequest) (*entity.Project, error) {
-	var project entity.Project
+func (repository *ProjectRepository) Create(ctx context.Context, project *entity.Project) (*entity.Project, error) {
 	err := repository.DB.WithContext(ctx).Transaction(func(tx *gorm.DB) error {
 		var skills []*entity.Skill
-		for _, id := range request.Skills {
+		for _, id := range project.Skills {
 			var skill entity.Skill
 			query := "SELECT id FROM skills WHERE id = ? LIMIT 1"
 			row := tx.WithContext(ctx).Raw(query, id).Row()
@@ -93,14 +91,6 @@ func (repository *ProjectRepository) Create(ctx context.Context, request *model.
 			skills = append(skills, &skill)
 		}
 
-		project.Category = request.Category
-		project.Title = request.Title
-		project.Description = request.Description
-		project.Image = request.Image
-		project.URL = request.URL
-		project.IsFeatured = request.IsFeatured
-		project.Date = request.Date
-		project.WorkingType = request.WorkingType
 		project.Skills = skills
 		err := tx.WithContext(ctx).Create(&project).Error
 		if err != nil {
@@ -114,14 +104,13 @@ func (repository *ProjectRepository) Create(ctx context.Context, request *model.
 		return nil, err
 	}
 
-	return &project, nil
+	return project, nil
 }
 
-func (repository *ProjectRepository) Update(ctx context.Context, request *model.UpdateProjectRequest) error {
-	var project entity.Project
+func (repository *ProjectRepository) Update(ctx context.Context, project *entity.Project) error {
 	err := repository.DB.WithContext(ctx).Transaction(func(tx *gorm.DB) error {
 		var skills []*entity.Skill
-		for _, id := range request.Skills {
+		for _, id := range project.Skills {
 			var skill entity.Skill
 			query := "SELECT id FROM skills WHERE id = ? LIMIT 1"
 			row := tx.WithContext(ctx).Raw(query, id).Row()
@@ -134,15 +123,6 @@ func (repository *ProjectRepository) Update(ctx context.Context, request *model.
 			skills = append(skills, &skill)
 		}
 
-		project.ID = request.ID
-		project.Category = request.Category
-		project.Title = request.Title
-		project.Description = request.Description
-		project.Image = request.Image
-		project.URL = request.URL
-		project.IsFeatured = request.IsFeatured
-		project.Date = request.Date
-		project.WorkingType = request.WorkingType
 		project.Skills = skills
 		err := tx.WithContext(ctx).Updates(&project).Error
 		if err != nil {

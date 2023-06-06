@@ -2,7 +2,9 @@ package resolver
 
 import (
 	"context"
+	"github.com/arvians-id/go-portfolio/internal/entity"
 	"github.com/arvians-id/go-portfolio/internal/http/controller/model"
+	"github.com/arvians-id/go-portfolio/internal/http/middleware"
 )
 
 func (q queryResolver) FindAllWorkExperience(ctx context.Context) ([]*model.WorkExperience, error) {
@@ -11,7 +13,22 @@ func (q queryResolver) FindAllWorkExperience(ctx context.Context) ([]*model.Work
 		return nil, err
 	}
 
-	return workExperiences, nil
+	var results []*model.WorkExperience
+	for _, workExperience := range workExperiences {
+		results = append(results, &model.WorkExperience{
+			ID:          workExperience.ID,
+			Role:        workExperience.Role,
+			Company:     workExperience.Company,
+			Description: workExperience.Description,
+			StartDate:   workExperience.StartDate,
+			EndDate:     workExperience.EndDate,
+			JobType:     workExperience.JobType,
+			CreatedAt:   workExperience.CreatedAt.String(),
+			UpdatedAt:   workExperience.UpdatedAt.String(),
+		})
+	}
+
+	return results, nil
 }
 
 func (q queryResolver) FindByIDWorkExperience(ctx context.Context, id int64) (*model.WorkExperience, error) {
@@ -20,25 +37,82 @@ func (q queryResolver) FindByIDWorkExperience(ctx context.Context, id int64) (*m
 		return nil, err
 	}
 
-	return workExperience, nil
+	return &model.WorkExperience{
+		ID:          workExperience.ID,
+		Role:        workExperience.Role,
+		Company:     workExperience.Company,
+		Description: workExperience.Description,
+		StartDate:   workExperience.StartDate,
+		EndDate:     workExperience.EndDate,
+		JobType:     workExperience.JobType,
+		CreatedAt:   workExperience.CreatedAt.String(),
+		UpdatedAt:   workExperience.UpdatedAt.String(),
+	}, nil
 }
 
 func (m mutationResolver) CreateWorkExperience(ctx context.Context, input model.CreateWorkExperienceRequest) (*model.WorkExperience, error) {
-	workExperience, err := m.WorkExperienceService.Create(ctx, &input)
+	skills := make([]*entity.Skill, len(input.Skills))
+	for i, id := range input.Skills {
+		skills[i].ID = id
+	}
+
+	workExperience, err := m.WorkExperienceService.Create(ctx, &entity.WorkExperience{
+		Role:        input.Role,
+		Company:     input.Company,
+		Description: input.Description,
+		StartDate:   input.StartDate,
+		EndDate:     input.EndDate,
+		JobType:     input.JobType,
+		Skills:      skills,
+	})
 	if err != nil {
 		return nil, err
 	}
 
-	return workExperience, nil
+	return &model.WorkExperience{
+		ID:          workExperience.ID,
+		Role:        workExperience.Role,
+		Company:     workExperience.Company,
+		Description: workExperience.Description,
+		StartDate:   workExperience.StartDate,
+		EndDate:     workExperience.EndDate,
+		JobType:     workExperience.JobType,
+		CreatedAt:   workExperience.CreatedAt.String(),
+		UpdatedAt:   workExperience.UpdatedAt.String(),
+	}, nil
 }
 
 func (m mutationResolver) UpdateWorkExperience(ctx context.Context, input model.UpdateWorkExperienceRequest) (*model.WorkExperience, error) {
-	workExperience, err := m.WorkExperienceService.Update(ctx, &input)
+	skills := make([]*entity.Skill, len(input.Skills))
+	for i, id := range input.Skills {
+		skills[i].ID = id
+	}
+
+	workExperience, err := m.WorkExperienceService.Update(ctx, &entity.WorkExperience{
+		ID:          input.ID,
+		Role:        *input.Role,
+		Company:     *input.Company,
+		Description: input.Description,
+		StartDate:   *input.StartDate,
+		EndDate:     input.EndDate,
+		JobType:     *input.JobType,
+		Skills:      skills,
+	})
 	if err != nil {
 		return nil, err
 	}
 
-	return workExperience, nil
+	return &model.WorkExperience{
+		ID:          workExperience.ID,
+		Role:        workExperience.Role,
+		Company:     workExperience.Company,
+		Description: workExperience.Description,
+		StartDate:   workExperience.StartDate,
+		EndDate:     workExperience.EndDate,
+		JobType:     workExperience.JobType,
+		CreatedAt:   workExperience.CreatedAt.String(),
+		UpdatedAt:   workExperience.UpdatedAt.String(),
+	}, nil
 }
 
 func (m mutationResolver) DeleteWorkExperience(ctx context.Context, id int64) (bool, error) {
@@ -51,6 +125,10 @@ func (m mutationResolver) DeleteWorkExperience(ctx context.Context, id int64) (b
 }
 
 func (w workExperienceResolver) Skills(ctx context.Context, obj *model.WorkExperience) ([]*model.Skill, error) {
-	//TODO implement me
-	panic("implement me")
+	skills, err := middleware.GetLoaders(ctx).ListSkillsByWorkExperienceIDs.Load(obj.ID)
+	if err != nil {
+		return nil, err
+	}
+
+	return skills, nil
 }

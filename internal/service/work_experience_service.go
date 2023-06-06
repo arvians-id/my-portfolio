@@ -2,16 +2,16 @@ package service
 
 import (
 	"context"
-	"github.com/arvians-id/go-portfolio/internal/http/controller/model"
+	"github.com/arvians-id/go-portfolio/internal/entity"
 	"github.com/arvians-id/go-portfolio/internal/repository"
 	"log"
 )
 
 type WorkExperienceServiceContract interface {
-	FindAll(ctx context.Context) ([]*model.WorkExperience, error)
-	FindByID(ctx context.Context, id int64) (*model.WorkExperience, error)
-	Create(ctx context.Context, request *model.CreateWorkExperienceRequest) (*model.WorkExperience, error)
-	Update(ctx context.Context, request *model.UpdateWorkExperienceRequest) (*model.WorkExperience, error)
+	FindAll(ctx context.Context) ([]*entity.WorkExperience, error)
+	FindByID(ctx context.Context, id int64) (*entity.WorkExperience, error)
+	Create(ctx context.Context, workExperience *entity.WorkExperience) (*entity.WorkExperience, error)
+	Update(ctx context.Context, workExperience *entity.WorkExperience) (*entity.WorkExperience, error)
 	Delete(ctx context.Context, id int64) error
 }
 
@@ -24,61 +24,56 @@ func NewWorkExperienceService(workExperienceRepository repository.WorkExperience
 		WorkExperienceRepository: workExperienceRepository,
 	}
 }
-func (service *WorkExperienceService) FindAll(ctx context.Context) ([]*model.WorkExperience, error) {
+func (service *WorkExperienceService) FindAll(ctx context.Context) ([]*entity.WorkExperience, error) {
 	workExperiences, err := service.WorkExperienceRepository.FindAll(ctx)
 	if err != nil {
 		log.Println("[WorkExperienceService][FindAll] problem calling repository, err: ", err.Error())
 		return nil, err
 	}
 
-	var results []*model.WorkExperience
-	for _, workExperience := range workExperiences {
-		results = append(results, workExperience.ToModel())
-	}
-
-	return results, nil
+	return workExperiences, nil
 }
 
-func (service *WorkExperienceService) FindByID(ctx context.Context, id int64) (*model.WorkExperience, error) {
+func (service *WorkExperienceService) FindByID(ctx context.Context, id int64) (*entity.WorkExperience, error) {
 	workExperience, err := service.WorkExperienceRepository.FindByID(ctx, id)
 	if err != nil {
 		log.Println("[WorkExperienceService][FindById] problem calling repository, err: ", err.Error())
 		return nil, err
 	}
 
-	return workExperience.ToModel(), nil
+	return workExperience, nil
 }
 
-func (service *WorkExperienceService) Create(ctx context.Context, request *model.CreateWorkExperienceRequest) (*model.WorkExperience, error) {
-	workExperience, err := service.WorkExperienceRepository.Create(ctx, request)
+func (service *WorkExperienceService) Create(ctx context.Context, workExperience *entity.WorkExperience) (*entity.WorkExperience, error) {
+	workExperience, err := service.WorkExperienceRepository.Create(ctx, workExperience)
 	if err != nil {
 		log.Println("[WorkExperienceService][Create] problem calling repository, err: ", err.Error())
 		return nil, err
 	}
 
-	return workExperience.ToModel(), nil
+	return workExperience, nil
 }
 
-func (service *WorkExperienceService) Update(ctx context.Context, request *model.UpdateWorkExperienceRequest) (*model.WorkExperience, error) {
-	_, err := service.WorkExperienceRepository.FindByID(ctx, request.ID)
+func (service *WorkExperienceService) Update(ctx context.Context, workExperience *entity.WorkExperience) (*entity.WorkExperience, error) {
+	_, err := service.WorkExperienceRepository.FindByID(ctx, workExperience.ID)
 	if err != nil {
 		log.Println("[WorkExperienceService][FindByID] problem calling repository, err: ", err.Error())
 		return nil, err
 	}
 
-	err = service.WorkExperienceRepository.Update(ctx, request)
+	err = service.WorkExperienceRepository.Update(ctx, workExperience)
 	if err != nil {
 		log.Println("[WorkExperienceService][Update] problem calling repository, err: ", err.Error())
 		return nil, err
 	}
 
-	workExperienceUpdated, err := service.WorkExperienceRepository.FindByID(ctx, request.ID)
+	workExperienceUpdated, err := service.WorkExperienceRepository.FindByID(ctx, workExperience.ID)
 	if err != nil {
 		log.Println("[WorkExperienceService][FindByID] problem calling repository, err: ", err.Error())
 		return nil, err
 	}
 
-	return workExperienceUpdated.ToModel(), nil
+	return workExperienceUpdated, nil
 }
 
 func (service *WorkExperienceService) Delete(ctx context.Context, id int64) error {

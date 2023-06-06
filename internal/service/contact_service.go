@@ -2,16 +2,16 @@ package service
 
 import (
 	"context"
-	"github.com/arvians-id/go-portfolio/internal/http/controller/model"
+	"github.com/arvians-id/go-portfolio/internal/entity"
 	"github.com/arvians-id/go-portfolio/internal/repository"
 	"log"
 )
 
 type ContactServiceContract interface {
-	FindAll(ctx context.Context) ([]*model.Contact, error)
-	FindByID(ctx context.Context, id int64) (*model.Contact, error)
-	Create(ctx context.Context, request *model.CreateContactRequest) (*model.Contact, error)
-	Update(ctx context.Context, request *model.UpdateContactRequest) (*model.Contact, error)
+	FindAll(ctx context.Context) ([]*entity.Contact, error)
+	FindByID(ctx context.Context, id int64) (*entity.Contact, error)
+	Create(ctx context.Context, contact *entity.Contact) (*entity.Contact, error)
+	Update(ctx context.Context, contact *entity.Contact) (*entity.Contact, error)
 	Delete(ctx context.Context, id int64) error
 }
 
@@ -25,61 +25,56 @@ func NewContactService(ContactRepository repository.ContactRepositoryContract) C
 	}
 }
 
-func (service *ContactService) FindAll(ctx context.Context) ([]*model.Contact, error) {
+func (service *ContactService) FindAll(ctx context.Context) ([]*entity.Contact, error) {
 	contacts, err := service.ContactRepository.FindAll(ctx)
 	if err != nil {
 		log.Println("[ContactService][FindAll] problem calling repository, err: ", err.Error())
 		return nil, err
 	}
 
-	var results []*model.Contact
-	for _, contact := range contacts {
-		results = append(results, contact.ToModel())
-	}
-
-	return results, nil
+	return contacts, nil
 }
 
-func (service *ContactService) FindByID(ctx context.Context, id int64) (*model.Contact, error) {
+func (service *ContactService) FindByID(ctx context.Context, id int64) (*entity.Contact, error) {
 	contact, err := service.ContactRepository.FindByID(ctx, id)
 	if err != nil {
 		log.Println("[ContactService][FindByID] problem calling repository, err: ", err.Error())
 		return nil, err
 	}
 
-	return contact.ToModel(), nil
+	return contact, nil
 }
 
-func (service *ContactService) Create(ctx context.Context, request *model.CreateContactRequest) (*model.Contact, error) {
-	contactCreated, err := service.ContactRepository.Create(ctx, request)
+func (service *ContactService) Create(ctx context.Context, contact *entity.Contact) (*entity.Contact, error) {
+	contactCreated, err := service.ContactRepository.Create(ctx, contact)
 	if err != nil {
 		log.Println("[ContactService][Create] problem calling repository, err: ", err.Error())
 		return nil, err
 	}
 
-	return contactCreated.ToModel(), nil
+	return contactCreated, nil
 }
 
-func (service *ContactService) Update(ctx context.Context, request *model.UpdateContactRequest) (*model.Contact, error) {
-	_, err := service.ContactRepository.FindByID(ctx, request.ID)
+func (service *ContactService) Update(ctx context.Context, contact *entity.Contact) (*entity.Contact, error) {
+	_, err := service.ContactRepository.FindByID(ctx, contact.ID)
 	if err != nil {
 		log.Println("[ContactService][FindByID] problem calling repository, err: ", err.Error())
 		return nil, err
 	}
 
-	err = service.ContactRepository.Update(ctx, request)
+	err = service.ContactRepository.Update(ctx, contact)
 	if err != nil {
 		log.Println("[ContactService][Update] problem calling repository, err: ", err.Error())
 		return nil, err
 	}
 
-	contactUpdated, err := service.ContactRepository.FindByID(ctx, request.ID)
+	contactUpdated, err := service.ContactRepository.FindByID(ctx, contact.ID)
 	if err != nil {
 		log.Println("[ContactService][FindByID] problem calling repository, err: ", err.Error())
 		return nil, err
 	}
 
-	return contactUpdated.ToModel(), nil
+	return contactUpdated, nil
 }
 
 func (service *ContactService) Delete(ctx context.Context, id int64) error {

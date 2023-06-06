@@ -3,19 +3,18 @@ package service
 import (
 	"context"
 	"github.com/arvians-id/go-portfolio/internal/entity"
-	"github.com/arvians-id/go-portfolio/internal/http/controller/model"
 	"github.com/arvians-id/go-portfolio/internal/repository"
 	"log"
 )
 
 type SkillServiceContract interface {
-	FindAll(ctx context.Context) ([]*model.Skill, error)
+	FindAll(ctx context.Context) ([]*entity.Skill, error)
 	FindAllByProjectIDs(ctx context.Context, projectIDs []int64) ([]*entity.SkillBelongsTo, error)
 	FindAllByWorkExperienceIDs(ctx context.Context, workExperienceIDs []int64) ([]*entity.SkillBelongsTo, error)
-	FindAllByCategorySkillIDs(ctx context.Context, categorySkillIDs []int64) ([]*model.Skill, error)
-	FindByID(ctx context.Context, id int64) (*model.Skill, error)
-	Create(ctx context.Context, request *model.CreateSkillRequest) (*model.Skill, error)
-	Update(ctx context.Context, request *model.UpdateSkillRequest) (*model.Skill, error)
+	FindAllByCategorySkillIDs(ctx context.Context, categorySkillIDs []int64) ([]*entity.Skill, error)
+	FindByID(ctx context.Context, id int64) (*entity.Skill, error)
+	Create(ctx context.Context, skill *entity.Skill) (*entity.Skill, error)
+	Update(ctx context.Context, skill *entity.Skill) (*entity.Skill, error)
 	Delete(ctx context.Context, id int64) error
 }
 
@@ -27,19 +26,14 @@ func NewSkillService(skillRepository repository.SkillRepositoryContract) SkillSe
 	return &SkillService{SkillRepository: skillRepository}
 }
 
-func (service *SkillService) FindAll(ctx context.Context) ([]*model.Skill, error) {
+func (service *SkillService) FindAll(ctx context.Context) ([]*entity.Skill, error) {
 	skills, err := service.SkillRepository.FindAll(ctx)
 	if err != nil {
 		log.Println("[SkillService][FindAll] problem calling repository, err: ", err.Error())
 		return nil, err
 	}
 
-	var results []*model.Skill
-	for _, skill := range skills {
-		results = append(results, skill.ToModel())
-	}
-
-	return results, nil
+	return skills, nil
 }
 
 func (service *SkillService) FindAllByProjectIDs(ctx context.Context, projectIDs []int64) ([]*entity.SkillBelongsTo, error) {
@@ -62,61 +56,56 @@ func (service *SkillService) FindAllByWorkExperienceIDs(ctx context.Context, wor
 	return skills, nil
 }
 
-func (service *SkillService) FindAllByCategorySkillIDs(ctx context.Context, categorySkillIDs []int64) ([]*model.Skill, error) {
+func (service *SkillService) FindAllByCategorySkillIDs(ctx context.Context, categorySkillIDs []int64) ([]*entity.Skill, error) {
 	skills, err := service.SkillRepository.FindAllByCategorySkillIDs(ctx, categorySkillIDs)
 	if err != nil {
 		log.Println("[SkillService][FindAllByCategorySkillIDs] problem calling repository, err: ", err.Error())
 		return nil, err
 	}
 
-	var results []*model.Skill
-	for _, skill := range skills {
-		results = append(results, skill.ToModel())
-	}
-
-	return results, nil
+	return skills, nil
 }
 
-func (service *SkillService) FindByID(ctx context.Context, id int64) (*model.Skill, error) {
+func (service *SkillService) FindByID(ctx context.Context, id int64) (*entity.Skill, error) {
 	skill, err := service.SkillRepository.FindByID(ctx, id)
 	if err != nil {
 		log.Println("[SkillService][FindByID] problem calling repository, err: ", err.Error())
 		return nil, err
 	}
 
-	return skill.ToModel(), nil
+	return skill, nil
 }
 
-func (service *SkillService) Create(ctx context.Context, request *model.CreateSkillRequest) (*model.Skill, error) {
-	skill, err := service.SkillRepository.Create(ctx, request)
+func (service *SkillService) Create(ctx context.Context, skill *entity.Skill) (*entity.Skill, error) {
+	skill, err := service.SkillRepository.Create(ctx, skill)
 	if err != nil {
 		log.Println("[SkillService][Create] problem calling repository, err: ", err.Error())
 		return nil, err
 	}
 
-	return skill.ToModel(), nil
+	return skill, nil
 }
 
-func (service *SkillService) Update(ctx context.Context, request *model.UpdateSkillRequest) (*model.Skill, error) {
-	_, err := service.SkillRepository.FindByID(ctx, request.ID)
+func (service *SkillService) Update(ctx context.Context, skill *entity.Skill) (*entity.Skill, error) {
+	_, err := service.SkillRepository.FindByID(ctx, skill.ID)
 	if err != nil {
 		log.Println("[SkillService][FindByID] problem calling repository, err: ", err.Error())
 		return nil, err
 	}
 
-	err = service.SkillRepository.Update(ctx, request)
+	err = service.SkillRepository.Update(ctx, skill)
 	if err != nil {
 		log.Println("[SkillService][Update] problem calling repository, err: ", err.Error())
 		return nil, err
 	}
 
-	skillUpdated, err := service.SkillRepository.FindByID(ctx, request.ID)
+	skillUpdated, err := service.SkillRepository.FindByID(ctx, skill.ID)
 	if err != nil {
 		log.Println("[SkillService][FindByID] problem calling repository, err: ", err.Error())
 		return nil, err
 	}
 
-	return skillUpdated.ToModel(), nil
+	return skillUpdated, nil
 }
 
 func (service *SkillService) Delete(ctx context.Context, id int64) error {

@@ -3,7 +3,6 @@ package repository
 import (
 	"context"
 	"github.com/arvians-id/go-portfolio/internal/entity"
-	"github.com/arvians-id/go-portfolio/internal/http/controller/model"
 	"gorm.io/gorm"
 	"log"
 )
@@ -11,8 +10,8 @@ import (
 type CertificateRepositoryContract interface {
 	FindAll(ctx context.Context) ([]*entity.Certificate, error)
 	FindByID(ctx context.Context, id int64) (*entity.Certificate, error)
-	Create(ctx context.Context, request *model.CreateCertificateRequest) (*entity.Certificate, error)
-	Update(ctx context.Context, request *model.UpdateCertificateRequest) error
+	Create(ctx context.Context, certificate *entity.Certificate) (*entity.Certificate, error)
+	Update(ctx context.Context, certificate *entity.Certificate) error
 	Delete(ctx context.Context, id int64) error
 }
 
@@ -57,34 +56,17 @@ func (repository *CertificateRepository) FindByID(ctx context.Context, id int64)
 	return &certificate, nil
 }
 
-func (repository *CertificateRepository) Create(ctx context.Context, request *model.CreateCertificateRequest) (*entity.Certificate, error) {
-	var certificate entity.Certificate
-	certificate.Name = request.Name
-	certificate.Organization = request.Organization
-	certificate.IssueDate = request.IssueDate
-	certificate.ExpirationDate = request.ExpirationDate
-	certificate.CredentialID = request.CredentialID
-	certificate.ImageURL = request.ImageURL
-
+func (repository *CertificateRepository) Create(ctx context.Context, certificate *entity.Certificate) (*entity.Certificate, error) {
 	err := repository.DB.WithContext(ctx).Create(&certificate).Error
 	if err != nil {
 		log.Println("[CertificateRepository][Create] problem with scanning db row, err: ", err.Error())
 		return nil, err
 	}
 
-	return &certificate, nil
+	return certificate, nil
 }
 
-func (repository *CertificateRepository) Update(ctx context.Context, request *model.UpdateCertificateRequest) error {
-	var certificate entity.Certificate
-	certificate.ID = request.ID
-	certificate.Name = *request.Name
-	certificate.Organization = *request.Organization
-	certificate.IssueDate = *request.IssueDate
-	certificate.ExpirationDate = request.ExpirationDate
-	certificate.CredentialID = request.CredentialID
-	certificate.ImageURL = request.ImageURL
-
+func (repository *CertificateRepository) Update(ctx context.Context, certificate *entity.Certificate) error {
 	err := repository.DB.WithContext(ctx).Updates(&certificate).Error
 	if err != nil {
 		log.Println("[CertificateRepository][Update] problem querying to db, err: ", err.Error())
