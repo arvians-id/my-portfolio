@@ -5,6 +5,7 @@ import (
 	"github.com/arvians-id/go-portfolio/internal/entity"
 	"github.com/arvians-id/go-portfolio/internal/http/controller/model"
 	"github.com/arvians-id/go-portfolio/internal/http/middleware"
+	"sync"
 )
 
 func (q queryResolver) QueryProject(ctx context.Context, name string) ([]*model.Project, error) {
@@ -20,7 +21,6 @@ func (q queryResolver) QueryProject(ctx context.Context, name string) ([]*model.
 			Category:    project.Category,
 			Title:       project.Title,
 			Description: project.Description,
-			Image:       project.Image,
 			URL:         project.URL,
 			IsFeatured:  project.IsFeatured,
 			Date:        project.Date,
@@ -46,7 +46,6 @@ func (q queryResolver) FindAllProject(ctx context.Context) ([]*model.Project, er
 			Category:    project.Category,
 			Title:       project.Title,
 			Description: project.Description,
-			Image:       project.Image,
 			URL:         project.URL,
 			IsFeatured:  project.IsFeatured,
 			Date:        project.Date,
@@ -70,7 +69,6 @@ func (q queryResolver) FindByIDProject(ctx context.Context, id int64) (*model.Pr
 		Category:    project.Category,
 		Title:       project.Title,
 		Description: project.Description,
-		Image:       project.Image,
 		URL:         project.URL,
 		IsFeatured:  project.IsFeatured,
 		Date:        project.Date,
@@ -82,22 +80,44 @@ func (q queryResolver) FindByIDProject(ctx context.Context, id int64) (*model.Pr
 
 func (m mutationResolver) CreateProject(ctx context.Context, input model.CreateProjectRequest) (*model.Project, error) {
 	var skills []*entity.Skill
-	for _, id := range input.Skills {
-		skills = append(skills, &entity.Skill{
-			ID: id,
-		})
-	}
+	var images []*entity.ProjectImages
+	var mu sync.Mutex
+	var wg sync.WaitGroup
+
+	wg.Add(2)
+	go func() {
+		defer wg.Done()
+		for _, id := range input.Skills {
+			mu.Lock()
+			skills = append(skills, &entity.Skill{
+				ID: id,
+			})
+			mu.Unlock()
+		}
+	}()
+
+	go func() {
+		defer wg.Done()
+		for _, image := range input.Images {
+			mu.Lock()
+			images = append(images, &entity.ProjectImages{
+				Image: image.Image,
+			})
+			mu.Unlock()
+		}
+	}()
+	wg.Wait()
 
 	project, err := m.ProjectService.Create(ctx, &entity.Project{
 		Category:    input.Category,
 		Title:       input.Title,
 		Description: input.Description,
-		Image:       input.Image,
 		URL:         input.URL,
 		IsFeatured:  input.IsFeatured,
 		Date:        input.Date,
 		WorkingType: input.WorkingType,
 		Skills:      skills,
+		Images:      images,
 	})
 	if err != nil {
 		return nil, err
@@ -108,7 +128,6 @@ func (m mutationResolver) CreateProject(ctx context.Context, input model.CreateP
 		Category:    project.Category,
 		Title:       project.Title,
 		Description: project.Description,
-		Image:       project.Image,
 		URL:         project.URL,
 		IsFeatured:  project.IsFeatured,
 		Date:        project.Date,
@@ -120,23 +139,45 @@ func (m mutationResolver) CreateProject(ctx context.Context, input model.CreateP
 
 func (m mutationResolver) UpdateProject(ctx context.Context, input model.UpdateProjectRequest) (*model.Project, error) {
 	var skills []*entity.Skill
-	for _, id := range input.Skills {
-		skills = append(skills, &entity.Skill{
-			ID: id,
-		})
-	}
+	var images []*entity.ProjectImages
+	var mu sync.Mutex
+	var wg sync.WaitGroup
+
+	wg.Add(2)
+	go func() {
+		defer wg.Done()
+		for _, id := range input.Skills {
+			mu.Lock()
+			skills = append(skills, &entity.Skill{
+				ID: id,
+			})
+			mu.Unlock()
+		}
+	}()
+
+	go func() {
+		defer wg.Done()
+		for _, image := range input.Images {
+			mu.Lock()
+			images = append(images, &entity.ProjectImages{
+				Image: image.Image,
+			})
+			mu.Unlock()
+		}
+	}()
+	wg.Wait()
 
 	project, err := m.ProjectService.Update(ctx, &entity.Project{
 		ID:          input.ID,
 		Category:    input.Category,
 		Title:       input.Title,
 		Description: input.Description,
-		Image:       input.Image,
 		URL:         input.URL,
 		IsFeatured:  input.IsFeatured,
 		Date:        input.Date,
 		WorkingType: input.WorkingType,
 		Skills:      skills,
+		Images:      images,
 	})
 	if err != nil {
 		return nil, err
@@ -147,7 +188,6 @@ func (m mutationResolver) UpdateProject(ctx context.Context, input model.UpdateP
 		Category:    project.Category,
 		Title:       project.Title,
 		Description: project.Description,
-		Image:       project.Image,
 		URL:         project.URL,
 		IsFeatured:  project.IsFeatured,
 		Date:        project.Date,
@@ -173,4 +213,9 @@ func (p projectResolver) Skills(ctx context.Context, obj *model.Project) ([]*mod
 	}
 
 	return skills, nil
+}
+
+func (p projectResolver) Images(ctx context.Context, obj *model.Project) ([]*model.ProjectImages, error) {
+	//TODO implement me
+	panic("implement me")
 }

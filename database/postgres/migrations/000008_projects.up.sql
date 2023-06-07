@@ -3,7 +3,6 @@ CREATE TABLE IF NOT EXISTS projects (
    category     VARCHAR(250) NOT NULL,
    title        VARCHAR(250) NOT NULL,
    description  TEXT,
-   image        VARCHAR(250),
    url          VARCHAR(250),
    is_featured  BOOLEAN DEFAULT FALSE,
    date         DATE NOT NULL,

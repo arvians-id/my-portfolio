@@ -124,13 +124,19 @@ type ComplexityRoot struct {
 		Date        func(childComplexity int) int
 		Description func(childComplexity int) int
 		ID          func(childComplexity int) int
-		Image       func(childComplexity int) int
+		Images      func(childComplexity int) int
 		IsFeatured  func(childComplexity int) int
 		Skills      func(childComplexity int) int
 		Title       func(childComplexity int) int
 		URL         func(childComplexity int) int
 		UpdatedAt   func(childComplexity int) int
 		WorkingType func(childComplexity int) int
+	}
+
+	ProjectImages struct {
+		ID        func(childComplexity int) int
+		Image     func(childComplexity int) int
+		ProjectID func(childComplexity int) int
 	}
 
 	Query struct {
@@ -221,6 +227,7 @@ type MutationResolver interface {
 }
 type ProjectResolver interface {
 	Skills(ctx context.Context, obj *model.Project) ([]*model.Skill, error)
+	Images(ctx context.Context, obj *model.Project) ([]*model.ProjectImages, error)
 }
 type QueryResolver interface {
 	FindAllUser(ctx context.Context) ([]*model.User, error)
@@ -773,12 +780,12 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Project.ID(childComplexity), true
 
-	case "Project.image":
-		if e.complexity.Project.Image == nil {
+	case "Project.images":
+		if e.complexity.Project.Images == nil {
 			break
 		}
 
-		return e.complexity.Project.Image(childComplexity), true
+		return e.complexity.Project.Images(childComplexity), true
 
 	case "Project.is_featured":
 		if e.complexity.Project.IsFeatured == nil {
@@ -821,6 +828,27 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.Project.WorkingType(childComplexity), true
+
+	case "ProjectImages.id":
+		if e.complexity.ProjectImages.ID == nil {
+			break
+		}
+
+		return e.complexity.ProjectImages.ID(childComplexity), true
+
+	case "ProjectImages.image":
+		if e.complexity.ProjectImages.Image == nil {
+			break
+		}
+
+		return e.complexity.ProjectImages.Image(childComplexity), true
+
+	case "ProjectImages.project_id":
+		if e.complexity.ProjectImages.ProjectID == nil {
+			break
+		}
+
+		return e.complexity.ProjectImages.ProjectID(childComplexity), true
 
 	case "Query.FindAllCategorySkill":
 		if e.complexity.Query.FindAllCategorySkill == nil {
@@ -1181,6 +1209,7 @@ func (e *executableSchema) Exec(ctx context.Context) graphql.ResponseHandler {
 		ec.unmarshalInputCreateCertificateRequest,
 		ec.unmarshalInputCreateContactRequest,
 		ec.unmarshalInputCreateEducationRequest,
+		ec.unmarshalInputCreateProjectImagesRequest,
 		ec.unmarshalInputCreateProjectRequest,
 		ec.unmarshalInputCreateSkillRequest,
 		ec.unmarshalInputCreateUserRequest,
@@ -4107,8 +4136,6 @@ func (ec *executionContext) fieldContext_Mutation_CreateProject(ctx context.Cont
 				return ec.fieldContext_Project_title(ctx, field)
 			case "description":
 				return ec.fieldContext_Project_description(ctx, field)
-			case "image":
-				return ec.fieldContext_Project_image(ctx, field)
 			case "url":
 				return ec.fieldContext_Project_url(ctx, field)
 			case "is_featured":
@@ -4119,6 +4146,8 @@ func (ec *executionContext) fieldContext_Mutation_CreateProject(ctx context.Cont
 				return ec.fieldContext_Project_working_type(ctx, field)
 			case "skills":
 				return ec.fieldContext_Project_skills(ctx, field)
+			case "images":
+				return ec.fieldContext_Project_images(ctx, field)
 			case "created_at":
 				return ec.fieldContext_Project_created_at(ctx, field)
 			case "updated_at":
@@ -4212,8 +4241,6 @@ func (ec *executionContext) fieldContext_Mutation_UpdateProject(ctx context.Cont
 				return ec.fieldContext_Project_title(ctx, field)
 			case "description":
 				return ec.fieldContext_Project_description(ctx, field)
-			case "image":
-				return ec.fieldContext_Project_image(ctx, field)
 			case "url":
 				return ec.fieldContext_Project_url(ctx, field)
 			case "is_featured":
@@ -4224,6 +4251,8 @@ func (ec *executionContext) fieldContext_Mutation_UpdateProject(ctx context.Cont
 				return ec.fieldContext_Project_working_type(ctx, field)
 			case "skills":
 				return ec.fieldContext_Project_skills(ctx, field)
+			case "images":
+				return ec.fieldContext_Project_images(ctx, field)
 			case "created_at":
 				return ec.fieldContext_Project_created_at(ctx, field)
 			case "updated_at":
@@ -5384,47 +5413,6 @@ func (ec *executionContext) fieldContext_Project_description(ctx context.Context
 	return fc, nil
 }
 
-func (ec *executionContext) _Project_image(ctx context.Context, field graphql.CollectedField, obj *model.Project) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Project_image(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Image, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*string)
-	fc.Result = res
-	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_Project_image(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "Project",
-		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type String does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
 func (ec *executionContext) _Project_url(ctx context.Context, field graphql.CollectedField, obj *model.Project) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Project_url(ctx, field)
 	if err != nil {
@@ -5648,6 +5636,55 @@ func (ec *executionContext) fieldContext_Project_skills(ctx context.Context, fie
 	return fc, nil
 }
 
+func (ec *executionContext) _Project_images(ctx context.Context, field graphql.CollectedField, obj *model.Project) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Project_images(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Project().Images(rctx, obj)
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.([]*model.ProjectImages)
+	fc.Result = res
+	return ec.marshalOProjectImages2ᚕᚖgithubᚗcomᚋarviansᚑidᚋgoᚑportfolioᚋinternalᚋhttpᚋcontrollerᚋmodelᚐProjectImages(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Project_images(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Project",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_ProjectImages_id(ctx, field)
+			case "project_id":
+				return ec.fieldContext_ProjectImages_project_id(ctx, field)
+			case "image":
+				return ec.fieldContext_ProjectImages_image(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type ProjectImages", field.Name)
+		},
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _Project_created_at(ctx context.Context, field graphql.CollectedField, obj *model.Project) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Project_created_at(ctx, field)
 	if err != nil {
@@ -5726,6 +5763,138 @@ func (ec *executionContext) _Project_updated_at(ctx context.Context, field graph
 func (ec *executionContext) fieldContext_Project_updated_at(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
 		Object:     "Project",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _ProjectImages_id(ctx context.Context, field graphql.CollectedField, obj *model.ProjectImages) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_ProjectImages_id(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.ID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(int64)
+	fc.Result = res
+	return ec.marshalNID2int64(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_ProjectImages_id(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "ProjectImages",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type ID does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _ProjectImages_project_id(ctx context.Context, field graphql.CollectedField, obj *model.ProjectImages) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_ProjectImages_project_id(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.ProjectID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(int64)
+	fc.Result = res
+	return ec.marshalNID2int64(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_ProjectImages_project_id(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "ProjectImages",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type ID does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _ProjectImages_image(ctx context.Context, field graphql.CollectedField, obj *model.ProjectImages) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_ProjectImages_image(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Image, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_ProjectImages_image(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "ProjectImages",
 		Field:      field,
 		IsMethod:   false,
 		IsResolver: false,
@@ -6531,8 +6700,6 @@ func (ec *executionContext) fieldContext_Query_QueryProject(ctx context.Context,
 				return ec.fieldContext_Project_title(ctx, field)
 			case "description":
 				return ec.fieldContext_Project_description(ctx, field)
-			case "image":
-				return ec.fieldContext_Project_image(ctx, field)
 			case "url":
 				return ec.fieldContext_Project_url(ctx, field)
 			case "is_featured":
@@ -6543,6 +6710,8 @@ func (ec *executionContext) fieldContext_Query_QueryProject(ctx context.Context,
 				return ec.fieldContext_Project_working_type(ctx, field)
 			case "skills":
 				return ec.fieldContext_Project_skills(ctx, field)
+			case "images":
+				return ec.fieldContext_Project_images(ctx, field)
 			case "created_at":
 				return ec.fieldContext_Project_created_at(ctx, field)
 			case "updated_at":
@@ -6636,8 +6805,6 @@ func (ec *executionContext) fieldContext_Query_FindAllProject(ctx context.Contex
 				return ec.fieldContext_Project_title(ctx, field)
 			case "description":
 				return ec.fieldContext_Project_description(ctx, field)
-			case "image":
-				return ec.fieldContext_Project_image(ctx, field)
 			case "url":
 				return ec.fieldContext_Project_url(ctx, field)
 			case "is_featured":
@@ -6648,6 +6815,8 @@ func (ec *executionContext) fieldContext_Query_FindAllProject(ctx context.Contex
 				return ec.fieldContext_Project_working_type(ctx, field)
 			case "skills":
 				return ec.fieldContext_Project_skills(ctx, field)
+			case "images":
+				return ec.fieldContext_Project_images(ctx, field)
 			case "created_at":
 				return ec.fieldContext_Project_created_at(ctx, field)
 			case "updated_at":
@@ -6730,8 +6899,6 @@ func (ec *executionContext) fieldContext_Query_FindByIDProject(ctx context.Conte
 				return ec.fieldContext_Project_title(ctx, field)
 			case "description":
 				return ec.fieldContext_Project_description(ctx, field)
-			case "image":
-				return ec.fieldContext_Project_image(ctx, field)
 			case "url":
 				return ec.fieldContext_Project_url(ctx, field)
 			case "is_featured":
@@ -6742,6 +6909,8 @@ func (ec *executionContext) fieldContext_Query_FindByIDProject(ctx context.Conte
 				return ec.fieldContext_Project_working_type(ctx, field)
 			case "skills":
 				return ec.fieldContext_Project_skills(ctx, field)
+			case "images":
+				return ec.fieldContext_Project_images(ctx, field)
 			case "created_at":
 				return ec.fieldContext_Project_created_at(ctx, field)
 			case "updated_at":
@@ -10620,6 +10789,35 @@ func (ec *executionContext) unmarshalInputCreateEducationRequest(ctx context.Con
 	return it, nil
 }
 
+func (ec *executionContext) unmarshalInputCreateProjectImagesRequest(ctx context.Context, obj interface{}) (model.CreateProjectImagesRequest, error) {
+	var it model.CreateProjectImagesRequest
+	asMap := map[string]interface{}{}
+	for k, v := range obj.(map[string]interface{}) {
+		asMap[k] = v
+	}
+
+	fieldsInOrder := [...]string{"image"}
+	for _, k := range fieldsInOrder {
+		v, ok := asMap[k]
+		if !ok {
+			continue
+		}
+		switch k {
+		case "image":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("image"))
+			data, err := ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Image = data
+		}
+	}
+
+	return it, nil
+}
+
 func (ec *executionContext) unmarshalInputCreateProjectRequest(ctx context.Context, obj interface{}) (model.CreateProjectRequest, error) {
 	var it model.CreateProjectRequest
 	asMap := map[string]interface{}{}
@@ -10627,7 +10825,7 @@ func (ec *executionContext) unmarshalInputCreateProjectRequest(ctx context.Conte
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"category", "title", "description", "image", "url", "is_featured", "date", "working_type", "skills"}
+	fieldsInOrder := [...]string{"category", "title", "description", "url", "is_featured", "date", "working_type", "skills", "images"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
@@ -10661,15 +10859,6 @@ func (ec *executionContext) unmarshalInputCreateProjectRequest(ctx context.Conte
 				return it, err
 			}
 			it.Description = data
-		case "image":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("image"))
-			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
-			it.Image = data
 		case "url":
 			var err error
 
@@ -10715,6 +10904,15 @@ func (ec *executionContext) unmarshalInputCreateProjectRequest(ctx context.Conte
 				return it, err
 			}
 			it.Skills = data
+		case "images":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("images"))
+			data, err := ec.unmarshalNCreateProjectImagesRequest2ᚕᚖgithubᚗcomᚋarviansᚑidᚋgoᚑportfolioᚋinternalᚋhttpᚋcontrollerᚋmodelᚐCreateProjectImagesRequestᚄ(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Images = data
 		}
 	}
 
@@ -11201,7 +11399,7 @@ func (ec *executionContext) unmarshalInputUpdateProjectRequest(ctx context.Conte
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"id", "category", "title", "description", "image", "url", "is_featured", "date", "working_type", "skills"}
+	fieldsInOrder := [...]string{"id", "category", "title", "description", "url", "is_featured", "date", "working_type", "skills", "images"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
@@ -11244,15 +11442,6 @@ func (ec *executionContext) unmarshalInputUpdateProjectRequest(ctx context.Conte
 				return it, err
 			}
 			it.Description = data
-		case "image":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("image"))
-			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
-			it.Image = data
 		case "url":
 			var err error
 
@@ -11298,6 +11487,15 @@ func (ec *executionContext) unmarshalInputUpdateProjectRequest(ctx context.Conte
 				return it, err
 			}
 			it.Skills = data
+		case "images":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("images"))
+			data, err := ec.unmarshalOCreateProjectImagesRequest2ᚕᚖgithubᚗcomᚋarviansᚑidᚋgoᚑportfolioᚋinternalᚋhttpᚋcontrollerᚋmodelᚐCreateProjectImagesRequestᚄ(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Images = data
 		}
 	}
 
@@ -12114,10 +12312,6 @@ func (ec *executionContext) _Project(ctx context.Context, sel ast.SelectionSet, 
 
 			out.Values[i] = ec._Project_description(ctx, field, obj)
 
-		case "image":
-
-			out.Values[i] = ec._Project_image(ctx, field, obj)
-
 		case "url":
 
 			out.Values[i] = ec._Project_url(ctx, field, obj)
@@ -12157,6 +12351,23 @@ func (ec *executionContext) _Project(ctx context.Context, sel ast.SelectionSet, 
 				return innerFunc(ctx)
 
 			})
+		case "images":
+			field := field
+
+			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._Project_images(ctx, field, obj)
+				return res
+			}
+
+			out.Concurrently(i, func() graphql.Marshaler {
+				return innerFunc(ctx)
+
+			})
 		case "created_at":
 
 			out.Values[i] = ec._Project_created_at(ctx, field, obj)
@@ -12170,6 +12381,48 @@ func (ec *executionContext) _Project(ctx context.Context, sel ast.SelectionSet, 
 
 			if out.Values[i] == graphql.Null {
 				atomic.AddUint32(&invalids, 1)
+			}
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch()
+	if invalids > 0 {
+		return graphql.Null
+	}
+	return out
+}
+
+var projectImagesImplementors = []string{"ProjectImages"}
+
+func (ec *executionContext) _ProjectImages(ctx context.Context, sel ast.SelectionSet, obj *model.ProjectImages) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, projectImagesImplementors)
+	out := graphql.NewFieldSet(fields)
+	var invalids uint32
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("ProjectImages")
+		case "id":
+
+			out.Values[i] = ec._ProjectImages_id(ctx, field, obj)
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "project_id":
+
+			out.Values[i] = ec._ProjectImages_project_id(ctx, field, obj)
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "image":
+
+			out.Values[i] = ec._ProjectImages_image(ctx, field, obj)
+
+			if out.Values[i] == graphql.Null {
+				invalids++
 			}
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
@@ -13414,6 +13667,28 @@ func (ec *executionContext) unmarshalNCreateEducationRequest2githubᚗcomᚋarvi
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
+func (ec *executionContext) unmarshalNCreateProjectImagesRequest2ᚕᚖgithubᚗcomᚋarviansᚑidᚋgoᚑportfolioᚋinternalᚋhttpᚋcontrollerᚋmodelᚐCreateProjectImagesRequestᚄ(ctx context.Context, v interface{}) ([]*model.CreateProjectImagesRequest, error) {
+	var vSlice []interface{}
+	if v != nil {
+		vSlice = graphql.CoerceList(v)
+	}
+	var err error
+	res := make([]*model.CreateProjectImagesRequest, len(vSlice))
+	for i := range vSlice {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithIndex(i))
+		res[i], err = ec.unmarshalNCreateProjectImagesRequest2ᚖgithubᚗcomᚋarviansᚑidᚋgoᚑportfolioᚋinternalᚋhttpᚋcontrollerᚋmodelᚐCreateProjectImagesRequest(ctx, vSlice[i])
+		if err != nil {
+			return nil, err
+		}
+	}
+	return res, nil
+}
+
+func (ec *executionContext) unmarshalNCreateProjectImagesRequest2ᚖgithubᚗcomᚋarviansᚑidᚋgoᚑportfolioᚋinternalᚋhttpᚋcontrollerᚋmodelᚐCreateProjectImagesRequest(ctx context.Context, v interface{}) (*model.CreateProjectImagesRequest, error) {
+	res, err := ec.unmarshalInputCreateProjectImagesRequest(ctx, v)
+	return &res, graphql.ErrorOnPath(ctx, err)
+}
+
 func (ec *executionContext) unmarshalNCreateProjectRequest2githubᚗcomᚋarviansᚑidᚋgoᚑportfolioᚋinternalᚋhttpᚋcontrollerᚋmodelᚐCreateProjectRequest(ctx context.Context, v interface{}) (model.CreateProjectRequest, error) {
 	res, err := ec.unmarshalInputCreateProjectRequest(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
@@ -14120,6 +14395,26 @@ func (ec *executionContext) marshalOBoolean2ᚖbool(ctx context.Context, sel ast
 	return res
 }
 
+func (ec *executionContext) unmarshalOCreateProjectImagesRequest2ᚕᚖgithubᚗcomᚋarviansᚑidᚋgoᚑportfolioᚋinternalᚋhttpᚋcontrollerᚋmodelᚐCreateProjectImagesRequestᚄ(ctx context.Context, v interface{}) ([]*model.CreateProjectImagesRequest, error) {
+	if v == nil {
+		return nil, nil
+	}
+	var vSlice []interface{}
+	if v != nil {
+		vSlice = graphql.CoerceList(v)
+	}
+	var err error
+	res := make([]*model.CreateProjectImagesRequest, len(vSlice))
+	for i := range vSlice {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithIndex(i))
+		res[i], err = ec.unmarshalNCreateProjectImagesRequest2ᚖgithubᚗcomᚋarviansᚑidᚋgoᚑportfolioᚋinternalᚋhttpᚋcontrollerᚋmodelᚐCreateProjectImagesRequest(ctx, vSlice[i])
+		if err != nil {
+			return nil, err
+		}
+	}
+	return res, nil
+}
+
 func (ec *executionContext) unmarshalOFloat2ᚖfloat64(ctx context.Context, v interface{}) (*float64, error) {
 	if v == nil {
 		return nil, nil
@@ -14134,6 +14429,54 @@ func (ec *executionContext) marshalOFloat2ᚖfloat64(ctx context.Context, sel as
 	}
 	res := graphql.MarshalFloatContext(*v)
 	return graphql.WrapContextMarshaler(ctx, res)
+}
+
+func (ec *executionContext) marshalOProjectImages2ᚕᚖgithubᚗcomᚋarviansᚑidᚋgoᚑportfolioᚋinternalᚋhttpᚋcontrollerᚋmodelᚐProjectImages(ctx context.Context, sel ast.SelectionSet, v []*model.ProjectImages) graphql.Marshaler {
+	if v == nil {
+		return graphql.Null
+	}
+	ret := make(graphql.Array, len(v))
+	var wg sync.WaitGroup
+	isLen1 := len(v) == 1
+	if !isLen1 {
+		wg.Add(len(v))
+	}
+	for i := range v {
+		i := i
+		fc := &graphql.FieldContext{
+			Index:  &i,
+			Result: &v[i],
+		}
+		ctx := graphql.WithFieldContext(ctx, fc)
+		f := func(i int) {
+			defer func() {
+				if r := recover(); r != nil {
+					ec.Error(ctx, ec.Recover(ctx, r))
+					ret = nil
+				}
+			}()
+			if !isLen1 {
+				defer wg.Done()
+			}
+			ret[i] = ec.marshalOProjectImages2ᚖgithubᚗcomᚋarviansᚑidᚋgoᚑportfolioᚋinternalᚋhttpᚋcontrollerᚋmodelᚐProjectImages(ctx, sel, v[i])
+		}
+		if isLen1 {
+			f(i)
+		} else {
+			go f(i)
+		}
+
+	}
+	wg.Wait()
+
+	return ret
+}
+
+func (ec *executionContext) marshalOProjectImages2ᚖgithubᚗcomᚋarviansᚑidᚋgoᚑportfolioᚋinternalᚋhttpᚋcontrollerᚋmodelᚐProjectImages(ctx context.Context, sel ast.SelectionSet, v *model.ProjectImages) graphql.Marshaler {
+	if v == nil {
+		return graphql.Null
+	}
+	return ec._ProjectImages(ctx, sel, v)
 }
 
 func (ec *executionContext) marshalOSkill2ᚕᚖgithubᚗcomᚋarviansᚑidᚋgoᚑportfolioᚋinternalᚋhttpᚋcontrollerᚋmodelᚐSkill(ctx context.Context, sel ast.SelectionSet, v []*model.Skill) graphql.Marshaler {

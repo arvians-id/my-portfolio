@@ -72,7 +72,6 @@ func (repository *ProjectRepository) FindByID(ctx context.Context, id int64) (*e
 		&project.Category,
 		&project.Title,
 		&project.Description,
-		&project.Image,
 		&project.URL,
 		&project.IsFeatured,
 		&project.Date,

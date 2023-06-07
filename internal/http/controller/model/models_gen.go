@@ -65,16 +65,20 @@ type CreateEducationRequest struct {
 	EndDate      *string `json:"end_date,omitempty"`
 }
 
+type CreateProjectImagesRequest struct {
+	Image string `json:"image"`
+}
+
 type CreateProjectRequest struct {
-	Category    string  `json:"category"`
-	Title       string  `json:"title"`
-	Description *string `json:"description,omitempty"`
-	Image       *string `json:"image,omitempty"`
-	URL         *string `json:"url,omitempty"`
-	IsFeatured  *bool   `json:"is_featured,omitempty"`
-	Date        string  `json:"date"`
-	WorkingType string  `json:"working_type"`
-	Skills      []int64 `json:"skills"`
+	Category    string                        `json:"category"`
+	Title       string                        `json:"title"`
+	Description *string                       `json:"description,omitempty"`
+	URL         *string                       `json:"url,omitempty"`
+	IsFeatured  *bool                         `json:"is_featured,omitempty"`
+	Date        string                        `json:"date"`
+	WorkingType string                        `json:"working_type"`
+	Skills      []int64                       `json:"skills"`
+	Images      []*CreateProjectImagesRequest `json:"images"`
 }
 
 type CreateSkillRequest struct {
@@ -114,18 +118,24 @@ type Education struct {
 }
 
 type Project struct {
-	ID          int64    `json:"id"`
-	Category    string   `json:"category"`
-	Title       string   `json:"title"`
-	Description *string  `json:"description,omitempty"`
-	Image       *string  `json:"image,omitempty"`
-	URL         *string  `json:"url,omitempty"`
-	IsFeatured  *bool    `json:"is_featured,omitempty"`
-	Date        string   `json:"date"`
-	WorkingType string   `json:"working_type"`
-	Skills      []*Skill `json:"skills,omitempty"`
-	CreatedAt   string   `json:"created_at"`
-	UpdatedAt   string   `json:"updated_at"`
+	ID          int64            `json:"id"`
+	Category    string           `json:"category"`
+	Title       string           `json:"title"`
+	Description *string          `json:"description,omitempty"`
+	URL         *string          `json:"url,omitempty"`
+	IsFeatured  *bool            `json:"is_featured,omitempty"`
+	Date        string           `json:"date"`
+	WorkingType string           `json:"working_type"`
+	Skills      []*Skill         `json:"skills,omitempty"`
+	Images      []*ProjectImages `json:"images,omitempty"`
+	CreatedAt   string           `json:"created_at"`
+	UpdatedAt   string           `json:"updated_at"`
+}
+
+type ProjectImages struct {
+	ID        int64  `json:"id"`
+	ProjectID int64  `json:"project_id"`
+	Image     string `json:"image"`
 }
 
 type Skill struct {
@@ -170,16 +180,16 @@ type UpdateEducationRequest struct {
 }
 
 type UpdateProjectRequest struct {
-	ID          int64   `json:"id"`
-	Category    string  `json:"category"`
-	Title       string  `json:"title"`
-	Description *string `json:"description,omitempty"`
-	Image       *string `json:"image,omitempty"`
-	URL         *string `json:"url,omitempty"`
-	IsFeatured  *bool   `json:"is_featured,omitempty"`
-	Date        string  `json:"date"`
-	WorkingType string  `json:"working_type"`
-	Skills      []int64 `json:"skills"`
+	ID          int64                         `json:"id"`
+	Category    string                        `json:"category"`
+	Title       string                        `json:"title"`
+	Description *string                       `json:"description,omitempty"`
+	URL         *string                       `json:"url,omitempty"`
+	IsFeatured  *bool                         `json:"is_featured,omitempty"`
+	Date        string                        `json:"date"`
+	WorkingType string                        `json:"working_type"`
+	Skills      []int64                       `json:"skills"`
+	Images      []*CreateProjectImagesRequest `json:"images,omitempty"`
 }
 
 type UpdateSkillRequest struct {

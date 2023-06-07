@@ -3,26 +3,36 @@ type Project {
     category: String!
     title: String!
     description: String
-    image: String
     url: String
     is_featured: Boolean
     date: String!
     working_type: String!
     skills: [Skill] @goField(forceResolver: true)
+    images: [ProjectImages] @goField(forceResolver: true)
     created_at: String!
     updated_at: String!
+}
+
+type ProjectImages {
+    id: ID!
+    project_id: ID!
+    image: String!
+}
+
+input CreateProjectImagesRequest {
+    image: String!
 }
 
 input CreateProjectRequest {
     category: String!
     title: String!
     description: String
-    image: String
     url: String
     is_featured: Boolean
     date: String!
     working_type: String!
     skills: [ID!]!
+    images: [CreateProjectImagesRequest!]!
 }
 
 input UpdateProjectRequest {
@@ -30,10 +40,10 @@ input UpdateProjectRequest {
     category: String!
     title: String!
     description: String
-    image: String
     url: String
     is_featured: Boolean
     date: String!
     working_type: String!
     skills: [ID!]!
+    images: [CreateProjectImagesRequest!]
 }
