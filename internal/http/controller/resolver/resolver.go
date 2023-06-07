@@ -47,6 +47,7 @@ func (r *Resolver) WorkExperience() gql.WorkExperienceResolver {
 type mutationResolver struct{ *Resolver }
 
 type queryResolver struct{ *Resolver }
+
 type categorySkillResolver struct{ *Resolver }
 type projectResolver struct{ *Resolver }
 type skillResolver struct{ *Resolver }

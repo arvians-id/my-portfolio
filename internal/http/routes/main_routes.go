@@ -14,6 +14,7 @@ import (
 	"github.com/arvians-id/go-portfolio/internal/http/response"
 	"github.com/arvians-id/go-portfolio/internal/repository"
 	"github.com/arvians-id/go-portfolio/internal/service"
+	"github.com/blevesearch/bleve"
 	"github.com/goccy/go-json"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
@@ -65,6 +66,20 @@ func NewInitializedRoutes(configuration config.Config, logFile *os.File) (*fiber
 		return nil, err
 	}
 
+	mapping := bleve.NewIndexMapping()
+	index, err := bleve.New("./database/bleve", mapping)
+	if err != nil {
+		if err != bleve.ErrorIndexPathExists {
+			return nil, err
+		}
+		index, err = bleve.Open("./database/bleve")
+		if err != nil {
+			return nil, err
+		}
+	}
+
+	bleveSearchService := service.NewBleveSearchService(index)
+
 	userRepository := repository.NewUserRepository(db)
 	userService := service.NewUserService(userRepository)
 
@@ -78,7 +93,7 @@ func NewInitializedRoutes(configuration config.Config, logFile *os.File) (*fiber
 	certificateService := service.NewCertificateService(certificateRepository)
 
 	projectRepository := repository.NewProjectRepository(db)
-	projectService := service.NewProjectService(projectRepository)
+	projectService := service.NewProjectService(projectRepository, bleveSearchService)
 
 	categorySkillRepository := repository.NewCategorySkillRepository(db)
 	categorySkillService := service.NewCategorySkillService(categorySkillRepository)

@@ -16,6 +16,7 @@ type Query {
     FindByIDContact(id: ID!): Contact!  @isLoggedIn(isLogged: false)
 
     # Project
+    QueryProject(name: String!): [Project!]!  @isLoggedIn(isLogged: false)
     FindAllProject: [Project!]!  @isLoggedIn(isLogged: false)
     FindByIDProject(id: ID!): Project!  @isLoggedIn(isLogged: false)
 

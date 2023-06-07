@@ -7,6 +7,32 @@ import (
 	"github.com/arvians-id/go-portfolio/internal/http/middleware"
 )
 
+func (q queryResolver) QueryProject(ctx context.Context, name string) ([]*model.Project, error) {
+	projects, err := q.ProjectService.Query(ctx, name)
+	if err != nil {
+		return nil, err
+	}
+
+	var results []*model.Project
+	for _, project := range projects {
+		results = append(results, &model.Project{
+			ID:          project.ID,
+			Category:    project.Category,
+			Title:       project.Title,
+			Description: project.Description,
+			Image:       project.Image,
+			URL:         project.URL,
+			IsFeatured:  project.IsFeatured,
+			Date:        project.Date,
+			WorkingType: project.WorkingType,
+			CreatedAt:   project.CreatedAt.String(),
+			UpdatedAt:   project.UpdatedAt.String(),
+		})
+	}
+
+	return results, err
+}
+
 func (q queryResolver) FindAllProject(ctx context.Context) ([]*model.Project, error) {
 	projects, err := q.ProjectService.FindAll(ctx)
 	if err != nil {
@@ -55,9 +81,11 @@ func (q queryResolver) FindByIDProject(ctx context.Context, id int64) (*model.Pr
 }
 
 func (m mutationResolver) CreateProject(ctx context.Context, input model.CreateProjectRequest) (*model.Project, error) {
-	skills := make([]*entity.Skill, len(input.Skills))
-	for i, id := range input.Skills {
-		skills[i].ID = id
+	var skills []*entity.Skill
+	for _, id := range input.Skills {
+		skills = append(skills, &entity.Skill{
+			ID: id,
+		})
 	}
 
 	project, err := m.ProjectService.Create(ctx, &entity.Project{
@@ -91,12 +119,15 @@ func (m mutationResolver) CreateProject(ctx context.Context, input model.CreateP
 }
 
 func (m mutationResolver) UpdateProject(ctx context.Context, input model.UpdateProjectRequest) (*model.Project, error) {
-	skills := make([]*entity.Skill, len(input.Skills))
-	for i, id := range input.Skills {
-		skills[i].ID = id
+	var skills []*entity.Skill
+	for _, id := range input.Skills {
+		skills = append(skills, &entity.Skill{
+			ID: id,
+		})
 	}
 
 	project, err := m.ProjectService.Update(ctx, &entity.Project{
+		ID:          input.ID,
 		Category:    input.Category,
 		Title:       input.Title,
 		Description: input.Description,

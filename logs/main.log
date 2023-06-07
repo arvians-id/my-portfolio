@@ -157,3 +157,1790 @@ query history:  query FindAllProject {
         updated_at
     }
 }
+[06 Jun 23 17:40 +07] | query history:  query FindByIDProject ($id: ID!) {
+    FindByIDProject (id: $id) {
+        id
+        category
+        title
+        description
+        image
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+    }
+}
+[06 Jun 23 17:40 +07] | query history:  query FindByIDProject ($id: ID!) {
+    FindByIDProject (id: $id) {
+        id
+        category
+        title
+        description
+        image
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+    }
+}
+[06 Jun 23 17:40 +07] | query history:  query FindByIDProject ($id: ID!) {
+    FindByIDProject (id: $id) {
+        id
+        category
+        title
+        description
+        image
+        url
+        is_featured
+        date
+        working_type
+        skills {
+            name
+            icon
+        }
+        created_at
+        updated_at
+    }
+}
+[07 Jun 23 09:03 +07] | query history:  query FindAllProject {
+    FindAllProject {
+        id
+        category
+        title
+        description
+        image
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+        skills {
+            name
+            category_skill {
+                name
+            }
+        }
+    }
+}
+[07 Jun 23 09:27 +07] | query history:  mutation CreateProject ($input: CreateProjectRequest!) {
+    CreateProject (input: $input) {
+        id
+        category
+        title
+        description
+        image
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+    }
+}
+[07 Jun 23 09:31 +07] | query history:  mutation CreateProject ($input: CreateProjectRequest!) {
+    CreateProject (input: $input) {
+        id
+        category
+        title
+        description
+        image
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+    }
+}
+[07 Jun 23 09:33 +07] | query history:  mutation CreateProject ($input: CreateProjectRequest!) {
+    CreateProject (input: $input) {
+        id
+        category
+        title
+        description
+        image
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+    }
+}
+[07 Jun 23 09:33 +07] | query history:  mutation CreateProject ($input: CreateProjectRequest!) {
+    CreateProject (input: $input) {
+        id
+        category
+        title
+        description
+        image
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+    }
+}
+[07 Jun 23 09:34 +07] | query history:  mutation CreateProject ($input: CreateProjectRequest!) {
+    CreateProject (input: $input) {
+        id
+        category
+        title
+        description
+        image
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+    }
+}
+[07 Jun 23 09:35 +07] | query history:  mutation CreateProject ($input: CreateProjectRequest!) {
+    CreateProject (input: $input) {
+        id
+        category
+        title
+        description
+        image
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+    }
+}
+[07 Jun 23 09:35 +07] | query history:  mutation CreateProject ($input: CreateProjectRequest!) {
+    CreateProject (input: $input) {
+        id
+        category
+        title
+        description
+        image
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+    }
+}
+[07 Jun 23 09:35 +07] | query history:  mutation CreateProject ($input: CreateProjectRequest!) {
+    CreateProject (input: $input) {
+        id
+        category
+        title
+        description
+        image
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+    }
+}
+[07 Jun 23 09:35 +07] | query history:  mutation CreateProject ($input: CreateProjectRequest!) {
+    CreateProject (input: $input) {
+        id
+        category
+        title
+        description
+        image
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+    }
+}
+[07 Jun 23 09:35 +07] | query history:  mutation CreateProject ($input: CreateProjectRequest!) {
+    CreateProject (input: $input) {
+        id
+        category
+        title
+        description
+        image
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+    }
+}
+[07 Jun 23 09:37 +07] | query history:  mutation CreateProject ($input: CreateProjectRequest!) {
+    CreateProject (input: $input) {
+        id
+        category
+        title
+        description
+        image
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+    }
+}
+[07 Jun 23 09:38 +07] | query history:  mutation CreateProject ($input: CreateProjectRequest!) {
+    CreateProject (input: $input) {
+        id
+        category
+        title
+        description
+        image
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+    }
+}
+[07 Jun 23 09:39 +07] | query history:  mutation CreateProject ($input: CreateProjectRequest!) {
+    CreateProject (input: $input) {
+        id
+        category
+        title
+        description
+        image
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+    }
+}
+[07 Jun 23 09:39 +07] | query history:  mutation CreateProject ($input: CreateProjectRequest!) {
+    CreateProject (input: $input) {
+        id
+        category
+        title
+        description
+        image
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+    }
+}
+[07 Jun 23 09:41 +07] | query history:  mutation CreateProject ($input: CreateProjectRequest!) {
+    CreateProject (input: $input) {
+        id
+        category
+        title
+        description
+        image
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+    }
+}
+[07 Jun 23 09:41 +07] | query history:  query FindAllProject {
+    FindAllProject {
+        id
+        category
+        title
+        description
+        image
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+        skills {
+            name
+            category_skill {
+                name
+            }
+        }
+    }
+}
+[07 Jun 23 09:44 +07] | query history:  query Search($search: String!){
+    QueryProject(name: $search) {
+        date
+    }
+}
+[07 Jun 23 09:44 +07] | query history:  query Search($search: String!){
+    QueryProject(name: $search) {
+        title
+    }
+}
+[07 Jun 23 09:45 +07] | query history:  query Search($search: String!){
+    QueryProject(name: $search) {
+        title
+    }
+}
+[07 Jun 23 09:45 +07] | query history:  mutation CreateProject ($input: CreateProjectRequest!) {
+    CreateProject (input: $input) {
+        id
+        category
+        title
+        description
+        image
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+    }
+}
+[07 Jun 23 09:46 +07] | query history:  query Search($search: String!){
+    QueryProject(name: $search) {
+        title
+    }
+}
+[07 Jun 23 09:46 +07] | query history:  query Search($search: String!){
+    QueryProject(name: $search) {
+        title
+    }
+}
+[07 Jun 23 09:46 +07] | query history:  query Search($search: String!){
+    QueryProject(name: $search) {
+        title
+    }
+}
+[07 Jun 23 10:00 +07] | query history:  query Search($search: String!){
+    QueryProject(name: $search) {
+        title
+    }
+}
+[07 Jun 23 10:01 +07] | query history:  query Search($search: String!){
+    QueryProject(name: $search) {
+        title
+    }
+}
+[07 Jun 23 10:01 +07] | query history:  query Search($search: String!){
+    QueryProject(name: $search) {
+        id
+        category
+        title
+        description
+        image
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+    }
+}
+[07 Jun 23 10:01 +07] | query history:  query Search($search: String!){
+    QueryProject(name: $search) {
+        id
+        category
+        title
+        description
+        image
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+    }
+}
+[07 Jun 23 10:01 +07] | query history:  query Search($search: String!){
+    QueryProject(name: $search) {
+        id
+        category
+        title
+        description
+        image
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+    }
+}
+[07 Jun 23 10:03 +07] | query history:  query Search($search: String!){
+    QueryProject(name: $search) {
+        id
+        category
+        title
+        description
+        image
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+    }
+}
+[07 Jun 23 10:03 +07] | query history:  query Search($search: String!){
+    QueryProject(name: $search) {
+        id
+        category
+        title
+        description
+        image
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+    }
+}
+[07 Jun 23 10:04 +07] | query history:  query Search($search: String!){
+    QueryProject(name: $search) {
+        id
+        category
+        title
+        description
+        image
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+    }
+}
+[07 Jun 23 10:04 +07] | query history:  query Search($search: String!){
+    QueryProject(name: $search) {
+        id
+        category
+        title
+        description
+        image
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+    }
+}
+[07 Jun 23 10:04 +07] | query history:  query Search($search: String!){
+    QueryProject(name: $search) {
+        id
+        category
+        title
+        description
+        image
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+    }
+}
+[07 Jun 23 10:04 +07] | query history:  query Search($search: String!){
+    QueryProject(name: $search) {
+        id
+        category
+        title
+        description
+        image
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+    }
+}
+[07 Jun 23 10:13 +07] | query history:  query Search($search: String!){
+    QueryProject(name: $search) {
+        id
+        category
+        title
+        description
+        image
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+    }
+}
+[07 Jun 23 10:13 +07] | query history:  query Search($search: String!){
+    QueryProject(name: $search) {
+        id
+        category
+        title
+        description
+        image
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+    }
+}
+[07 Jun 23 10:13 +07] | query history:  query Search($search: String!){
+    QueryProject(name: $search) {
+        id
+        category
+        title
+        description
+        image
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+    }
+}
+[07 Jun 23 10:13 +07] | query history:  query Search($search: String!){
+    QueryProject(name: $search) {
+        id
+        category
+        title
+        description
+        image
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+    }
+}
+[07 Jun 23 10:15 +07] | query history:  query Search($search: String!){
+    QueryProject(name: $search) {
+        id
+        category
+        title
+        description
+        image
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+    }
+}
+[07 Jun 23 10:15 +07] | query history:  query Search($search: String!){
+    QueryProject(name: $search) {
+        id
+        category
+        title
+        description
+        image
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+    }
+}
+[07 Jun 23 10:15 +07] | query history:  query Search($search: String!){
+    QueryProject(name: $search) {
+        id
+        category
+        title
+        description
+        image
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+    }
+}
+[07 Jun 23 10:16 +07] | query history:  query Search($search: String!){
+    QueryProject(name: $search) {
+        id
+        category
+        title
+        description
+        image
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+    }
+}
+[07 Jun 23 10:19 +07] | query history:  mutation UpdateProject ($input: UpdateProjectRequest!) {
+    UpdateProject (input: $input) {
+        id
+        category
+        title
+        description
+        image
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+    }
+}
+[07 Jun 23 10:20 +07] | query history:  mutation UpdateProject ($input: UpdateProjectRequest!) {
+    UpdateProject (input: $input) {
+        id
+        category
+        title
+        description
+        image
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+    }
+}
+[07 Jun 23 10:23 +07] | query history:  query Search($search: String!){
+    QueryProject(name: $search) {
+        id
+        category
+        title
+        description
+        image
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+    }
+}
+[07 Jun 23 10:23 +07] | query history:  mutation UpdateProject ($input: UpdateProjectRequest!) {
+    UpdateProject (input: $input) {
+        id
+        category
+        title
+        description
+        image
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+    }
+}
+[07 Jun 23 10:23 +07] | query history:  query Search($search: String!){
+    QueryProject(name: $search) {
+        id
+        category
+        title
+        description
+        image
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+    }
+}
+[07 Jun 23 10:23 +07] | query history:  query Search($search: String!){
+    QueryProject(name: $search) {
+        id
+        category
+        title
+        description
+        image
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+    }
+}
+[07 Jun 23 10:25 +07] | query history:  mutation DeleteProject ($id: ID!) {
+    DeleteProject (id: $id)
+}
+[07 Jun 23 10:25 +07] | query history:  query Search($search: String!){
+    QueryProject(name: $search) {
+        id
+        category
+        title
+        description
+        image
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+    }
+}
+[07 Jun 23 10:25 +07] | query history:  query Search($search: String!){
+    QueryProject(name: $search) {
+        id
+        category
+        title
+        description
+        image
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+    }
+}
+[07 Jun 23 10:26 +07] | query history:  mutation CreateProject ($input: CreateProjectRequest!) {
+    CreateProject (input: $input) {
+        id
+        category
+        title
+        description
+        image
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+    }
+}
+[07 Jun 23 10:26 +07] | query history:  query Search($search: String!){
+    QueryProject(name: $search) {
+        id
+        category
+        title
+        description
+        image
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+    }
+}
+[07 Jun 23 10:26 +07] | query history:  mutation UpdateProject ($input: UpdateProjectRequest!) {
+    UpdateProject (input: $input) {
+        id
+        category
+        title
+        description
+        image
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+    }
+}
+[07 Jun 23 10:26 +07] | query history:  query Search($search: String!){
+    QueryProject(name: $search) {
+        id
+        category
+        title
+        description
+        image
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+    }
+}
+[07 Jun 23 10:26 +07] | query history:  query Search($search: String!){
+    QueryProject(name: $search) {
+        id
+        category
+        title
+        description
+        image
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+    }
+}
+[07 Jun 23 10:27 +07] | query history:  query Search($search: String!){
+    QueryProject(name: $search) {
+        id
+        category
+        title
+        description
+        image
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+    }
+}
+[07 Jun 23 10:33 +07] | query history:  query Search($search: String!){
+    QueryProject(name: $search) {
+        id
+        category
+        title
+        description
+        image
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+    }
+}
+[07 Jun 23 10:33 +07] | query history:  mutation DeleteProject ($id: ID!) {
+    DeleteProject (id: $id)
+}
+[07 Jun 23 10:33 +07] | query history:  query Search($search: String!){
+    QueryProject(name: $search) {
+        id
+        category
+        title
+        description
+        image
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+    }
+}
+[07 Jun 23 10:33 +07] | query history:  mutation CreateProject ($input: CreateProjectRequest!) {
+    CreateProject (input: $input) {
+        id
+        category
+        title
+        description
+        image
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+    }
+}
+[07 Jun 23 10:33 +07] | query history:  query Search($search: String!){
+    QueryProject(name: $search) {
+        id
+        category
+        title
+        description
+        image
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+    }
+}
+[07 Jun 23 10:33 +07] | query history:  mutation UpdateProject ($input: UpdateProjectRequest!) {
+    UpdateProject (input: $input) {
+        id
+        category
+        title
+        description
+        image
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+    }
+}
+[07 Jun 23 10:33 +07] | query history:  query Search($search: String!){
+    QueryProject(name: $search) {
+        id
+        category
+        title
+        description
+        image
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+    }
+}
+[07 Jun 23 10:34 +07] | query history:  query Search($search: String!){
+    QueryProject(name: $search) {
+        id
+        category
+        title
+        description
+        image
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+    }
+}
+[07 Jun 23 10:34 +07] | query history:  query Search($search: String!){
+    QueryProject(name: $search) {
+        id
+        category
+        title
+        description
+        image
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+    }
+}
+[07 Jun 23 10:34 +07] | query history:  query Search($search: String!){
+    QueryProject(name: $search) {
+        id
+        category
+        title
+        description
+        image
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+    }
+}
+[07 Jun 23 10:34 +07] | query history:  query Search($search: String!){
+    QueryProject(name: $search) {
+        id
+        category
+        title
+        description
+        image
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+    }
+}
+[07 Jun 23 10:34 +07] | query history:  query Search($search: String!){
+    QueryProject(name: $search) {
+        id
+        category
+        title
+        description
+        image
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+    }
+}
+[07 Jun 23 10:43 +07] | query history:  mutation CreateProject ($input: CreateProjectRequest!) {
+    CreateProject (input: $input) {
+        id
+        category
+        title
+        description
+        image
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+    }
+}
+[07 Jun 23 10:43 +07] | query history:  mutation UpdateProject ($input: UpdateProjectRequest!) {
+    UpdateProject (input: $input) {
+        id
+        category
+        title
+        description
+        image
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+    }
+}
+[07 Jun 23 10:43 +07] | query history:  mutation CreateProject ($input: CreateProjectRequest!) {
+    CreateProject (input: $input) {
+        id
+        category
+        title
+        description
+        image
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+    }
+}
+[07 Jun 23 10:43 +07] | query history:  query Search($search: String!){
+    QueryProject(name: $search) {
+        id
+        category
+        title
+        description
+        image
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+    }
+}
+[07 Jun 23 10:43 +07] | query history:  query Search($search: String!){
+    QueryProject(name: $search) {
+        id
+        category
+        title
+        description
+        image
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+    }
+}
+[07 Jun 23 10:43 +07] | query history:  query Search($search: String!){
+    QueryProject(name: $search) {
+        id
+        category
+        title
+        description
+        image
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+    }
+}
+[07 Jun 23 10:43 +07] | query history:  query Search($search: String!){
+    QueryProject(name: $search) {
+        id
+        category
+        title
+        description
+        image
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+    }
+}
+[07 Jun 23 10:46 +07] | query history:  query Search($search: String!){
+    QueryProject(name: $search) {
+        id
+        category
+        title
+        description
+        image
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+    }
+}
+[07 Jun 23 10:46 +07] | query history:  query Search($search: String!){
+    QueryProject(name: $search) {
+        id
+        category
+        title
+        description
+        image
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+    }
+}
+[07 Jun 23 10:46 +07] | query history:  query Search($search: String!){
+    QueryProject(name: $search) {
+        id
+        category
+        title
+        description
+        image
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+    }
+}
+[07 Jun 23 10:46 +07] | query history:  query Search($search: String!){
+    QueryProject(name: $search) {
+        id
+        category
+        title
+        description
+        image
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+    }
+}
+[07 Jun 23 10:46 +07] | query history:  query Search($search: String!){
+    QueryProject(name: $search) {
+        id
+        category
+        title
+        description
+        image
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+    }
+}
+[07 Jun 23 10:49 +07] | query history:  mutation CreateProject ($input: CreateProjectRequest!) {
+    CreateProject (input: $input) {
+        id
+        category
+        title
+        description
+        image
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+    }
+}
+[07 Jun 23 10:49 +07] | query history:  mutation UpdateProject ($input: UpdateProjectRequest!) {
+    UpdateProject (input: $input) {
+        id
+        category
+        title
+        description
+        image
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+    }
+}
+[07 Jun 23 10:49 +07] | query history:  mutation CreateProject ($input: CreateProjectRequest!) {
+    CreateProject (input: $input) {
+        id
+        category
+        title
+        description
+        image
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+    }
+}
+[07 Jun 23 10:49 +07] | query history:  query Search($search: String!){
+    QueryProject(name: $search) {
+        id
+        category
+        title
+        description
+        image
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+    }
+}
+[07 Jun 23 10:49 +07] | query history:  query Search($search: String!){
+    QueryProject(name: $search) {
+        id
+        category
+        title
+        description
+        image
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+    }
+}
+[07 Jun 23 10:50 +07] | query history:  query Search($search: String!){
+    QueryProject(name: $search) {
+        id
+        category
+        title
+        description
+        image
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+    }
+}
+[07 Jun 23 10:50 +07] | query history:  query Search($search: String!){
+    QueryProject(name: $search) {
+        id
+        category
+        title
+        description
+        image
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+    }
+}
+[07 Jun 23 10:50 +07] | query history:  query Search($search: String!){
+    QueryProject(name: $search) {
+        id
+        category
+        title
+        description
+        image
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+    }
+}
+[07 Jun 23 10:50 +07] | query history:  query Search($search: String!){
+    QueryProject(name: $search) {
+        id
+        category
+        title
+        description
+        image
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+    }
+}
+[07 Jun 23 11:14 +07] | query history:  query Search($search: String!){
+    QueryProject(name: $search) {
+        id
+        category
+        title
+        description
+        image
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+    }
+}
+[07 Jun 23 11:14 +07] | query history:  query Search($search: String!){
+    QueryProject(name: $search) {
+        id
+        category
+        title
+        description
+        image
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+    }
+}
+[07 Jun 23 11:14 +07] | query history:  query Search($search: String!){
+    QueryProject(name: $search) {
+        id
+        category
+        title
+        description
+        image
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+    }
+}
+[07 Jun 23 11:14 +07] | query history:  query Search($search: String!){
+    QueryProject(name: $search) {
+        id
+        category
+        title
+        description
+        image
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+    }
+}
+[07 Jun 23 11:15 +07] | query history:  query Search($search: String!){
+    QueryProject(name: $search) {
+        id
+        category
+        title
+        description
+        image
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+    }
+}
+[07 Jun 23 11:17 +07] | query history:  query Search($search: String!){
+    QueryProject(name: $search) {
+        id
+        category
+        title
+        description
+        image
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+    }
+}
+[07 Jun 23 11:17 +07] | query history:  query Search($search: String!){
+    QueryProject(name: $search) {
+        id
+        category
+        title
+        description
+        image
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+    }
+}
+[07 Jun 23 11:17 +07] | query history:  query Search($search: String!){
+    QueryProject(name: $search) {
+        id
+        category
+        title
+        description
+        image
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+    }
+}
+[07 Jun 23 11:19 +07] | query history:  query Search($search: String!){
+    QueryProject(name: $search) {
+        id
+        category
+        title
+        description
+        image
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+    }
+}
+[07 Jun 23 11:19 +07] | query history:  query Search($search: String!){
+    QueryProject(name: $search) {
+        id
+        category
+        title
+        description
+        image
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+    }
+}
+[07 Jun 23 11:19 +07] | query history:  query Search($search: String!){
+    QueryProject(name: $search) {
+        id
+        category
+        title
+        description
+        image
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+    }
+}
+[07 Jun 23 11:19 +07] | query history:  query Search($search: String!){
+    QueryProject(name: $search) {
+        id
+        category
+        title
+        description
+        image
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+    }
+}
+[07 Jun 23 11:19 +07] | query history:  query Search($search: String!){
+    QueryProject(name: $search) {
+        id
+        category
+        title
+        description
+        image
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+    }
+}
+[07 Jun 23 11:19 +07] | query history:  query Search($search: String!){
+    QueryProject(name: $search) {
+        id
+        category
+        title
+        description
+        image
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+    }
+}
+[07 Jun 23 11:19 +07] | query history:  query Search($search: String!){
+    QueryProject(name: $search) {
+        id
+        category
+        title
+        description
+        image
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+    }
+}
+[07 Jun 23 11:20 +07] | query history:  query Search($search: String!){
+    QueryProject(name: $search) {
+        id
+        category
+        title
+        description
+        image
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+    }
+}
+[07 Jun 23 11:20 +07] | query history:  query Search($search: String!){
+    QueryProject(name: $search) {
+        id
+        category
+        title
+        description
+        image
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+    }
+}
+[07 Jun 23 11:21 +07] | query history:  query Search($search: String!){
+    QueryProject(name: $search) {
+        id
+        category
+        title
+        description
+        image
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+    }
+}
+[07 Jun 23 11:21 +07] | query history:  query Search($search: String!){
+    QueryProject(name: $search) {
+        id
+        category
+        title
+        description
+        image
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+    }
+}
+[07 Jun 23 11:21 +07] | query history:  query Search($search: String!){
+    QueryProject(name: $search) {
+        id
+        category
+        title
+        description
+        image
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+    }
+}
+[07 Jun 23 11:21 +07] | query history:  query Search($search: String!){
+    QueryProject(name: $search) {
+        id
+        category
+        title
+        description
+        image
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+    }
+}
+[07 Jun 23 11:21 +07] | query history:  query Search($search: String!){
+    QueryProject(name: $search) {
+        id
+        category
+        title
+        description
+        image
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+    }
+}
+[07 Jun 23 11:21 +07] | query history:  query Search($search: String!){
+    QueryProject(name: $search) {
+        id
+        category
+        title
+        description
+        image
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+    }
+}
+[07 Jun 23 11:21 +07] | query history:  query Search($search: String!){
+    QueryProject(name: $search) {
+        id
+        category
+        title
+        description
+        image
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+    }
+}
+[07 Jun 23 11:21 +07] | query history:  query Search($search: String!){
+    QueryProject(name: $search) {
+        id
+        category
+        title
+        description
+        image
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+    }
+}
+[07 Jun 23 11:22 +07] | query history:  query Search($search: String!){
+    QueryProject(name: $search) {
+        id
+        category
+        title
+        description
+        image
+        url
+        is_featured
+        date
+        working_type
+        skills {
+            name
+        }
+        created_at
+        updated_at
+    }
+}
+[07 Jun 23 11:25 +07] | query history:  query Search($search: String!){
+    QueryProject(name: $search) {
+        id
+        category
+        title
+        description
+        image
+        url
+        is_featured
+        date
+        working_type
+        skills {
+            name
+        }
+        created_at
+        updated_at
+    }
+}
+[07 Jun 23 11:25 +07] | query history:  query Search($search: String!){
+    QueryProject(name: $search) {
+        id
+        category
+        title
+        description
+        image
+        url
+        is_featured
+        date
+        working_type
+        skills {
+            name
+        }
+        created_at
+        updated_at
+    }
+}
+[07 Jun 23 11:28 +07] | query history:  query Search($search: String!){
+    QueryProject(name: $search) {
+        id
+        category
+        title
+        description
+        image
+        url
+        is_featured
+        date
+        working_type
+        skills {
+            name
+        }
+        created_at
+        updated_at
+    }
+}
+[07 Jun 23 11:28 +07] | query history:  query Search($search: String!){
+    QueryProject(name: $search) {
+        id
+        category
+        title
+        description
+        image
+        url
+        is_featured
+        date
+        working_type
+        skills {
+            name
+        }
+        created_at
+        updated_at
+    }
+}

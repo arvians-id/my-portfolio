@@ -10,6 +10,7 @@ import (
 
 type ProjectRepositoryContract interface {
 	FindAll(ctx context.Context) ([]*entity.Project, error)
+	FindAllByIDs(ctx context.Context, id []int64) ([]*entity.Project, error)
 	FindAllByCategory(ctx context.Context, category string) ([]*entity.Project, error)
 	FindByID(ctx context.Context, id int64) (*entity.Project, error)
 	Create(ctx context.Context, project *entity.Project) (*entity.Project, error)
@@ -32,6 +33,18 @@ func (repository *ProjectRepository) FindAll(ctx context.Context) ([]*entity.Pro
 	err := repository.DB.WithContext(ctx).Raw(query).Scan(&projects).Error
 	if err != nil {
 		log.Println("[ProjectRepository][FindAll] problem querying to db, err: ", err.Error())
+		return nil, err
+	}
+
+	return projects, nil
+}
+
+func (repository *ProjectRepository) FindAllByIDs(ctx context.Context, id []int64) ([]*entity.Project, error) {
+	query := "SELECT * FROM projects WHERE id IN (?) ORDER BY created_at DESC"
+	var projects []*entity.Project
+	err := repository.DB.WithContext(ctx).Raw(query, id).Scan(&projects).Error
+	if err != nil {
+		log.Println("[ProjectRepository][FindAllByCategory] problem querying to db, err: ", err.Error())
 		return nil, err
 	}
 
@@ -81,7 +94,7 @@ func (repository *ProjectRepository) Create(ctx context.Context, project *entity
 		for _, id := range project.Skills {
 			var skill entity.Skill
 			query := "SELECT id FROM skills WHERE id = ? LIMIT 1"
-			row := tx.WithContext(ctx).Raw(query, id).Row()
+			row := tx.WithContext(ctx).Raw(query, id.ID).Row()
 			err := row.Scan(&skill.ID)
 			if err != nil {
 				log.Println("[ProjectRepository][Scan] problem querying to db, err: ", err.Error())
@@ -113,7 +126,7 @@ func (repository *ProjectRepository) Update(ctx context.Context, project *entity
 		for _, id := range project.Skills {
 			var skill entity.Skill
 			query := "SELECT id FROM skills WHERE id = ? LIMIT 1"
-			row := tx.WithContext(ctx).Raw(query, id).Row()
+			row := tx.WithContext(ctx).Raw(query, id.ID).Row()
 			err := row.Scan(&skill.ID)
 			if err != nil {
 				log.Println("[ProjectRepository][Scan] problem querying to db, err: ", err.Error())

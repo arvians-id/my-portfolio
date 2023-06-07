@@ -51,9 +51,11 @@ func (q queryResolver) FindByIDWorkExperience(ctx context.Context, id int64) (*m
 }
 
 func (m mutationResolver) CreateWorkExperience(ctx context.Context, input model.CreateWorkExperienceRequest) (*model.WorkExperience, error) {
-	skills := make([]*entity.Skill, len(input.Skills))
-	for i, id := range input.Skills {
-		skills[i].ID = id
+	var skills []*entity.Skill
+	for _, id := range input.Skills {
+		skills = append(skills, &entity.Skill{
+			ID: id,
+		})
 	}
 
 	workExperience, err := m.WorkExperienceService.Create(ctx, &entity.WorkExperience{
@@ -83,9 +85,11 @@ func (m mutationResolver) CreateWorkExperience(ctx context.Context, input model.
 }
 
 func (m mutationResolver) UpdateWorkExperience(ctx context.Context, input model.UpdateWorkExperienceRequest) (*model.WorkExperience, error) {
-	skills := make([]*entity.Skill, len(input.Skills))
-	for i, id := range input.Skills {
-		skills[i].ID = id
+	var skills []*entity.Skill
+	for _, id := range input.Skills {
+		skills = append(skills, &entity.Skill{
+			ID: id,
+		})
 	}
 
 	workExperience, err := m.WorkExperienceService.Update(ctx, &entity.WorkExperience{

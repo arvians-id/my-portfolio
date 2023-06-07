@@ -5,9 +5,11 @@ import (
 	"github.com/arvians-id/go-portfolio/internal/entity"
 	"github.com/arvians-id/go-portfolio/internal/repository"
 	"log"
+	"strconv"
 )
 
 type ProjectServiceContract interface {
+	Query(ctx context.Context, query string) ([]*entity.Project, error)
 	FindAll(ctx context.Context) ([]*entity.Project, error)
 	FindAllByCategory(ctx context.Context, category string) ([]*entity.Project, error)
 	FindByID(ctx context.Context, id int64) (*entity.Project, error)
@@ -18,12 +20,38 @@ type ProjectServiceContract interface {
 
 type ProjectService struct {
 	ProjectRepository repository.ProjectRepositoryContract
+	BleveSearch       BleveSearchServiceContract
 }
 
-func NewProjectService(projectRepository repository.ProjectRepositoryContract) ProjectServiceContract {
+func NewProjectService(projectRepository repository.ProjectRepositoryContract, bleveSearch BleveSearchServiceContract) ProjectServiceContract {
 	return &ProjectService{
 		ProjectRepository: projectRepository,
+		BleveSearch:       bleveSearch,
 	}
+}
+
+func (repository *ProjectService) Query(ctx context.Context, query string) ([]*entity.Project, error) {
+	ids, err := repository.BleveSearch.Search(query)
+	if err != nil {
+		log.Println("[ProjectService][Query] problem calling bleve search service, err: ", err.Error())
+		return nil, err
+	}
+
+	var idsInt64 []int64
+	if len(ids) > 0 {
+		for _, id := range ids {
+			i, _ := strconv.Atoi(id)
+			idsInt64 = append(idsInt64, int64(i))
+		}
+	}
+
+	projects, err := repository.ProjectRepository.FindAllByIDs(ctx, idsInt64)
+	if err != nil {
+		log.Println("[ProjectService][Query] problem calling repository, err: ", err.Error())
+		return nil, err
+	}
+
+	return projects, nil
 }
 
 func (repository *ProjectService) FindAll(ctx context.Context) ([]*entity.Project, error) {
@@ -62,6 +90,15 @@ func (repository *ProjectService) Create(ctx context.Context, project *entity.Pr
 		return nil, err
 	}
 
+	var searchItem entity.SearchItem
+	searchItem.ID = strconv.FormatInt(project.ID, 10)
+	searchItem.Title = project.Title
+	err = repository.BleveSearch.InsertOrUpdate(&searchItem)
+	if err != nil {
+		log.Println("[ProjectService][InsertBleve] problem calling bleve search service, err: ", err.Error())
+		return nil, err
+	}
+
 	return project, nil
 }
 
@@ -81,6 +118,15 @@ func (repository *ProjectService) Update(ctx context.Context, project *entity.Pr
 	projectUpdated, err := repository.ProjectRepository.FindByID(ctx, project.ID)
 	if err != nil {
 		log.Println("[ProjectService][FindByID] problem calling repository, err: ", err.Error())
+		return nil, err
+	}
+
+	var searchItem entity.SearchItem
+	searchItem.ID = strconv.FormatInt(project.ID, 10)
+	searchItem.Title = project.Title
+	err = repository.BleveSearch.InsertOrUpdate(&searchItem)
+	if err != nil {
+		log.Println("[ProjectService][UpdateBleve] problem calling bleve search service, err: ", err.Error())
 		return nil, err
 	}
 

@@ -67,7 +67,7 @@ func (repository *WorkExperienceRepository) Create(ctx context.Context, workExpe
 		for _, id := range workExperience.Skills {
 			query := "SELECT id FROM skills WHERE id = ? LIMIT 1"
 			var skill entity.Skill
-			row := tx.WithContext(ctx).Raw(query, id).Row()
+			row := tx.WithContext(ctx).Raw(query, id.ID).Row()
 			err := row.Scan(&skill.ID)
 			if err != nil {
 				log.Println("[WorkExperienceRepository][Scan] problem querying to db, err: ", err.Error())
@@ -100,7 +100,7 @@ func (repository *WorkExperienceRepository) Update(ctx context.Context, workExpe
 		for _, id := range workExperience.Skills {
 			query := "SELECT id FROM skills WHERE id = ? LIMIT 1"
 			var skill entity.Skill
-			row := tx.WithContext(ctx).Raw(query, id).Row()
+			row := tx.WithContext(ctx).Raw(query, id.ID).Row()
 			err := row.Scan(&skill.ID)
 			if err != nil {
 				log.Println("[WorkExperienceRepository][Scan] problem querying to db, err: ", err.Error())
