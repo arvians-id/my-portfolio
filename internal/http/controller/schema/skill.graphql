@@ -9,12 +9,12 @@ type Skill {
 input CreateSkillRequest {
     category_skill_id: ID!
     name: String!
-    icon: String
+    icon: Upload!
 }
 
 input UpdateSkillRequest {
     id: ID!
     category_skill_id: ID!
     name: String!
-    icon: String
+    icon: Upload
 }

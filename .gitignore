@@ -4,3 +4,4 @@ database/postgres/data
 .env
 tmp
 application.exe
+assets/images/*

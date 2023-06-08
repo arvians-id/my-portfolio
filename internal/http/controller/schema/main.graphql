@@ -1,4 +1,5 @@
 scalar Int64
+scalar Upload
 
 directive @goModel(
     model: String

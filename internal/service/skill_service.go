@@ -4,6 +4,7 @@ import (
 	"context"
 	"github.com/arvians-id/go-portfolio/internal/entity"
 	"github.com/arvians-id/go-portfolio/internal/repository"
+	"github.com/arvians-id/go-portfolio/util"
 	"log"
 )
 
@@ -87,7 +88,7 @@ func (service *SkillService) Create(ctx context.Context, skill *entity.Skill) (*
 }
 
 func (service *SkillService) Update(ctx context.Context, skill *entity.Skill) (*entity.Skill, error) {
-	_, err := service.SkillRepository.FindByID(ctx, skill.ID)
+	skillCheck, err := service.SkillRepository.FindByID(ctx, skill.ID)
 	if err != nil {
 		log.Println("[SkillService][FindByID] problem calling repository, err: ", err.Error())
 		return nil, err
@@ -97,6 +98,14 @@ func (service *SkillService) Update(ctx context.Context, skill *entity.Skill) (*
 	if err != nil {
 		log.Println("[SkillService][Update] problem calling repository, err: ", err.Error())
 		return nil, err
+	}
+
+	if skillCheck.Icon != skill.Icon {
+		path := "images/skill"
+		err = util.DeleteFile(path, *skillCheck.Icon)
+		if err != nil {
+			return nil, err
+		}
 	}
 
 	skillUpdated, err := service.SkillRepository.FindByID(ctx, skill.ID)

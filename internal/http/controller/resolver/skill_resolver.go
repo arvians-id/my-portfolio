@@ -4,6 +4,7 @@ import (
 	"context"
 	"github.com/arvians-id/go-portfolio/internal/entity"
 	"github.com/arvians-id/go-portfolio/internal/http/controller/model"
+	"github.com/arvians-id/go-portfolio/util"
 )
 
 func (q queryResolver) FindAllSkill(ctx context.Context) ([]*model.Skill, error) {
@@ -40,10 +41,15 @@ func (q queryResolver) FindByIDSkill(ctx context.Context, id int64) (*model.Skil
 }
 
 func (m mutationResolver) CreateSkill(ctx context.Context, input model.CreateSkillRequest) (*model.Skill, error) {
+	fileName, err := util.UploadFile("images/skill", input.Icon)
+	if err != nil {
+		return nil, err
+	}
+
 	skill, err := m.SkillService.Create(ctx, &entity.Skill{
 		CategorySkillID: input.CategorySkillID,
 		Name:            input.Name,
-		Icon:            input.Icon,
+		Icon:            &fileName,
 	})
 	if err != nil {
 		return nil, err
@@ -58,11 +64,21 @@ func (m mutationResolver) CreateSkill(ctx context.Context, input model.CreateSki
 }
 
 func (m mutationResolver) UpdateSkill(ctx context.Context, input model.UpdateSkillRequest) (*model.Skill, error) {
+	var fileName string
+	var err error
+	path := "images/skill"
+	if input.Icon != nil {
+		fileName, err = util.UploadFile(path, *input.Icon)
+		if err != nil {
+			return nil, err
+		}
+	}
+
 	skill, err := m.SkillService.Update(ctx, &entity.Skill{
 		ID:              input.ID,
 		CategorySkillID: input.CategorySkillID,
 		Name:            input.Name,
-		Icon:            input.Icon,
+		Icon:            &fileName,
 	})
 	if err != nil {
 		return nil, err

@@ -10,6 +10,7 @@ require (
 	github.com/golang-jwt/jwt/v4 v4.5.0
 	github.com/joho/godotenv v1.4.0
 	github.com/lib/pq v1.10.7
+	github.com/rs/xid v1.5.0
 	github.com/valyala/fasthttp v1.47.0
 	github.com/vektah/gqlparser/v2 v2.5.1
 	golang.org/x/crypto v0.8.0

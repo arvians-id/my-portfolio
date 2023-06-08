@@ -2,6 +2,10 @@
 
 package model
 
+import (
+	"github.com/99designs/gqlgen/graphql"
+)
+
 type AuthLoginRequest struct {
 	Email    string `json:"email"`
 	Password string `json:"password"`
@@ -82,9 +86,9 @@ type CreateProjectRequest struct {
 }
 
 type CreateSkillRequest struct {
-	CategorySkillID int64   `json:"category_skill_id"`
-	Name            string  `json:"name"`
-	Icon            *string `json:"icon,omitempty"`
+	CategorySkillID int64          `json:"category_skill_id"`
+	Name            string         `json:"name"`
+	Icon            graphql.Upload `json:"icon"`
 }
 
 type CreateUserRequest struct {
@@ -193,10 +197,10 @@ type UpdateProjectRequest struct {
 }
 
 type UpdateSkillRequest struct {
-	ID              int64   `json:"id"`
-	CategorySkillID int64   `json:"category_skill_id"`
-	Name            string  `json:"name"`
-	Icon            *string `json:"icon,omitempty"`
+	ID              int64           `json:"id"`
+	CategorySkillID int64           `json:"category_skill_id"`
+	Name            string          `json:"name"`
+	Icon            *graphql.Upload `json:"icon,omitempty"`
 }
 
 type UpdateUserRequest struct {
