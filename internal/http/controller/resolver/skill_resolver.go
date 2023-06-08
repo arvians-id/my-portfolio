@@ -102,7 +102,7 @@ func (m mutationResolver) DeleteSkill(ctx context.Context, id int64) (bool, erro
 }
 
 func (q skillResolver) CategorySkill(ctx context.Context, obj *model.Skill) (*model.CategorySkill, error) {
-	categorySkill, err := GetLoaders(ctx).ListCategoryBySkillIDs.Load(obj.ID)
+	categorySkill, err := GetLoaders(ctx).ListCategoryBySkillIDs.Load(obj.CategorySkillID)
 	if err != nil {
 		return nil, err
 	}

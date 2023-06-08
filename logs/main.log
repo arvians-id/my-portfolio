@@ -2816,3 +2816,272 @@ query history:  query FindAllProject {
 [08 Jun 23 15:54 +07] | query history:  mutation UpdateSkill ($input: UpdateSkillRequest!) { UpdateSkill (input: $input) { id category_skill_id name icon } }
 [08 Jun 23 15:54 +07] | query history:  mutation UpdateSkill ($input: UpdateSkillRequest!) { UpdateSkill (input: $input) { id category_skill_id name icon } }
 [08 Jun 23 15:55 +07] | query history:  mutation UpdateSkill ($input: UpdateSkillRequest!) { UpdateSkill (input: $input) { id category_skill_id name icon } }
+[08 Jun 23 16:00 +07] | query history:  mutation DeleteSkill ($id: ID!) {
+    DeleteSkill (id: $id)
+}
+[08 Jun 23 16:02 +07] | query history:  mutation CreateSkill ($input: CreateSkillRequest!) { CreateSkill (input: $input) { id category_skill_id name icon } }
+[08 Jun 23 16:02 +07] | query history:  query FindAllSkill {
+    FindAllSkill {
+        id
+        category_skill_id
+        name
+        icon
+        category_skill {
+            name
+        }
+    }
+}
+[08 Jun 23 16:03 +07] | query history:  query FindAllSkill {
+    FindAllSkill {
+        id
+        category_skill_id
+        name
+        icon
+        category_skill {
+            name
+        }
+    }
+}
+[08 Jun 23 16:03 +07] | query history:  query FindAllSkill {
+    FindAllSkill {
+        id
+        category_skill_id
+        name
+        icon
+        category_skill {
+            name
+        }
+    }
+}
+[08 Jun 23 16:03 +07] | query history:  query FindAllSkill {
+    FindAllSkill {
+        id
+        category_skill_id
+        name
+        icon
+        category_skill {
+            name
+        }
+    }
+}
+[08 Jun 23 16:03 +07] | query history:  query FindAllSkill {
+    FindAllSkill {
+        id
+        category_skill_id
+        name
+        icon
+        category_skill {
+            name
+        }
+    }
+}
+[08 Jun 23 16:03 +07] | query history:  query FindByIDSkill ($id: ID!) {
+    FindByIDSkill (id: $id) {
+        id
+        category_skill_id
+        name
+        icon
+    }
+}
+[08 Jun 23 16:03 +07] | query history:  query FindAllSkill {
+    FindAllSkill {
+        id
+        category_skill_id
+        name
+        icon
+    }
+}
+[08 Jun 23 16:03 +07] | query history:  query FindAllSkill {
+    FindAllSkill {
+        id
+        category_skill_id
+        name
+        icon
+        category_skill {
+            name
+        }
+    }
+}
+[08 Jun 23 16:04 +07] | query history:  query FindByIDSkill ($id: ID!) {
+    FindByIDSkill (id: $id) {
+        id
+        category_skill_id
+        name
+        icon
+        category_skill {
+            name
+        }
+    }
+}
+[08 Jun 23 16:04 +07] | query history:  query FindAllProject($search: String) {
+    FindAllProject(name: $search) {
+        id
+        category
+        title
+        description
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+        skills {
+            name
+            category_skill {
+                name
+            }
+        }
+    }
+}
+[08 Jun 23 16:04 +07] | query history:  query FindByIDSkill ($id: ID!) {
+    FindByIDSkill (id: $id) {
+        id
+        category_skill_id
+        name
+        icon
+        category_skill {
+            name
+        }
+    }
+}
+[08 Jun 23 16:05 +07] | query history:  query FindByIDSkill ($id: ID!) {
+    FindByIDSkill (id: $id) {
+        id
+        category_skill_id
+        name
+        icon
+        category_skill {
+            name
+        }
+    }
+}
+[08 Jun 23 16:05 +07] | query history:  query FindByIDSkill ($id: ID!) {
+    FindByIDSkill (id: $id) {
+        id
+        category_skill_id
+        name
+        icon
+        category_skill {
+            name
+        }
+    }
+}
+[08 Jun 23 16:07 +07] | query history:  query FindByIDSkill ($id: ID!) {
+    FindByIDSkill (id: $id) {
+        id
+        category_skill_id
+        name
+        icon
+        category_skill {
+            name
+        }
+    }
+}
+[08 Jun 23 16:09 +07] | query history:  query FindByIDSkill ($id: ID!) {
+    FindByIDSkill (id: $id) {
+        id
+        category_skill_id
+        name
+        icon
+        category_skill {
+            name
+        }
+    }
+}
+[08 Jun 23 16:10 +07] | query history:  query FindAllSkill {
+    FindAllSkill {
+        id
+        category_skill_id
+        name
+        icon
+        category_skill {
+            name
+        }
+    }
+}
+[08 Jun 23 16:11 +07] | query history:  query FindAllSkill {
+    FindAllSkill {
+        id
+        category_skill_id
+        name
+        icon
+        category_skill {
+            name
+        }
+    }
+}
+[08 Jun 23 16:11 +07] | query history:  query FindByIDSkill ($id: ID!) {
+    FindByIDSkill (id: $id) {
+        id
+        category_skill_id
+        name
+        icon
+        category_skill {
+            name
+        }
+    }
+}
+[08 Jun 23 16:12 +07] | query history:  query FindByIDSkill ($id: ID!) {
+    FindByIDSkill (id: $id) {
+        id
+        category_skill_id
+        name
+        icon
+        category_skill {
+            name
+        }
+    }
+}
+[08 Jun 23 16:12 +07] | query history:  query FindByIDSkill ($id: ID!) {
+    FindByIDSkill (id: $id) {
+        id
+        category_skill_id
+        name
+        icon
+        category_skill {
+            name
+        }
+    }
+}
+[08 Jun 23 16:12 +07] | query history:  query FindAllProject($search: String) {
+    FindAllProject(name: $search) {
+        id
+        category
+        title
+        description
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+        skills {
+            name
+            category_skill {
+                name
+            }
+        }
+    }
+}
+[08 Jun 23 16:12 +07] | query history:  query FindAllSkill {
+    FindAllSkill {
+        id
+        category_skill_id
+        name
+        icon
+        category_skill {
+            name
+        }
+    }
+}
+[08 Jun 23 16:12 +07] | query history:  query FindAllSkill {
+    FindAllSkill {
+        id
+        category_skill_id
+        name
+        icon
+        category_skill {
+            name
+        }
+    }
+}
