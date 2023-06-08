@@ -118,16 +118,24 @@ func (service *SkillService) Update(ctx context.Context, skill *entity.Skill) (*
 }
 
 func (service *SkillService) Delete(ctx context.Context, id int64) error {
-	_, err := service.SkillRepository.FindByID(ctx, id)
+	skillCheck, err := service.SkillRepository.FindByID(ctx, id)
 	if err != nil {
 		log.Println("[SkillService][FindByID] problem calling repository, err: ", err.Error())
 		return err
 	}
 
-	err = service.SkillRepository.Delete(ctx, id)
+	err = service.SkillRepository.Delete(ctx, skillCheck.ID)
 	if err != nil {
 		log.Println("[SkillService][Delete] problem calling repository, err: ", err.Error())
 		return err
+	}
+
+	if skillCheck.Icon != nil {
+		path := "images/skill"
+		err = util.DeleteFile(path, *skillCheck.Icon)
+		if err != nil {
+			return err
+		}
 	}
 
 	return nil
