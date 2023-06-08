@@ -1,7 +1,6 @@
 package middleware
 
 import (
-	"context"
 	"github.com/arvians-id/go-portfolio/internal/http/controller/model"
 	"github.com/arvians-id/go-portfolio/internal/service"
 	"github.com/gofiber/fiber/v2"
@@ -29,8 +28,4 @@ func DataLoaders(
 		c.Locals("loaders", &loaders)
 		return c.Next()
 	}
-}
-
-func GetLoaders(ctx context.Context) *Loaders {
-	return ctx.Value("loaders").(*Loaders)
 }

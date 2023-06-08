@@ -4,14 +4,23 @@ import (
 	"context"
 	"github.com/arvians-id/go-portfolio/internal/entity"
 	"github.com/arvians-id/go-portfolio/internal/http/controller/model"
-	"github.com/arvians-id/go-portfolio/internal/http/middleware"
 	"sync"
 )
 
-func (q queryResolver) QueryProject(ctx context.Context, name string) ([]*model.Project, error) {
-	projects, err := q.ProjectService.Query(ctx, name)
+func (q queryResolver) FindAllProject(ctx context.Context, name *string) ([]*model.Project, error) {
+	var projects []*entity.Project
+	var err error
+
+	projects, err = q.ProjectService.FindAll(ctx)
 	if err != nil {
 		return nil, err
+	}
+
+	if name != nil && *name != "" {
+		projects, err = q.ProjectService.Query(ctx, *name)
+		if err != nil {
+			return nil, err
+		}
 	}
 
 	var results []*model.Project
@@ -30,11 +39,13 @@ func (q queryResolver) QueryProject(ctx context.Context, name string) ([]*model.
 		})
 	}
 
-	return results, err
+	return results, nil
 }
 
-func (q queryResolver) FindAllProject(ctx context.Context) ([]*model.Project, error) {
-	projects, err := q.ProjectService.FindAll(ctx)
+func (q queryResolver) FindAllProjectByCategory(ctx context.Context, category string) ([]*model.Project, error) {
+	var projects []*entity.Project
+
+	projects, err := q.ProjectService.FindAllByCategory(ctx, category)
 	if err != nil {
 		return nil, err
 	}
@@ -207,7 +218,7 @@ func (m mutationResolver) DeleteProject(ctx context.Context, id int64) (bool, er
 }
 
 func (p projectResolver) Skills(ctx context.Context, obj *model.Project) ([]*model.Skill, error) {
-	skills, err := middleware.GetLoaders(ctx).ListSkillsByProjectIDs.Load(obj.ID)
+	skills, err := GetLoaders(ctx).ListSkillsByProjectIDs.Load(obj.ID)
 	if err != nil {
 		return nil, err
 	}

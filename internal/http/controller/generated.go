@@ -140,23 +140,23 @@ type ComplexityRoot struct {
 	}
 
 	Query struct {
-		FindAllCategorySkill   func(childComplexity int) int
-		FindAllCertificate     func(childComplexity int) int
-		FindAllContact         func(childComplexity int) int
-		FindAllEducation       func(childComplexity int) int
-		FindAllProject         func(childComplexity int) int
-		FindAllSkill           func(childComplexity int) int
-		FindAllUser            func(childComplexity int) int
-		FindAllWorkExperience  func(childComplexity int) int
-		FindByIDCategorySkill  func(childComplexity int, id int64) int
-		FindByIDCertificate    func(childComplexity int, id int64) int
-		FindByIDContact        func(childComplexity int, id int64) int
-		FindByIDEducation      func(childComplexity int, id int64) int
-		FindByIDProject        func(childComplexity int, id int64) int
-		FindByIDSkill          func(childComplexity int, id int64) int
-		FindByIDUser           func(childComplexity int, id int64) int
-		FindByIDWorkExperience func(childComplexity int, id int64) int
-		QueryProject           func(childComplexity int, name string) int
+		FindAllCategorySkill     func(childComplexity int) int
+		FindAllCertificate       func(childComplexity int) int
+		FindAllContact           func(childComplexity int) int
+		FindAllEducation         func(childComplexity int) int
+		FindAllProject           func(childComplexity int, name *string) int
+		FindAllProjectByCategory func(childComplexity int, category string) int
+		FindAllSkill             func(childComplexity int) int
+		FindAllUser              func(childComplexity int) int
+		FindAllWorkExperience    func(childComplexity int) int
+		FindByIDCategorySkill    func(childComplexity int, id int64) int
+		FindByIDCertificate      func(childComplexity int, id int64) int
+		FindByIDContact          func(childComplexity int, id int64) int
+		FindByIDEducation        func(childComplexity int, id int64) int
+		FindByIDProject          func(childComplexity int, id int64) int
+		FindByIDSkill            func(childComplexity int, id int64) int
+		FindByIDUser             func(childComplexity int, id int64) int
+		FindByIDWorkExperience   func(childComplexity int, id int64) int
 	}
 
 	Skill struct {
@@ -238,8 +238,8 @@ type QueryResolver interface {
 	FindByIDCertificate(ctx context.Context, id int64) (*model.Certificate, error)
 	FindAllContact(ctx context.Context) ([]*model.Contact, error)
 	FindByIDContact(ctx context.Context, id int64) (*model.Contact, error)
-	QueryProject(ctx context.Context, name string) ([]*model.Project, error)
-	FindAllProject(ctx context.Context) ([]*model.Project, error)
+	FindAllProject(ctx context.Context, name *string) ([]*model.Project, error)
+	FindAllProjectByCategory(ctx context.Context, category string) ([]*model.Project, error)
 	FindByIDProject(ctx context.Context, id int64) (*model.Project, error)
 	FindAllSkill(ctx context.Context) ([]*model.Skill, error)
 	FindByIDSkill(ctx context.Context, id int64) (*model.Skill, error)
@@ -883,7 +883,24 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			break
 		}
 
-		return e.complexity.Query.FindAllProject(childComplexity), true
+		args, err := ec.field_Query_FindAllProject_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Query.FindAllProject(childComplexity, args["name"].(*string)), true
+
+	case "Query.FindAllProjectByCategory":
+		if e.complexity.Query.FindAllProjectByCategory == nil {
+			break
+		}
+
+		args, err := ec.field_Query_FindAllProjectByCategory_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Query.FindAllProjectByCategory(childComplexity, args["category"].(string)), true
 
 	case "Query.FindAllSkill":
 		if e.complexity.Query.FindAllSkill == nil {
@@ -1001,18 +1018,6 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.Query.FindByIDWorkExperience(childComplexity, args["id"].(int64)), true
-
-	case "Query.QueryProject":
-		if e.complexity.Query.QueryProject == nil {
-			break
-		}
-
-		args, err := ec.field_Query_QueryProject_args(context.TODO(), rawArgs)
-		if err != nil {
-			return 0, false
-		}
-
-		return e.complexity.Query.QueryProject(childComplexity, args["name"].(string)), true
 
 	case "Skill.category_skill":
 		if e.complexity.Skill.CategorySkill == nil {
@@ -1702,6 +1707,36 @@ func (ec *executionContext) field_Mutation_UpdateWorkExperience_args(ctx context
 	return args, nil
 }
 
+func (ec *executionContext) field_Query_FindAllProjectByCategory_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	var err error
+	args := map[string]interface{}{}
+	var arg0 string
+	if tmp, ok := rawArgs["category"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("category"))
+		arg0, err = ec.unmarshalNString2string(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["category"] = arg0
+	return args, nil
+}
+
+func (ec *executionContext) field_Query_FindAllProject_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	var err error
+	args := map[string]interface{}{}
+	var arg0 *string
+	if tmp, ok := rawArgs["name"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("name"))
+		arg0, err = ec.unmarshalOString2ᚖstring(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["name"] = arg0
+	return args, nil
+}
+
 func (ec *executionContext) field_Query_FindByIDCategorySkill_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
 	var err error
 	args := map[string]interface{}{}
@@ -1819,21 +1854,6 @@ func (ec *executionContext) field_Query_FindByIDWorkExperience_args(ctx context.
 		}
 	}
 	args["id"] = arg0
-	return args, nil
-}
-
-func (ec *executionContext) field_Query_QueryProject_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
-	var err error
-	args := map[string]interface{}{}
-	var arg0 string
-	if tmp, ok := rawArgs["name"]; ok {
-		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("name"))
-		arg0, err = ec.unmarshalNString2string(ctx, tmp)
-		if err != nil {
-			return nil, err
-		}
-	}
-	args["name"] = arg0
 	return args, nil
 }
 
@@ -6629,111 +6649,6 @@ func (ec *executionContext) fieldContext_Query_FindByIDContact(ctx context.Conte
 	return fc, nil
 }
 
-func (ec *executionContext) _Query_QueryProject(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Query_QueryProject(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		directive0 := func(rctx context.Context) (interface{}, error) {
-			ctx = rctx // use context from middleware stack in children
-			return ec.resolvers.Query().QueryProject(rctx, fc.Args["name"].(string))
-		}
-		directive1 := func(ctx context.Context) (interface{}, error) {
-			isLogged, err := ec.unmarshalNBoolean2bool(ctx, false)
-			if err != nil {
-				return nil, err
-			}
-			if ec.directives.IsLoggedIn == nil {
-				return nil, errors.New("directive isLoggedIn is not implemented")
-			}
-			return ec.directives.IsLoggedIn(ctx, nil, directive0, isLogged)
-		}
-
-		tmp, err := directive1(rctx)
-		if err != nil {
-			return nil, graphql.ErrorOnPath(ctx, err)
-		}
-		if tmp == nil {
-			return nil, nil
-		}
-		if data, ok := tmp.([]*model.Project); ok {
-			return data, nil
-		}
-		return nil, fmt.Errorf(`unexpected type %T from directive, should be []*github.com/arvians-id/go-portfolio/internal/http/controller/model.Project`, tmp)
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.([]*model.Project)
-	fc.Result = res
-	return ec.marshalNProject2ᚕᚖgithubᚗcomᚋarviansᚑidᚋgoᚑportfolioᚋinternalᚋhttpᚋcontrollerᚋmodelᚐProjectᚄ(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_Query_QueryProject(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "Query",
-		Field:      field,
-		IsMethod:   true,
-		IsResolver: true,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			switch field.Name {
-			case "id":
-				return ec.fieldContext_Project_id(ctx, field)
-			case "category":
-				return ec.fieldContext_Project_category(ctx, field)
-			case "title":
-				return ec.fieldContext_Project_title(ctx, field)
-			case "description":
-				return ec.fieldContext_Project_description(ctx, field)
-			case "url":
-				return ec.fieldContext_Project_url(ctx, field)
-			case "is_featured":
-				return ec.fieldContext_Project_is_featured(ctx, field)
-			case "date":
-				return ec.fieldContext_Project_date(ctx, field)
-			case "working_type":
-				return ec.fieldContext_Project_working_type(ctx, field)
-			case "skills":
-				return ec.fieldContext_Project_skills(ctx, field)
-			case "images":
-				return ec.fieldContext_Project_images(ctx, field)
-			case "created_at":
-				return ec.fieldContext_Project_created_at(ctx, field)
-			case "updated_at":
-				return ec.fieldContext_Project_updated_at(ctx, field)
-			}
-			return nil, fmt.Errorf("no field named %q was found under type Project", field.Name)
-		},
-	}
-	defer func() {
-		if r := recover(); r != nil {
-			err = ec.Recover(ctx, r)
-			ec.Error(ctx, err)
-		}
-	}()
-	ctx = graphql.WithFieldContext(ctx, fc)
-	if fc.Args, err = ec.field_Query_QueryProject_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
-		ec.Error(ctx, err)
-		return
-	}
-	return fc, nil
-}
-
 func (ec *executionContext) _Query_FindAllProject(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Query_FindAllProject(ctx, field)
 	if err != nil {
@@ -6749,7 +6664,7 @@ func (ec *executionContext) _Query_FindAllProject(ctx context.Context, field gra
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		directive0 := func(rctx context.Context) (interface{}, error) {
 			ctx = rctx // use context from middleware stack in children
-			return ec.resolvers.Query().FindAllProject(rctx)
+			return ec.resolvers.Query().FindAllProject(rctx, fc.Args["name"].(*string))
 		}
 		directive1 := func(ctx context.Context) (interface{}, error) {
 			isLogged, err := ec.unmarshalNBoolean2bool(ctx, false)
@@ -6824,6 +6739,122 @@ func (ec *executionContext) fieldContext_Query_FindAllProject(ctx context.Contex
 			}
 			return nil, fmt.Errorf("no field named %q was found under type Project", field.Name)
 		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Query_FindAllProject_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Query_FindAllProjectByCategory(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Query_FindAllProjectByCategory(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		directive0 := func(rctx context.Context) (interface{}, error) {
+			ctx = rctx // use context from middleware stack in children
+			return ec.resolvers.Query().FindAllProjectByCategory(rctx, fc.Args["category"].(string))
+		}
+		directive1 := func(ctx context.Context) (interface{}, error) {
+			isLogged, err := ec.unmarshalNBoolean2bool(ctx, false)
+			if err != nil {
+				return nil, err
+			}
+			if ec.directives.IsLoggedIn == nil {
+				return nil, errors.New("directive isLoggedIn is not implemented")
+			}
+			return ec.directives.IsLoggedIn(ctx, nil, directive0, isLogged)
+		}
+
+		tmp, err := directive1(rctx)
+		if err != nil {
+			return nil, graphql.ErrorOnPath(ctx, err)
+		}
+		if tmp == nil {
+			return nil, nil
+		}
+		if data, ok := tmp.([]*model.Project); ok {
+			return data, nil
+		}
+		return nil, fmt.Errorf(`unexpected type %T from directive, should be []*github.com/arvians-id/go-portfolio/internal/http/controller/model.Project`, tmp)
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.([]*model.Project)
+	fc.Result = res
+	return ec.marshalNProject2ᚕᚖgithubᚗcomᚋarviansᚑidᚋgoᚑportfolioᚋinternalᚋhttpᚋcontrollerᚋmodelᚐProjectᚄ(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Query_FindAllProjectByCategory(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Query",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_Project_id(ctx, field)
+			case "category":
+				return ec.fieldContext_Project_category(ctx, field)
+			case "title":
+				return ec.fieldContext_Project_title(ctx, field)
+			case "description":
+				return ec.fieldContext_Project_description(ctx, field)
+			case "url":
+				return ec.fieldContext_Project_url(ctx, field)
+			case "is_featured":
+				return ec.fieldContext_Project_is_featured(ctx, field)
+			case "date":
+				return ec.fieldContext_Project_date(ctx, field)
+			case "working_type":
+				return ec.fieldContext_Project_working_type(ctx, field)
+			case "skills":
+				return ec.fieldContext_Project_skills(ctx, field)
+			case "images":
+				return ec.fieldContext_Project_images(ctx, field)
+			case "created_at":
+				return ec.fieldContext_Project_created_at(ctx, field)
+			case "updated_at":
+				return ec.fieldContext_Project_updated_at(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type Project", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Query_FindAllProjectByCategory_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return
 	}
 	return fc, nil
 }
@@ -12638,7 +12669,7 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 			out.Concurrently(i, func() graphql.Marshaler {
 				return rrm(innerCtx)
 			})
-		case "QueryProject":
+		case "FindAllProject":
 			field := field
 
 			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
@@ -12647,7 +12678,7 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 						ec.Error(ctx, ec.Recover(ctx, r))
 					}
 				}()
-				res = ec._Query_QueryProject(ctx, field)
+				res = ec._Query_FindAllProject(ctx, field)
 				if res == graphql.Null {
 					atomic.AddUint32(&invalids, 1)
 				}
@@ -12661,7 +12692,7 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 			out.Concurrently(i, func() graphql.Marshaler {
 				return rrm(innerCtx)
 			})
-		case "FindAllProject":
+		case "FindAllProjectByCategory":
 			field := field
 
 			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
@@ -12670,7 +12701,7 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 						ec.Error(ctx, ec.Recover(ctx, r))
 					}
 				}()
-				res = ec._Query_FindAllProject(ctx, field)
+				res = ec._Query_FindAllProjectByCategory(ctx, field)
 				if res == graphql.Null {
 					atomic.AddUint32(&invalids, 1)
 				}

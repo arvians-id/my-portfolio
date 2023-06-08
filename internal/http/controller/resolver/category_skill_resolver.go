@@ -4,7 +4,6 @@ import (
 	"context"
 	"github.com/arvians-id/go-portfolio/internal/entity"
 	"github.com/arvians-id/go-portfolio/internal/http/controller/model"
-	"github.com/arvians-id/go-portfolio/internal/http/middleware"
 )
 
 func (q queryResolver) FindAllCategorySkill(ctx context.Context) ([]*model.CategorySkill, error) {
@@ -83,7 +82,7 @@ func (m mutationResolver) DeleteCategorySkill(ctx context.Context, id int64) (bo
 }
 
 func (c categorySkillResolver) Skills(ctx context.Context, obj *model.CategorySkill) ([]*model.Skill, error) {
-	skills, err := middleware.GetLoaders(ctx).ListSkillsByCategoryIDs.Load(obj.ID)
+	skills, err := GetLoaders(ctx).ListSkillsByCategoryIDs.Load(obj.ID)
 	if err != nil {
 		return nil, err
 	}

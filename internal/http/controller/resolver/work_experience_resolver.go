@@ -4,7 +4,6 @@ import (
 	"context"
 	"github.com/arvians-id/go-portfolio/internal/entity"
 	"github.com/arvians-id/go-portfolio/internal/http/controller/model"
-	"github.com/arvians-id/go-portfolio/internal/http/middleware"
 )
 
 func (q queryResolver) FindAllWorkExperience(ctx context.Context) ([]*model.WorkExperience, error) {
@@ -129,7 +128,7 @@ func (m mutationResolver) DeleteWorkExperience(ctx context.Context, id int64) (b
 }
 
 func (w workExperienceResolver) Skills(ctx context.Context, obj *model.WorkExperience) ([]*model.Skill, error) {
-	skills, err := middleware.GetLoaders(ctx).ListSkillsByWorkExperienceIDs.Load(obj.ID)
+	skills, err := GetLoaders(ctx).ListSkillsByWorkExperienceIDs.Load(obj.ID)
 	if err != nil {
 		return nil, err
 	}

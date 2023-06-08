@@ -2227,3 +2227,545 @@ query history:  query FindAllProject {
         updated_at
     }
 }
+[08 Jun 23 12:46 +07] | query history:  query FindAllProject {
+    FindAllProject {
+        id
+        category
+        title
+        description
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+        skills {
+            name
+            category_skill {
+                name
+            }
+        }
+    }
+}
+[08 Jun 23 12:46 +07] | query history:  query Search($search: String!){
+    QueryProject(name: $search) {
+        id
+        category
+        title
+        description
+        url
+        is_featured
+        date
+        working_type
+        skills {
+            name
+        }
+        created_at
+        updated_at
+    }
+}
+[08 Jun 23 12:46 +07] | query history:  query Search($search: String!){
+    QueryProject(name: $search) {
+        id
+        category
+        title
+        description
+        url
+        is_featured
+        date
+        working_type
+        skills {
+            name
+        }
+        created_at
+        updated_at
+    }
+}
+[08 Jun 23 12:46 +07] | query history:  query Search($search: String!){
+    QueryProject(name: $search) {
+        id
+        category
+        title
+        description
+        url
+        is_featured
+        date
+        working_type
+        skills {
+            name
+        }
+        created_at
+        updated_at
+    }
+}
+[08 Jun 23 12:53 +07] | query history:  query FindAllProject {
+    FindAllProject {
+        id
+        category
+        title
+        description
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+        skills {
+            name
+            category_skill {
+                name
+            }
+        }
+    }
+}
+[08 Jun 23 12:54 +07] | query history:  query FindAllProject($search: String) {
+    FindAllProject(name: $search) {
+        id
+        category
+        title
+        description
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+        skills {
+            name
+            category_skill {
+                name
+            }
+        }
+    }
+}
+[08 Jun 23 12:55 +07] | query history:  query FindAllProject($search: String) {
+    FindAllProject(name: $search) {
+        id
+        category
+        title
+        description
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+        skills {
+            name
+            category_skill {
+                name
+            }
+        }
+    }
+}
+[08 Jun 23 12:55 +07] | query history:  query FindAllProject($search: String) {
+    FindAllProject(name: $search) {
+        id
+        category
+        title
+        description
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+        skills {
+            name
+            category_skill {
+                name
+            }
+        }
+    }
+}
+[08 Jun 23 12:55 +07] | query history:  query FindAllProject($search: String) {
+    FindAllProject(name: $search) {
+        id
+        category
+        title
+        description
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+        skills {
+            name
+            category_skill {
+                name
+            }
+        }
+    }
+}
+[08 Jun 23 12:55 +07] | query history:  query FindAllProject($search: String) {
+    FindAllProject(name: $search) {
+        id
+        category
+        title
+        description
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+        skills {
+            name
+            category_skill {
+                name
+            }
+        }
+    }
+}
+[08 Jun 23 12:55 +07] | query history:  query FindAllProject($search: String) {
+    FindAllProject(name: $search) {
+        id
+        category
+        title
+        description
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+        skills {
+            name
+            category_skill {
+                name
+            }
+        }
+    }
+}
+[08 Jun 23 12:55 +07] | query history:  query FindAllProject($search: String) {
+    FindAllProject(name: $search) {
+        id
+        category
+        title
+        description
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+        skills {
+            name
+            category_skill {
+                name
+            }
+        }
+    }
+}
+[08 Jun 23 12:56 +07] | query history:  query FindAllProject($search: String) {
+    FindAllProject(name: $search) {
+        id
+        category
+        title
+        description
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+        skills {
+            name
+            category_skill {
+                name
+            }
+        }
+    }
+}
+[08 Jun 23 12:56 +07] | query history:  query FindAllProject($search: String) {
+    FindAllProject(name: $search) {
+        id
+        category
+        title
+        description
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+        skills {
+            name
+            category_skill {
+                name
+            }
+        }
+    }
+}
+[08 Jun 23 12:56 +07] | query history:  query FindAllProject($search: String) {
+    FindAllProject(name: $search) {
+        id
+        category
+        title
+        description
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+        skills {
+            name
+            category_skill {
+                name
+            }
+        }
+    }
+}
+[08 Jun 23 12:56 +07] | query history:  query FindAllProject($search: String) {
+    FindAllProject(name: $search) {
+        id
+        category
+        title
+        description
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+        skills {
+            name
+            category_skill {
+                name
+            }
+        }
+    }
+}
+[08 Jun 23 12:56 +07] | query history:  query FindAllProject($search: String) {
+    FindAllProject(name: $search) {
+        id
+        category
+        title
+        description
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+        skills {
+            name
+            category_skill {
+                name
+            }
+        }
+    }
+}
+[08 Jun 23 12:56 +07] | query history:  query FindAllProject($search: String) {
+    FindAllProject(name: $search) {
+        id
+        category
+        title
+        description
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+        skills {
+            name
+            category_skill {
+                name
+            }
+        }
+    }
+}
+[08 Jun 23 12:56 +07] | query history:  query FindAllProject($search: String) {
+    FindAllProject(name: $search) {
+        id
+        category
+        title
+        description
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+        skills {
+            name
+            category_skill {
+                name
+            }
+        }
+    }
+}
+[08 Jun 23 12:59 +07] | query history:  query FindAllProject($search: String) {
+    FindAllProject(name: $search) {
+        id
+        category
+        title
+        description
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+        skills {
+            name
+            category_skill {
+                name
+            }
+        }
+    }
+}
+[08 Jun 23 12:59 +07] | query history:  query FindAllProject($search: String) {
+    FindAllProject(name: $search) {
+        id
+        category
+        title
+        description
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+        skills {
+            name
+            category_skill {
+                name
+            }
+        }
+    }
+}
+[08 Jun 23 12:59 +07] | query history:  query FindAllProject($search: String) {
+    FindAllProject(name: $search) {
+        id
+        category
+        title
+        description
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+        skills {
+            name
+            category_skill {
+                name
+            }
+        }
+    }
+}
+[08 Jun 23 12:59 +07] | query history:  query FindAllProject($search: String) {
+    FindAllProject(name: $search) {
+        id
+        category
+        title
+        description
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+        skills {
+            name
+            category_skill {
+                name
+            }
+        }
+    }
+}
+[08 Jun 23 12:59 +07] | query history:  query FindAllProject($search: String) {
+    FindAllProject(name: $search) {
+        id
+        category
+        title
+        description
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+        skills {
+            name
+            category_skill {
+                name
+            }
+        }
+    }
+}
+[08 Jun 23 12:59 +07] | query history:  query FindAllProject($search: String) {
+    FindAllProject(name: $search) {
+        id
+        category
+        title
+        description
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+        skills {
+            name
+            category_skill {
+                name
+            }
+        }
+    }
+}
+[08 Jun 23 13:03 +07] | query history:  query Project($category: String!){
+    FindAllProjectByCategory(category: $category) {
+        id
+        category
+        title
+        description
+        url
+        is_featured
+        date
+        working_type
+        skills {
+            name
+        }
+        created_at
+        updated_at
+    }
+}
+[08 Jun 23 13:04 +07] | query history:  query Project($category: String!){
+    FindAllProjectByCategory(category: $category) {
+        id
+        category
+        title
+        description
+        url
+        is_featured
+        date
+        working_type
+        skills {
+            name
+        }
+        created_at
+        updated_at
+    }
+}
+[08 Jun 23 13:04 +07] | query history:  query Project($category: String!){
+    FindAllProjectByCategory(category: $category) {
+        id
+        category
+        title
+        description
+        url
+        is_featured
+        date
+        working_type
+        skills {
+            name
+        }
+        created_at
+        updated_at
+    }
+}

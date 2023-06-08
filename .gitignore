@@ -2,5 +2,5 @@ database/postgres/data
 .idea
 .vscode
 .env
-*/tmp
+tmp
 application.exe

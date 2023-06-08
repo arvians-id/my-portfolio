@@ -1,7 +1,9 @@
 package resolver
 
 import (
+	"context"
 	gql "github.com/arvians-id/go-portfolio/internal/http/controller"
+	"github.com/arvians-id/go-portfolio/internal/http/middleware"
 	"github.com/arvians-id/go-portfolio/internal/service"
 )
 
@@ -50,3 +52,7 @@ type categorySkillResolver struct{ *Resolver }
 type projectResolver struct{ *Resolver }
 type skillResolver struct{ *Resolver }
 type workExperienceResolver struct{ *Resolver }
+
+func GetLoaders(ctx context.Context) *middleware.Loaders {
+	return ctx.Value("loaders").(*middleware.Loaders)
+}
