@@ -4,6 +4,7 @@ import (
 	"context"
 	"github.com/arvians-id/go-portfolio/internal/entity"
 	"github.com/arvians-id/go-portfolio/internal/repository"
+	"github.com/arvians-id/go-portfolio/util"
 	"log"
 )
 
@@ -56,7 +57,7 @@ func (service *CertificateService) Create(ctx context.Context, certificate *enti
 }
 
 func (service *CertificateService) Update(ctx context.Context, certificate *entity.Certificate) (*entity.Certificate, error) {
-	_, err := service.CertificateRepository.FindByID(ctx, certificate.ID)
+	certificateCheck, err := service.CertificateRepository.FindByID(ctx, certificate.ID)
 	if err != nil {
 		log.Println("[CertificateService][Update] problem calling repository, err: ", err.Error())
 		return nil, err
@@ -66,6 +67,14 @@ func (service *CertificateService) Update(ctx context.Context, certificate *enti
 	if err != nil {
 		log.Println("[CertificateService][Update] problem calling repository, err: ", err.Error())
 		return nil, err
+	}
+
+	if certificateCheck.Image != certificate.Image {
+		path := "images/certificate"
+		err = util.DeleteFile(path, *certificateCheck.Image)
+		if err != nil {
+			return nil, err
+		}
 	}
 
 	certificateUpdated, err := service.CertificateRepository.FindByID(ctx, certificate.ID)
@@ -88,6 +97,14 @@ func (service *CertificateService) Delete(ctx context.Context, id int64) error {
 	if err != nil {
 		log.Println("[CertificateService][Delete] problem calling repository, err: ", err.Error())
 		return err
+	}
+
+	if certificateCheck.Image != nil {
+		path := "images/certificate"
+		err = util.DeleteFile(path, *certificateCheck.Image)
+		if err != nil {
+			return err
+		}
 	}
 
 	return nil

@@ -4,6 +4,7 @@ import (
 	"context"
 	"github.com/arvians-id/go-portfolio/internal/entity"
 	"github.com/arvians-id/go-portfolio/internal/http/controller/model"
+	"github.com/arvians-id/go-portfolio/util"
 )
 
 func (q queryResolver) FindAllCertificate(ctx context.Context) ([]*model.Certificate, error) {
@@ -21,7 +22,7 @@ func (q queryResolver) FindAllCertificate(ctx context.Context) ([]*model.Certifi
 			IssueDate:      certificate.IssueDate,
 			ExpirationDate: certificate.ExpirationDate,
 			CredentialID:   certificate.CredentialID,
-			ImageURL:       certificate.ImageURL,
+			Image:          certificate.Image,
 		})
 	}
 
@@ -41,18 +42,23 @@ func (q queryResolver) FindByIDCertificate(ctx context.Context, id int64) (*mode
 		IssueDate:      certificate.IssueDate,
 		ExpirationDate: certificate.ExpirationDate,
 		CredentialID:   certificate.CredentialID,
-		ImageURL:       certificate.ImageURL,
+		Image:          certificate.Image,
 	}, nil
 }
 
 func (m mutationResolver) CreateCertificate(ctx context.Context, input model.CreateCertificateRequest) (*model.Certificate, error) {
+	fileName, err := util.UploadFile("images/certificate", input.Image)
+	if err != nil {
+		return nil, err
+	}
+
 	certificate, err := m.CertificateService.Create(ctx, &entity.Certificate{
 		Name:           input.Name,
 		Organization:   input.Organization,
 		IssueDate:      input.IssueDate,
 		ExpirationDate: input.ExpirationDate,
 		CredentialID:   input.CredentialID,
-		ImageURL:       input.ImageURL,
+		Image:          &fileName,
 	})
 	if err != nil {
 		return nil, err
@@ -65,11 +71,21 @@ func (m mutationResolver) CreateCertificate(ctx context.Context, input model.Cre
 		IssueDate:      certificate.IssueDate,
 		ExpirationDate: certificate.ExpirationDate,
 		CredentialID:   certificate.CredentialID,
-		ImageURL:       certificate.ImageURL,
+		Image:          certificate.Image,
 	}, nil
 }
 
 func (m mutationResolver) UpdateCertificate(ctx context.Context, input model.UpdateCertificateRequest) (*model.Certificate, error) {
+	var fileName string
+	var err error
+	path := "images/certificate"
+	if input.Image != nil {
+		fileName, err = util.UploadFile(path, *input.Image)
+		if err != nil {
+			return nil, err
+		}
+	}
+
 	certificate, err := m.CertificateService.Update(ctx, &entity.Certificate{
 		ID:             input.ID,
 		Name:           *input.Name,
@@ -77,7 +93,7 @@ func (m mutationResolver) UpdateCertificate(ctx context.Context, input model.Upd
 		IssueDate:      *input.IssueDate,
 		ExpirationDate: input.ExpirationDate,
 		CredentialID:   input.CredentialID,
-		ImageURL:       input.ImageURL,
+		Image:          &fileName,
 	})
 	if err != nil {
 		return nil, err
@@ -90,7 +106,7 @@ func (m mutationResolver) UpdateCertificate(ctx context.Context, input model.Upd
 		IssueDate:      certificate.IssueDate,
 		ExpirationDate: certificate.ExpirationDate,
 		CredentialID:   certificate.CredentialID,
-		ImageURL:       certificate.ImageURL,
+		Image:          certificate.Image,
 	}, nil
 }
 

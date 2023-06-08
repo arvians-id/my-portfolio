@@ -46,7 +46,7 @@ func (repository *CertificateRepository) FindByID(ctx context.Context, id int64)
 		&certificate.IssueDate,
 		&certificate.ExpirationDate,
 		&certificate.CredentialID,
-		&certificate.ImageURL,
+		&certificate.Image,
 	)
 	if err != nil {
 		log.Println("[CertificateRepository][FindByID] problem with scanning db row, err: ", err.Error())

@@ -4,6 +4,7 @@ import (
 	"context"
 	"github.com/arvians-id/go-portfolio/internal/entity"
 	"github.com/arvians-id/go-portfolio/internal/http/controller/model"
+	"github.com/arvians-id/go-portfolio/util"
 	"sync"
 )
 
@@ -91,7 +92,7 @@ func (q queryResolver) FindByIDProject(ctx context.Context, id int64) (*model.Pr
 
 func (m mutationResolver) CreateProject(ctx context.Context, input model.CreateProjectRequest) (*model.Project, error) {
 	var skills []*entity.Skill
-	var images []*entity.ProjectImages
+	var images []*entity.ProjectImage
 	var mu sync.Mutex
 	var wg sync.WaitGroup
 
@@ -111,8 +112,14 @@ func (m mutationResolver) CreateProject(ctx context.Context, input model.CreateP
 		defer wg.Done()
 		for _, image := range input.Images {
 			mu.Lock()
-			images = append(images, &entity.ProjectImages{
-				Image: image.Image,
+
+			fileName, err := util.UploadFile("images/project", *image)
+			if err != nil {
+				panic(err)
+			}
+
+			images = append(images, &entity.ProjectImage{
+				Image: fileName,
 			})
 			mu.Unlock()
 		}
@@ -150,7 +157,7 @@ func (m mutationResolver) CreateProject(ctx context.Context, input model.CreateP
 
 func (m mutationResolver) UpdateProject(ctx context.Context, input model.UpdateProjectRequest) (*model.Project, error) {
 	var skills []*entity.Skill
-	var images []*entity.ProjectImages
+	var images []*entity.ProjectImage
 	var mu sync.Mutex
 	var wg sync.WaitGroup
 
@@ -167,14 +174,20 @@ func (m mutationResolver) UpdateProject(ctx context.Context, input model.UpdateP
 	}()
 
 	go func() {
-		defer wg.Done()
+		path := "images/project"
 		for _, image := range input.Images {
 			mu.Lock()
-			images = append(images, &entity.ProjectImages{
-				Image: image.Image,
+			fileName, err := util.UploadFile(path, *image)
+			if err != nil {
+				panic(err)
+			}
+
+			images = append(images, &entity.ProjectImage{
+				Image: fileName,
 			})
 			mu.Unlock()
 		}
+		defer wg.Done()
 	}()
 	wg.Wait()
 
@@ -226,7 +239,7 @@ func (p projectResolver) Skills(ctx context.Context, obj *model.Project) ([]*mod
 	return skills, nil
 }
 
-func (p projectResolver) Images(ctx context.Context, obj *model.Project) ([]*model.ProjectImages, error) {
+func (p projectResolver) Images(ctx context.Context, obj *model.Project) ([]*model.ProjectImage, error) {
 	//TODO implement me
 	panic("implement me")
 }

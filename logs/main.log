@@ -3085,3 +3085,87 @@ query history:  query FindAllProject {
         }
     }
 }
+[08 Jun 23 20:39 +07] | query history:  mutation CreateCertificate ($input: CreateCertificateRequest!) { CreateCertificate (input: $input) { id name organization issue_date expiration_date credential_id image }}
+[08 Jun 23 20:41 +07] | query history:  mutation CreateCertificate ($input: CreateCertificateRequest!) { CreateCertificate (input: $input) { id name organization issue_date expiration_date credential_id image }}
+[08 Jun 23 20:43 +07] | query history:  mutation CreateCertificate ($input: CreateCertificateRequest!) { CreateCertificate (input: $input) { id name organization issue_date expiration_date credential_id image }}
+[08 Jun 23 20:44 +07] | query history:  mutation UpdateCertificate ($input: UpdateCertificateRequest!) { UpdateCertificate (input: $input) { id name organization issue_date expiration_date credential_id image }}
+[08 Jun 23 20:46 +07] | query history:  mutation UpdateCertificate ($input: UpdateCertificateRequest!) { UpdateCertificate (input: $input) { id name organization issue_date expiration_date credential_id image }}
+[08 Jun 23 20:46 +07] | query history:  mutation DeleteCertificate ($id: ID!) {
+    DeleteCertificate (id: $id)
+}
+[08 Jun 23 21:04 +07] | query history:  mutation CreateContact ($input: CreateContactRequest!) {CreateContact (input: $input) { id platform url icon } }
+[08 Jun 23 21:05 +07] | query history:  mutation UpdateContact ($input: UpdateContactRequest!) {UpdateContact (input: $input) { id platform url icon } }
+[08 Jun 23 21:05 +07] | query history:  mutation DeleteContact ($id: ID!) {
+    DeleteContact (id: $id)
+}
+[08 Jun 23 21:06 +07] | query history:  mutation CreateContact ($input: CreateContactRequest!) {CreateContact (input: $input) { id platform url icon } }
+[08 Jun 23 21:08 +07] | query history:  mutation CreateUser ($input: CreateUserRequest!) {
+    CreateUser (input: $input) {
+        id
+        name
+        email
+        password
+        bio
+        pronouns
+        country
+        job_title
+        image
+        created_at
+        updated_at
+    }
+}
+[08 Jun 23 21:13 +07] | query history:  mutation UpdateUser ($input: UpdateUserRequest!) {UpdateUser (input: $input) {id name email password bio pronouns country job_title image created_at updated_at } }
+[08 Jun 23 21:14 +07] | query history:  mutation UpdateUser ($input: UpdateUserRequest!) {UpdateUser (input: $input) {id name email password bio pronouns country job_title image created_at updated_at } }
+[08 Jun 23 21:15 +07] | query history:  mutation UpdateUser ($input: UpdateUserRequest!) {UpdateUser (input: $input) {id name email password bio pronouns country job_title image created_at updated_at } }
+[08 Jun 23 21:16 +07] | query history:  mutation UpdateUser ($input: UpdateUserRequest!) {UpdateUser (input: $input) {id name email password bio pronouns country job_title image created_at updated_at } }
+[08 Jun 23 21:16 +07] | query history:  mutation UpdateUser ($input: UpdateUserRequest!) {UpdateUser (input: $input) {id name email password bio pronouns country job_title image created_at updated_at } }
+[08 Jun 23 21:17 +07] | query history:  mutation UpdateUser ($input: UpdateUserRequest!) {UpdateUser (input: $input) {id name email password bio pronouns country job_title image created_at updated_at } }
+[08 Jun 23 21:18 +07] | query history:  mutation UpdateUser ($input: UpdateUserRequest!) {UpdateUser (input: $input) {id name email password bio pronouns country job_title image created_at updated_at } }
+[08 Jun 23 21:18 +07] | query history:  mutation UpdateUser ($input: UpdateUserRequest!) {UpdateUser (input: $input) {id name email password bio pronouns country job_title image created_at updated_at } }
+[08 Jun 23 21:19 +07] | query history:  mutation UpdateUser ($input: UpdateUserRequest!) {UpdateUser (input: $input) {id name email password bio pronouns country job_title image created_at updated_at } }
+[08 Jun 23 21:19 +07] | query history:  mutation UpdateUser ($input: UpdateUserRequest!) {UpdateUser (input: $input) {id name email bio pronouns country job_title image created_at updated_at } }
+[08 Jun 23 21:19 +07] | query history:  mutation CreateUser ($input: CreateUserRequest!) {
+    CreateUser (input: $input) {
+        id
+        name
+        email
+        password
+        bio
+        pronouns
+        country
+        job_title
+        image
+        created_at
+        updated_at
+    }
+}
+[08 Jun 23 21:20 +07] | query history:  mutation UpdateUser ($input: UpdateUserRequest!) {UpdateUser (input: $input) {id name email bio pronouns country job_title image created_at updated_at } }
+[08 Jun 23 21:22 +07] | query history:  mutation UpdateUser ($input: UpdateUserRequest!) {UpdateUser (input: $input) {id name email bio pronouns country job_title image created_at updated_at } }
+[08 Jun 23 21:23 +07] | query history:  mutation DeleteProject ($id: ID!) {
+    DeleteProject (id: $id)
+}
+[08 Jun 23 21:23 +07] | query history:  mutation DeleteUser ($id: ID!) {
+    DeleteUser (id: $id)
+}
+[08 Jun 23 21:40 +07] | query history:  mutation CreateProject ($input: CreateProjectRequest!) { CreateProject (input: $input) { id category title description url is_featured date working_type created_at updated_at } }
+[08 Jun 23 21:41 +07] | query history:  mutation CreateProject ($input: CreateProjectRequest!) { CreateProject (input: $input) { id category title description url is_featured date working_type created_at updated_at } }
+[08 Jun 23 21:42 +07] | query history:  mutation CreateProject ($input: CreateProjectRequest!) { CreateProject (input: $input) { id category title description url is_featured date working_type created_at updated_at } }
+[08 Jun 23 21:44 +07] | query history:  mutation CreateProject ($input: CreateProjectRequest!) { CreateProject (input: $input) { id category title description url is_featured date working_type created_at updated_at } }
+[08 Jun 23 21:45 +07] | query history:  mutation CreateProject ($input: CreateProjectRequest!) { CreateProject (input: $input) { id category title description url is_featured date working_type created_at updated_at } }
+[08 Jun 23 21:48 +07] | query history:  mutation UpdateProject ($input: UpdateProjectRequest!) { UpdateProject (input: $input) { id category title description url is_featured date working_type created_at updated_at } }
+[08 Jun 23 21:49 +07] | query history:  mutation DeleteProject ($id: ID!) {
+    DeleteProject (id: $id)
+}
+[08 Jun 23 21:50 +07] | query history:  mutation DeleteProject ($id: ID!) {
+    DeleteProject (id: $id)
+}
+[08 Jun 23 21:51 +07] | query history:  mutation CreateProject ($input: CreateProjectRequest!) { CreateProject (input: $input) { id category title description url is_featured date working_type created_at updated_at } }
+[08 Jun 23 21:51 +07] | query history:  mutation UpdateProject ($input: UpdateProjectRequest!) { UpdateProject (input: $input) { id category title description url is_featured date working_type created_at updated_at } }
+[08 Jun 23 21:52 +07] | query history:  mutation DeleteProject ($id: ID!) {
+    DeleteProject (id: $id)
+}
+[08 Jun 23 21:52 +07] | query history:  mutation CreateProject ($input: CreateProjectRequest!) { CreateProject (input: $input) { id category title description url is_featured date working_type created_at updated_at } }
+[08 Jun 23 21:52 +07] | query history:  mutation DeleteProject ($id: ID!) {
+    DeleteProject (id: $id)
+}
+[08 Jun 23 21:52 +07] | query history:  mutation CreateProject ($input: CreateProjectRequest!) { CreateProject (input: $input) { id category title description url is_featured date working_type created_at updated_at } }

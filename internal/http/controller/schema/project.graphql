@@ -8,18 +8,14 @@ type Project {
     date: String!
     working_type: String!
     skills: [Skill] @goField(forceResolver: true)
-    images: [ProjectImages] @goField(forceResolver: true)
+    images: [ProjectImage] @goField(forceResolver: true)
     created_at: String!
     updated_at: String!
 }
 
-type ProjectImages {
+type ProjectImage {
     id: ID!
     project_id: ID!
-    image: String!
-}
-
-input CreateProjectImagesRequest {
     image: String!
 }
 
@@ -32,7 +28,7 @@ input CreateProjectRequest {
     date: String!
     working_type: String!
     skills: [ID!]!
-    images: [CreateProjectImagesRequest!]!
+    images: [Upload!]!
 }
 
 input UpdateProjectRequest {
@@ -45,5 +41,5 @@ input UpdateProjectRequest {
     date: String!
     working_type: String!
     skills: [ID!]!
-    images: [CreateProjectImagesRequest!]
+    images: [Upload!]
 }

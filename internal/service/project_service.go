@@ -4,6 +4,7 @@ import (
 	"context"
 	"github.com/arvians-id/go-portfolio/internal/entity"
 	"github.com/arvians-id/go-portfolio/internal/repository"
+	"github.com/arvians-id/go-portfolio/util"
 	"log"
 	"strconv"
 )
@@ -140,10 +141,26 @@ func (repository *ProjectService) Delete(ctx context.Context, id int64) error {
 		return err
 	}
 
+	images, err := repository.ProjectRepository.FindAllImagesByProjectID(ctx, projectCheck.ID)
+	if err != nil {
+		log.Println("[ProjectService][FindAllImagesByProjectID] problem calling repository, err: ", err.Error())
+		return err
+	}
+
 	err = repository.ProjectRepository.Delete(ctx, projectCheck.ID)
 	if err != nil {
 		log.Println("[ProjectService][Delete] problem calling repository, err: ", err.Error())
 		return err
+	}
+
+	if images != nil {
+		for _, image := range images {
+			path := "images/project"
+			err = util.DeleteFile(path, image.Image)
+			if err != nil {
+				return err
+			}
+		}
 	}
 
 	return nil

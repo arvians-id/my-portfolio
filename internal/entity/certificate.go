@@ -7,5 +7,5 @@ type Certificate struct {
 	IssueDate      string  `json:"issue_date"`
 	ExpirationDate *string `json:"expiration_date,omitempty"`
 	CredentialID   *string `json:"credential_id,omitempty"`
-	ImageURL       *string `json:"image_url,omitempty"`
+	Image          *string `json:"image,omitempty"`
 }

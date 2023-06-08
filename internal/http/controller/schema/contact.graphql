@@ -8,12 +8,12 @@ type Contact {
 input CreateContactRequest {
     platform: String!
     url: String!
-    icon: String
+    icon: Upload!
 }
 
 input UpdateContactRequest {
     id: ID!
     platform: String
     url: String
-    icon: String
+    icon: Upload
 }

@@ -4,6 +4,7 @@ import (
 	"context"
 	"github.com/arvians-id/go-portfolio/internal/entity"
 	"github.com/arvians-id/go-portfolio/internal/http/controller/model"
+	"github.com/arvians-id/go-portfolio/util"
 )
 
 func (q queryResolver) FindAllContact(ctx context.Context) ([]*model.Contact, error) {
@@ -40,10 +41,15 @@ func (q queryResolver) FindByIDContact(ctx context.Context, id int64) (*model.Co
 }
 
 func (m mutationResolver) CreateContact(ctx context.Context, input model.CreateContactRequest) (*model.Contact, error) {
+	fileName, err := util.UploadFile("images/contact", input.Icon)
+	if err != nil {
+		return nil, err
+	}
+
 	contact, err := m.ContactService.Create(ctx, &entity.Contact{
 		Platform: input.Platform,
 		URL:      input.URL,
-		Icon:     input.Icon,
+		Icon:     &fileName,
 	})
 	if err != nil {
 		return nil, err
@@ -58,11 +64,21 @@ func (m mutationResolver) CreateContact(ctx context.Context, input model.CreateC
 }
 
 func (m mutationResolver) UpdateContact(ctx context.Context, input model.UpdateContactRequest) (*model.Contact, error) {
+	var fileName string
+	var err error
+	path := "images/contact"
+	if input.Icon != nil {
+		fileName, err = util.UploadFile(path, *input.Icon)
+		if err != nil {
+			return nil, err
+		}
+	}
+
 	contact, err := m.ContactService.Update(ctx, &entity.Contact{
 		ID:       input.ID,
 		Platform: *input.Platform,
 		URL:      *input.URL,
-		Icon:     input.Icon,
+		Icon:     &fileName,
 	})
 	if err != nil {
 		return nil, err

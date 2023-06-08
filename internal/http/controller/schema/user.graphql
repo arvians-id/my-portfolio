@@ -29,5 +29,5 @@ input UpdateUserRequest {
     pronouns: String
     country: String
     job_title: String
-    image: String
+    image: Upload
 }

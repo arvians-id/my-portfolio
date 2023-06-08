@@ -93,7 +93,7 @@ func (service *UserService) Create(ctx context.Context, user *entity.User) (*ent
 }
 
 func (service *UserService) Update(ctx context.Context, user *entity.User) (*entity.User, error) {
-	_, err := service.UserRepository.FindByID(ctx, user.ID)
+	userCheck, err := service.UserRepository.FindByID(ctx, user.ID)
 	if err != nil {
 		log.Println("[UserService][FindByID] problem calling repository, err: ", err.Error())
 		return nil, err
@@ -115,6 +115,14 @@ func (service *UserService) Update(ctx context.Context, user *entity.User) (*ent
 		return nil, err
 	}
 
+	if userCheck.Image != nil && userCheck.Image != user.Image {
+		path := "images/user"
+		err = util.DeleteFile(path, *userCheck.Image)
+		if err != nil {
+			return nil, err
+		}
+	}
+
 	userUpdated, err := service.UserRepository.FindByID(ctx, user.ID)
 	if err != nil {
 		log.Println("[UserService][FindByID] problem calling repository, err: ", err.Error())
@@ -125,16 +133,24 @@ func (service *UserService) Update(ctx context.Context, user *entity.User) (*ent
 }
 
 func (service *UserService) Delete(ctx context.Context, id int64) error {
-	workExperienceCheck, err := service.UserRepository.FindByID(ctx, id)
+	userCheck, err := service.UserRepository.FindByID(ctx, id)
 	if err != nil {
 		log.Println("[UserService][FindByID] problem calling repository, err: ", err.Error())
 		return err
 	}
 
-	err = service.UserRepository.Delete(ctx, workExperienceCheck.ID)
+	err = service.UserRepository.Delete(ctx, userCheck.ID)
 	if err != nil {
 		log.Println("[UserService][Delete] problem calling repository, err: ", err.Error())
 		return err
+	}
+
+	if userCheck.Image != nil {
+		path := "images/user"
+		err = util.DeleteFile(path, *userCheck.Image)
+		if err != nil {
+			return err
+		}
 	}
 
 	return nil

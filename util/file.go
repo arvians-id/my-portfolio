@@ -51,21 +51,6 @@ func UploadFile(path string, graphqlUpload graphql.Upload) (string, error) {
 	return fileName, nil
 }
 
-func UploadFileBatch(path string, graphqlUploads []*graphql.Upload) ([]string, error) {
-	var fileNames []string
-
-	for _, graphqlUpload := range graphqlUploads {
-		fileName, err := UploadFile(path, *graphqlUpload)
-		if err != nil {
-			return nil, err
-		}
-
-		fileNames = append(fileNames, fileName)
-	}
-
-	return fileNames, nil
-}
-
 func DeleteFile(path string, fileName string) error {
 	fullPath, err := getWorkingDirectory(path, fileName)
 	if err != nil {
@@ -75,17 +60,6 @@ func DeleteFile(path string, fileName string) error {
 	err = os.Remove(fullPath)
 	if err != nil {
 		return err
-	}
-
-	return nil
-}
-
-func DeleteFileBatch(path string, fileNames []string) error {
-	for _, fileName := range fileNames {
-		err := DeleteFile(path, fileName)
-		if err != nil {
-			return err
-		}
 	}
 
 	return nil

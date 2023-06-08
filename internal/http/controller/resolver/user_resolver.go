@@ -4,6 +4,7 @@ import (
 	"context"
 	"github.com/arvians-id/go-portfolio/internal/entity"
 	"github.com/arvians-id/go-portfolio/internal/http/controller/model"
+	"github.com/arvians-id/go-portfolio/util"
 )
 
 func (q queryResolver) FindAllUser(ctx context.Context) ([]*model.User, error) {
@@ -79,6 +80,16 @@ func (m mutationResolver) CreateUser(ctx context.Context, input model.CreateUser
 }
 
 func (m mutationResolver) UpdateUser(ctx context.Context, input model.UpdateUserRequest) (*model.User, error) {
+	var fileName string
+	var err error
+	path := "images/user"
+	if input.Image != nil {
+		fileName, err = util.UploadFile(path, *input.Image)
+		if err != nil {
+			return nil, err
+		}
+	}
+
 	user, err := m.UserService.Update(ctx, &entity.User{
 		ID:       input.ID,
 		Name:     *input.Name,
@@ -87,7 +98,7 @@ func (m mutationResolver) UpdateUser(ctx context.Context, input model.UpdateUser
 		Pronouns: *input.Pronouns,
 		Country:  *input.Country,
 		JobTitle: *input.JobTitle,
-		Image:    input.Image,
+		Image:    &fileName,
 	})
 	if err != nil {
 		return nil, err

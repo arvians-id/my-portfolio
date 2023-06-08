@@ -30,7 +30,7 @@ type Certificate struct {
 	IssueDate      string  `json:"issue_date"`
 	ExpirationDate *string `json:"expiration_date,omitempty"`
 	CredentialID   *string `json:"credential_id,omitempty"`
-	ImageURL       *string `json:"image_url,omitempty"`
+	Image          *string `json:"image,omitempty"`
 }
 
 type Contact struct {
@@ -45,18 +45,18 @@ type CreateCategorySkillRequest struct {
 }
 
 type CreateCertificateRequest struct {
-	Name           string  `json:"name"`
-	Organization   string  `json:"organization"`
-	IssueDate      string  `json:"issue_date"`
-	ExpirationDate *string `json:"expiration_date,omitempty"`
-	CredentialID   *string `json:"credential_id,omitempty"`
-	ImageURL       *string `json:"image_url,omitempty"`
+	Name           string         `json:"name"`
+	Organization   string         `json:"organization"`
+	IssueDate      string         `json:"issue_date"`
+	ExpirationDate *string        `json:"expiration_date,omitempty"`
+	CredentialID   *string        `json:"credential_id,omitempty"`
+	Image          graphql.Upload `json:"image"`
 }
 
 type CreateContactRequest struct {
-	Platform string  `json:"platform"`
-	URL      string  `json:"url"`
-	Icon     *string `json:"icon,omitempty"`
+	Platform string         `json:"platform"`
+	URL      string         `json:"url"`
+	Icon     graphql.Upload `json:"icon"`
 }
 
 type CreateEducationRequest struct {
@@ -69,20 +69,16 @@ type CreateEducationRequest struct {
 	EndDate      *string `json:"end_date,omitempty"`
 }
 
-type CreateProjectImagesRequest struct {
-	Image string `json:"image"`
-}
-
 type CreateProjectRequest struct {
-	Category    string                        `json:"category"`
-	Title       string                        `json:"title"`
-	Description *string                       `json:"description,omitempty"`
-	URL         *string                       `json:"url,omitempty"`
-	IsFeatured  *bool                         `json:"is_featured,omitempty"`
-	Date        string                        `json:"date"`
-	WorkingType string                        `json:"working_type"`
-	Skills      []int64                       `json:"skills"`
-	Images      []*CreateProjectImagesRequest `json:"images"`
+	Category    string            `json:"category"`
+	Title       string            `json:"title"`
+	Description *string           `json:"description,omitempty"`
+	URL         *string           `json:"url,omitempty"`
+	IsFeatured  *bool             `json:"is_featured,omitempty"`
+	Date        string            `json:"date"`
+	WorkingType string            `json:"working_type"`
+	Skills      []int64           `json:"skills"`
+	Images      []*graphql.Upload `json:"images"`
 }
 
 type CreateSkillRequest struct {
@@ -122,21 +118,21 @@ type Education struct {
 }
 
 type Project struct {
-	ID          int64            `json:"id"`
-	Category    string           `json:"category"`
-	Title       string           `json:"title"`
-	Description *string          `json:"description,omitempty"`
-	URL         *string          `json:"url,omitempty"`
-	IsFeatured  *bool            `json:"is_featured,omitempty"`
-	Date        string           `json:"date"`
-	WorkingType string           `json:"working_type"`
-	Skills      []*Skill         `json:"skills,omitempty"`
-	Images      []*ProjectImages `json:"images,omitempty"`
-	CreatedAt   string           `json:"created_at"`
-	UpdatedAt   string           `json:"updated_at"`
+	ID          int64           `json:"id"`
+	Category    string          `json:"category"`
+	Title       string          `json:"title"`
+	Description *string         `json:"description,omitempty"`
+	URL         *string         `json:"url,omitempty"`
+	IsFeatured  *bool           `json:"is_featured,omitempty"`
+	Date        string          `json:"date"`
+	WorkingType string          `json:"working_type"`
+	Skills      []*Skill        `json:"skills,omitempty"`
+	Images      []*ProjectImage `json:"images,omitempty"`
+	CreatedAt   string          `json:"created_at"`
+	UpdatedAt   string          `json:"updated_at"`
 }
 
-type ProjectImages struct {
+type ProjectImage struct {
 	ID        int64  `json:"id"`
 	ProjectID int64  `json:"project_id"`
 	Image     string `json:"image"`
@@ -156,20 +152,20 @@ type UpdateCategorySkillRequest struct {
 }
 
 type UpdateCertificateRequest struct {
-	ID             int64   `json:"id"`
-	Name           *string `json:"name,omitempty"`
-	Organization   *string `json:"organization,omitempty"`
-	IssueDate      *string `json:"issue_date,omitempty"`
-	ExpirationDate *string `json:"expiration_date,omitempty"`
-	CredentialID   *string `json:"credential_id,omitempty"`
-	ImageURL       *string `json:"image_url,omitempty"`
+	ID             int64           `json:"id"`
+	Name           *string         `json:"name,omitempty"`
+	Organization   *string         `json:"organization,omitempty"`
+	IssueDate      *string         `json:"issue_date,omitempty"`
+	ExpirationDate *string         `json:"expiration_date,omitempty"`
+	CredentialID   *string         `json:"credential_id,omitempty"`
+	Image          *graphql.Upload `json:"image,omitempty"`
 }
 
 type UpdateContactRequest struct {
-	ID       int64   `json:"id"`
-	Platform *string `json:"platform,omitempty"`
-	URL      *string `json:"url,omitempty"`
-	Icon     *string `json:"icon,omitempty"`
+	ID       int64           `json:"id"`
+	Platform *string         `json:"platform,omitempty"`
+	URL      *string         `json:"url,omitempty"`
+	Icon     *graphql.Upload `json:"icon,omitempty"`
 }
 
 type UpdateEducationRequest struct {
@@ -184,16 +180,16 @@ type UpdateEducationRequest struct {
 }
 
 type UpdateProjectRequest struct {
-	ID          int64                         `json:"id"`
-	Category    string                        `json:"category"`
-	Title       string                        `json:"title"`
-	Description *string                       `json:"description,omitempty"`
-	URL         *string                       `json:"url,omitempty"`
-	IsFeatured  *bool                         `json:"is_featured,omitempty"`
-	Date        string                        `json:"date"`
-	WorkingType string                        `json:"working_type"`
-	Skills      []int64                       `json:"skills"`
-	Images      []*CreateProjectImagesRequest `json:"images,omitempty"`
+	ID          int64             `json:"id"`
+	Category    string            `json:"category"`
+	Title       string            `json:"title"`
+	Description *string           `json:"description,omitempty"`
+	URL         *string           `json:"url,omitempty"`
+	IsFeatured  *bool             `json:"is_featured,omitempty"`
+	Date        string            `json:"date"`
+	WorkingType string            `json:"working_type"`
+	Skills      []int64           `json:"skills"`
+	Images      []*graphql.Upload `json:"images,omitempty"`
 }
 
 type UpdateSkillRequest struct {
@@ -204,14 +200,14 @@ type UpdateSkillRequest struct {
 }
 
 type UpdateUserRequest struct {
-	ID       int64   `json:"id"`
-	Name     *string `json:"name,omitempty"`
-	Password *string `json:"password,omitempty"`
-	Bio      *string `json:"bio,omitempty"`
-	Pronouns *string `json:"pronouns,omitempty"`
-	Country  *string `json:"country,omitempty"`
-	JobTitle *string `json:"job_title,omitempty"`
-	Image    *string `json:"image,omitempty"`
+	ID       int64           `json:"id"`
+	Name     *string         `json:"name,omitempty"`
+	Password *string         `json:"password,omitempty"`
+	Bio      *string         `json:"bio,omitempty"`
+	Pronouns *string         `json:"pronouns,omitempty"`
+	Country  *string         `json:"country,omitempty"`
+	JobTitle *string         `json:"job_title,omitempty"`
+	Image    *graphql.Upload `json:"image,omitempty"`
 }
 
 type UpdateWorkExperienceRequest struct {

@@ -66,7 +66,7 @@ type ComplexityRoot struct {
 		CredentialID   func(childComplexity int) int
 		ExpirationDate func(childComplexity int) int
 		ID             func(childComplexity int) int
-		ImageURL       func(childComplexity int) int
+		Image          func(childComplexity int) int
 		IssueDate      func(childComplexity int) int
 		Name           func(childComplexity int) int
 		Organization   func(childComplexity int) int
@@ -133,7 +133,7 @@ type ComplexityRoot struct {
 		WorkingType func(childComplexity int) int
 	}
 
-	ProjectImages struct {
+	ProjectImage struct {
 		ID        func(childComplexity int) int
 		Image     func(childComplexity int) int
 		ProjectID func(childComplexity int) int
@@ -227,7 +227,7 @@ type MutationResolver interface {
 }
 type ProjectResolver interface {
 	Skills(ctx context.Context, obj *model.Project) ([]*model.Skill, error)
-	Images(ctx context.Context, obj *model.Project) ([]*model.ProjectImages, error)
+	Images(ctx context.Context, obj *model.Project) ([]*model.ProjectImage, error)
 }
 type QueryResolver interface {
 	FindAllUser(ctx context.Context) ([]*model.User, error)
@@ -333,12 +333,12 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Certificate.ID(childComplexity), true
 
-	case "Certificate.image_url":
-		if e.complexity.Certificate.ImageURL == nil {
+	case "Certificate.image":
+		if e.complexity.Certificate.Image == nil {
 			break
 		}
 
-		return e.complexity.Certificate.ImageURL(childComplexity), true
+		return e.complexity.Certificate.Image(childComplexity), true
 
 	case "Certificate.issue_date":
 		if e.complexity.Certificate.IssueDate == nil {
@@ -829,26 +829,26 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Project.WorkingType(childComplexity), true
 
-	case "ProjectImages.id":
-		if e.complexity.ProjectImages.ID == nil {
+	case "ProjectImage.id":
+		if e.complexity.ProjectImage.ID == nil {
 			break
 		}
 
-		return e.complexity.ProjectImages.ID(childComplexity), true
+		return e.complexity.ProjectImage.ID(childComplexity), true
 
-	case "ProjectImages.image":
-		if e.complexity.ProjectImages.Image == nil {
+	case "ProjectImage.image":
+		if e.complexity.ProjectImage.Image == nil {
 			break
 		}
 
-		return e.complexity.ProjectImages.Image(childComplexity), true
+		return e.complexity.ProjectImage.Image(childComplexity), true
 
-	case "ProjectImages.project_id":
-		if e.complexity.ProjectImages.ProjectID == nil {
+	case "ProjectImage.project_id":
+		if e.complexity.ProjectImage.ProjectID == nil {
 			break
 		}
 
-		return e.complexity.ProjectImages.ProjectID(childComplexity), true
+		return e.complexity.ProjectImage.ProjectID(childComplexity), true
 
 	case "Query.FindAllCategorySkill":
 		if e.complexity.Query.FindAllCategorySkill == nil {
@@ -1214,7 +1214,6 @@ func (e *executableSchema) Exec(ctx context.Context) graphql.ResponseHandler {
 		ec.unmarshalInputCreateCertificateRequest,
 		ec.unmarshalInputCreateContactRequest,
 		ec.unmarshalInputCreateEducationRequest,
-		ec.unmarshalInputCreateProjectImagesRequest,
 		ec.unmarshalInputCreateProjectRequest,
 		ec.unmarshalInputCreateSkillRequest,
 		ec.unmarshalInputCreateUserRequest,
@@ -2441,8 +2440,8 @@ func (ec *executionContext) fieldContext_Certificate_credential_id(ctx context.C
 	return fc, nil
 }
 
-func (ec *executionContext) _Certificate_image_url(ctx context.Context, field graphql.CollectedField, obj *model.Certificate) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Certificate_image_url(ctx, field)
+func (ec *executionContext) _Certificate_image(ctx context.Context, field graphql.CollectedField, obj *model.Certificate) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Certificate_image(ctx, field)
 	if err != nil {
 		return graphql.Null
 	}
@@ -2455,7 +2454,7 @@ func (ec *executionContext) _Certificate_image_url(ctx context.Context, field gr
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return obj.ImageURL, nil
+		return obj.Image, nil
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -2469,7 +2468,7 @@ func (ec *executionContext) _Certificate_image_url(ctx context.Context, field gr
 	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) fieldContext_Certificate_image_url(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+func (ec *executionContext) fieldContext_Certificate_image(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
 		Object:     "Certificate",
 		Field:      field,
@@ -3634,8 +3633,8 @@ func (ec *executionContext) fieldContext_Mutation_CreateCertificate(ctx context.
 				return ec.fieldContext_Certificate_expiration_date(ctx, field)
 			case "credential_id":
 				return ec.fieldContext_Certificate_credential_id(ctx, field)
-			case "image_url":
-				return ec.fieldContext_Certificate_image_url(ctx, field)
+			case "image":
+				return ec.fieldContext_Certificate_image(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type Certificate", field.Name)
 		},
@@ -3729,8 +3728,8 @@ func (ec *executionContext) fieldContext_Mutation_UpdateCertificate(ctx context.
 				return ec.fieldContext_Certificate_expiration_date(ctx, field)
 			case "credential_id":
 				return ec.fieldContext_Certificate_credential_id(ctx, field)
-			case "image_url":
-				return ec.fieldContext_Certificate_image_url(ctx, field)
+			case "image":
+				return ec.fieldContext_Certificate_image(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type Certificate", field.Name)
 		},
@@ -5679,9 +5678,9 @@ func (ec *executionContext) _Project_images(ctx context.Context, field graphql.C
 	if resTmp == nil {
 		return graphql.Null
 	}
-	res := resTmp.([]*model.ProjectImages)
+	res := resTmp.([]*model.ProjectImage)
 	fc.Result = res
-	return ec.marshalOProjectImages2ᚕᚖgithubᚗcomᚋarviansᚑidᚋgoᚑportfolioᚋinternalᚋhttpᚋcontrollerᚋmodelᚐProjectImages(ctx, field.Selections, res)
+	return ec.marshalOProjectImage2ᚕᚖgithubᚗcomᚋarviansᚑidᚋgoᚑportfolioᚋinternalᚋhttpᚋcontrollerᚋmodelᚐProjectImage(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Project_images(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -5693,13 +5692,13 @@ func (ec *executionContext) fieldContext_Project_images(ctx context.Context, fie
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			switch field.Name {
 			case "id":
-				return ec.fieldContext_ProjectImages_id(ctx, field)
+				return ec.fieldContext_ProjectImage_id(ctx, field)
 			case "project_id":
-				return ec.fieldContext_ProjectImages_project_id(ctx, field)
+				return ec.fieldContext_ProjectImage_project_id(ctx, field)
 			case "image":
-				return ec.fieldContext_ProjectImages_image(ctx, field)
+				return ec.fieldContext_ProjectImage_image(ctx, field)
 			}
-			return nil, fmt.Errorf("no field named %q was found under type ProjectImages", field.Name)
+			return nil, fmt.Errorf("no field named %q was found under type ProjectImage", field.Name)
 		},
 	}
 	return fc, nil
@@ -5793,8 +5792,8 @@ func (ec *executionContext) fieldContext_Project_updated_at(ctx context.Context,
 	return fc, nil
 }
 
-func (ec *executionContext) _ProjectImages_id(ctx context.Context, field graphql.CollectedField, obj *model.ProjectImages) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_ProjectImages_id(ctx, field)
+func (ec *executionContext) _ProjectImage_id(ctx context.Context, field graphql.CollectedField, obj *model.ProjectImage) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_ProjectImage_id(ctx, field)
 	if err != nil {
 		return graphql.Null
 	}
@@ -5824,9 +5823,9 @@ func (ec *executionContext) _ProjectImages_id(ctx context.Context, field graphql
 	return ec.marshalNID2int64(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) fieldContext_ProjectImages_id(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+func (ec *executionContext) fieldContext_ProjectImage_id(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
-		Object:     "ProjectImages",
+		Object:     "ProjectImage",
 		Field:      field,
 		IsMethod:   false,
 		IsResolver: false,
@@ -5837,8 +5836,8 @@ func (ec *executionContext) fieldContext_ProjectImages_id(ctx context.Context, f
 	return fc, nil
 }
 
-func (ec *executionContext) _ProjectImages_project_id(ctx context.Context, field graphql.CollectedField, obj *model.ProjectImages) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_ProjectImages_project_id(ctx, field)
+func (ec *executionContext) _ProjectImage_project_id(ctx context.Context, field graphql.CollectedField, obj *model.ProjectImage) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_ProjectImage_project_id(ctx, field)
 	if err != nil {
 		return graphql.Null
 	}
@@ -5868,9 +5867,9 @@ func (ec *executionContext) _ProjectImages_project_id(ctx context.Context, field
 	return ec.marshalNID2int64(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) fieldContext_ProjectImages_project_id(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+func (ec *executionContext) fieldContext_ProjectImage_project_id(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
-		Object:     "ProjectImages",
+		Object:     "ProjectImage",
 		Field:      field,
 		IsMethod:   false,
 		IsResolver: false,
@@ -5881,8 +5880,8 @@ func (ec *executionContext) fieldContext_ProjectImages_project_id(ctx context.Co
 	return fc, nil
 }
 
-func (ec *executionContext) _ProjectImages_image(ctx context.Context, field graphql.CollectedField, obj *model.ProjectImages) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_ProjectImages_image(ctx, field)
+func (ec *executionContext) _ProjectImage_image(ctx context.Context, field graphql.CollectedField, obj *model.ProjectImage) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_ProjectImage_image(ctx, field)
 	if err != nil {
 		return graphql.Null
 	}
@@ -5912,9 +5911,9 @@ func (ec *executionContext) _ProjectImages_image(ctx context.Context, field grap
 	return ec.marshalNString2string(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) fieldContext_ProjectImages_image(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+func (ec *executionContext) fieldContext_ProjectImage_image(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
-		Object:     "ProjectImages",
+		Object:     "ProjectImage",
 		Field:      field,
 		IsMethod:   false,
 		IsResolver: false,
@@ -6378,8 +6377,8 @@ func (ec *executionContext) fieldContext_Query_FindAllCertificate(ctx context.Co
 				return ec.fieldContext_Certificate_expiration_date(ctx, field)
 			case "credential_id":
 				return ec.fieldContext_Certificate_credential_id(ctx, field)
-			case "image_url":
-				return ec.fieldContext_Certificate_image_url(ctx, field)
+			case "image":
+				return ec.fieldContext_Certificate_image(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type Certificate", field.Name)
 		},
@@ -6462,8 +6461,8 @@ func (ec *executionContext) fieldContext_Query_FindByIDCertificate(ctx context.C
 				return ec.fieldContext_Certificate_expiration_date(ctx, field)
 			case "credential_id":
 				return ec.fieldContext_Certificate_credential_id(ctx, field)
-			case "image_url":
-				return ec.fieldContext_Certificate_image_url(ctx, field)
+			case "image":
+				return ec.fieldContext_Certificate_image(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type Certificate", field.Name)
 		},
@@ -10623,7 +10622,7 @@ func (ec *executionContext) unmarshalInputCreateCertificateRequest(ctx context.C
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"name", "organization", "issue_date", "expiration_date", "credential_id", "image_url"}
+	fieldsInOrder := [...]string{"name", "organization", "issue_date", "expiration_date", "credential_id", "image"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
@@ -10675,15 +10674,15 @@ func (ec *executionContext) unmarshalInputCreateCertificateRequest(ctx context.C
 				return it, err
 			}
 			it.CredentialID = data
-		case "image_url":
+		case "image":
 			var err error
 
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("image_url"))
-			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("image"))
+			data, err := ec.unmarshalNUpload2githubᚗcomᚋ99designsᚋgqlgenᚋgraphqlᚐUpload(ctx, v)
 			if err != nil {
 				return it, err
 			}
-			it.ImageURL = data
+			it.Image = data
 		}
 	}
 
@@ -10726,7 +10725,7 @@ func (ec *executionContext) unmarshalInputCreateContactRequest(ctx context.Conte
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("icon"))
-			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+			data, err := ec.unmarshalNUpload2githubᚗcomᚋ99designsᚋgqlgenᚋgraphqlᚐUpload(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -10814,35 +10813,6 @@ func (ec *executionContext) unmarshalInputCreateEducationRequest(ctx context.Con
 				return it, err
 			}
 			it.EndDate = data
-		}
-	}
-
-	return it, nil
-}
-
-func (ec *executionContext) unmarshalInputCreateProjectImagesRequest(ctx context.Context, obj interface{}) (model.CreateProjectImagesRequest, error) {
-	var it model.CreateProjectImagesRequest
-	asMap := map[string]interface{}{}
-	for k, v := range obj.(map[string]interface{}) {
-		asMap[k] = v
-	}
-
-	fieldsInOrder := [...]string{"image"}
-	for _, k := range fieldsInOrder {
-		v, ok := asMap[k]
-		if !ok {
-			continue
-		}
-		switch k {
-		case "image":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("image"))
-			data, err := ec.unmarshalNString2string(ctx, v)
-			if err != nil {
-				return it, err
-			}
-			it.Image = data
 		}
 	}
 
@@ -10939,7 +10909,7 @@ func (ec *executionContext) unmarshalInputCreateProjectRequest(ctx context.Conte
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("images"))
-			data, err := ec.unmarshalNCreateProjectImagesRequest2ᚕᚖgithubᚗcomᚋarviansᚑidᚋgoᚑportfolioᚋinternalᚋhttpᚋcontrollerᚋmodelᚐCreateProjectImagesRequestᚄ(ctx, v)
+			data, err := ec.unmarshalNUpload2ᚕᚖgithubᚗcomᚋ99designsᚋgqlgenᚋgraphqlᚐUploadᚄ(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -11199,7 +11169,7 @@ func (ec *executionContext) unmarshalInputUpdateCertificateRequest(ctx context.C
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"id", "name", "organization", "issue_date", "expiration_date", "credential_id", "image_url"}
+	fieldsInOrder := [...]string{"id", "name", "organization", "issue_date", "expiration_date", "credential_id", "image"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
@@ -11260,15 +11230,15 @@ func (ec *executionContext) unmarshalInputUpdateCertificateRequest(ctx context.C
 				return it, err
 			}
 			it.CredentialID = data
-		case "image_url":
+		case "image":
 			var err error
 
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("image_url"))
-			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("image"))
+			data, err := ec.unmarshalOUpload2ᚖgithubᚗcomᚋ99designsᚋgqlgenᚋgraphqlᚐUpload(ctx, v)
 			if err != nil {
 				return it, err
 			}
-			it.ImageURL = data
+			it.Image = data
 		}
 	}
 
@@ -11320,7 +11290,7 @@ func (ec *executionContext) unmarshalInputUpdateContactRequest(ctx context.Conte
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("icon"))
-			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+			data, err := ec.unmarshalOUpload2ᚖgithubᚗcomᚋ99designsᚋgqlgenᚋgraphqlᚐUpload(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -11522,7 +11492,7 @@ func (ec *executionContext) unmarshalInputUpdateProjectRequest(ctx context.Conte
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("images"))
-			data, err := ec.unmarshalOCreateProjectImagesRequest2ᚕᚖgithubᚗcomᚋarviansᚑidᚋgoᚑportfolioᚋinternalᚋhttpᚋcontrollerᚋmodelᚐCreateProjectImagesRequestᚄ(ctx, v)
+			data, err := ec.unmarshalOUpload2ᚕᚖgithubᚗcomᚋ99designsᚋgqlgenᚋgraphqlᚐUploadᚄ(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -11670,7 +11640,7 @@ func (ec *executionContext) unmarshalInputUpdateUserRequest(ctx context.Context,
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("image"))
-			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+			data, err := ec.unmarshalOUpload2ᚖgithubᚗcomᚋ99designsᚋgqlgenᚋgraphqlᚐUpload(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -11921,9 +11891,9 @@ func (ec *executionContext) _Certificate(ctx context.Context, sel ast.SelectionS
 
 			out.Values[i] = ec._Certificate_credential_id(ctx, field, obj)
 
-		case "image_url":
+		case "image":
 
-			out.Values[i] = ec._Certificate_image_url(ctx, field, obj)
+			out.Values[i] = ec._Certificate_image(ctx, field, obj)
 
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
@@ -12424,33 +12394,33 @@ func (ec *executionContext) _Project(ctx context.Context, sel ast.SelectionSet, 
 	return out
 }
 
-var projectImagesImplementors = []string{"ProjectImages"}
+var projectImageImplementors = []string{"ProjectImage"}
 
-func (ec *executionContext) _ProjectImages(ctx context.Context, sel ast.SelectionSet, obj *model.ProjectImages) graphql.Marshaler {
-	fields := graphql.CollectFields(ec.OperationContext, sel, projectImagesImplementors)
+func (ec *executionContext) _ProjectImage(ctx context.Context, sel ast.SelectionSet, obj *model.ProjectImage) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, projectImageImplementors)
 	out := graphql.NewFieldSet(fields)
 	var invalids uint32
 	for i, field := range fields {
 		switch field.Name {
 		case "__typename":
-			out.Values[i] = graphql.MarshalString("ProjectImages")
+			out.Values[i] = graphql.MarshalString("ProjectImage")
 		case "id":
 
-			out.Values[i] = ec._ProjectImages_id(ctx, field, obj)
+			out.Values[i] = ec._ProjectImage_id(ctx, field, obj)
 
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
 		case "project_id":
 
-			out.Values[i] = ec._ProjectImages_project_id(ctx, field, obj)
+			out.Values[i] = ec._ProjectImage_project_id(ctx, field, obj)
 
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
 		case "image":
 
-			out.Values[i] = ec._ProjectImages_image(ctx, field, obj)
+			out.Values[i] = ec._ProjectImage_image(ctx, field, obj)
 
 			if out.Values[i] == graphql.Null {
 				invalids++
@@ -13698,28 +13668,6 @@ func (ec *executionContext) unmarshalNCreateEducationRequest2githubᚗcomᚋarvi
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
-func (ec *executionContext) unmarshalNCreateProjectImagesRequest2ᚕᚖgithubᚗcomᚋarviansᚑidᚋgoᚑportfolioᚋinternalᚋhttpᚋcontrollerᚋmodelᚐCreateProjectImagesRequestᚄ(ctx context.Context, v interface{}) ([]*model.CreateProjectImagesRequest, error) {
-	var vSlice []interface{}
-	if v != nil {
-		vSlice = graphql.CoerceList(v)
-	}
-	var err error
-	res := make([]*model.CreateProjectImagesRequest, len(vSlice))
-	for i := range vSlice {
-		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithIndex(i))
-		res[i], err = ec.unmarshalNCreateProjectImagesRequest2ᚖgithubᚗcomᚋarviansᚑidᚋgoᚑportfolioᚋinternalᚋhttpᚋcontrollerᚋmodelᚐCreateProjectImagesRequest(ctx, vSlice[i])
-		if err != nil {
-			return nil, err
-		}
-	}
-	return res, nil
-}
-
-func (ec *executionContext) unmarshalNCreateProjectImagesRequest2ᚖgithubᚗcomᚋarviansᚑidᚋgoᚑportfolioᚋinternalᚋhttpᚋcontrollerᚋmodelᚐCreateProjectImagesRequest(ctx context.Context, v interface{}) (*model.CreateProjectImagesRequest, error) {
-	res, err := ec.unmarshalInputCreateProjectImagesRequest(ctx, v)
-	return &res, graphql.ErrorOnPath(ctx, err)
-}
-
 func (ec *executionContext) unmarshalNCreateProjectRequest2githubᚗcomᚋarviansᚑidᚋgoᚑportfolioᚋinternalᚋhttpᚋcontrollerᚋmodelᚐCreateProjectRequest(ctx context.Context, v interface{}) (model.CreateProjectRequest, error) {
 	res, err := ec.unmarshalInputCreateProjectRequest(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
@@ -14038,6 +13986,59 @@ func (ec *executionContext) unmarshalNUpload2githubᚗcomᚋ99designsᚋgqlgen�
 
 func (ec *executionContext) marshalNUpload2githubᚗcomᚋ99designsᚋgqlgenᚋgraphqlᚐUpload(ctx context.Context, sel ast.SelectionSet, v graphql.Upload) graphql.Marshaler {
 	res := graphql.MarshalUpload(v)
+	if res == graphql.Null {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
+		}
+	}
+	return res
+}
+
+func (ec *executionContext) unmarshalNUpload2ᚕᚖgithubᚗcomᚋ99designsᚋgqlgenᚋgraphqlᚐUploadᚄ(ctx context.Context, v interface{}) ([]*graphql.Upload, error) {
+	var vSlice []interface{}
+	if v != nil {
+		vSlice = graphql.CoerceList(v)
+	}
+	var err error
+	res := make([]*graphql.Upload, len(vSlice))
+	for i := range vSlice {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithIndex(i))
+		res[i], err = ec.unmarshalNUpload2ᚖgithubᚗcomᚋ99designsᚋgqlgenᚋgraphqlᚐUpload(ctx, vSlice[i])
+		if err != nil {
+			return nil, err
+		}
+	}
+	return res, nil
+}
+
+func (ec *executionContext) marshalNUpload2ᚕᚖgithubᚗcomᚋ99designsᚋgqlgenᚋgraphqlᚐUploadᚄ(ctx context.Context, sel ast.SelectionSet, v []*graphql.Upload) graphql.Marshaler {
+	ret := make(graphql.Array, len(v))
+	for i := range v {
+		ret[i] = ec.marshalNUpload2ᚖgithubᚗcomᚋ99designsᚋgqlgenᚋgraphqlᚐUpload(ctx, sel, v[i])
+	}
+
+	for _, e := range ret {
+		if e == graphql.Null {
+			return graphql.Null
+		}
+	}
+
+	return ret
+}
+
+func (ec *executionContext) unmarshalNUpload2ᚖgithubᚗcomᚋ99designsᚋgqlgenᚋgraphqlᚐUpload(ctx context.Context, v interface{}) (*graphql.Upload, error) {
+	res, err := graphql.UnmarshalUpload(v)
+	return &res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) marshalNUpload2ᚖgithubᚗcomᚋ99designsᚋgqlgenᚋgraphqlᚐUpload(ctx context.Context, sel ast.SelectionSet, v *graphql.Upload) graphql.Marshaler {
+	if v == nil {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
+		}
+		return graphql.Null
+	}
+	res := graphql.MarshalUpload(*v)
 	if res == graphql.Null {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
@@ -14441,26 +14442,6 @@ func (ec *executionContext) marshalOBoolean2ᚖbool(ctx context.Context, sel ast
 	return res
 }
 
-func (ec *executionContext) unmarshalOCreateProjectImagesRequest2ᚕᚖgithubᚗcomᚋarviansᚑidᚋgoᚑportfolioᚋinternalᚋhttpᚋcontrollerᚋmodelᚐCreateProjectImagesRequestᚄ(ctx context.Context, v interface{}) ([]*model.CreateProjectImagesRequest, error) {
-	if v == nil {
-		return nil, nil
-	}
-	var vSlice []interface{}
-	if v != nil {
-		vSlice = graphql.CoerceList(v)
-	}
-	var err error
-	res := make([]*model.CreateProjectImagesRequest, len(vSlice))
-	for i := range vSlice {
-		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithIndex(i))
-		res[i], err = ec.unmarshalNCreateProjectImagesRequest2ᚖgithubᚗcomᚋarviansᚑidᚋgoᚑportfolioᚋinternalᚋhttpᚋcontrollerᚋmodelᚐCreateProjectImagesRequest(ctx, vSlice[i])
-		if err != nil {
-			return nil, err
-		}
-	}
-	return res, nil
-}
-
 func (ec *executionContext) unmarshalOFloat2ᚖfloat64(ctx context.Context, v interface{}) (*float64, error) {
 	if v == nil {
 		return nil, nil
@@ -14477,7 +14458,7 @@ func (ec *executionContext) marshalOFloat2ᚖfloat64(ctx context.Context, sel as
 	return graphql.WrapContextMarshaler(ctx, res)
 }
 
-func (ec *executionContext) marshalOProjectImages2ᚕᚖgithubᚗcomᚋarviansᚑidᚋgoᚑportfolioᚋinternalᚋhttpᚋcontrollerᚋmodelᚐProjectImages(ctx context.Context, sel ast.SelectionSet, v []*model.ProjectImages) graphql.Marshaler {
+func (ec *executionContext) marshalOProjectImage2ᚕᚖgithubᚗcomᚋarviansᚑidᚋgoᚑportfolioᚋinternalᚋhttpᚋcontrollerᚋmodelᚐProjectImage(ctx context.Context, sel ast.SelectionSet, v []*model.ProjectImage) graphql.Marshaler {
 	if v == nil {
 		return graphql.Null
 	}
@@ -14504,7 +14485,7 @@ func (ec *executionContext) marshalOProjectImages2ᚕᚖgithubᚗcomᚋarvians�
 			if !isLen1 {
 				defer wg.Done()
 			}
-			ret[i] = ec.marshalOProjectImages2ᚖgithubᚗcomᚋarviansᚑidᚋgoᚑportfolioᚋinternalᚋhttpᚋcontrollerᚋmodelᚐProjectImages(ctx, sel, v[i])
+			ret[i] = ec.marshalOProjectImage2ᚖgithubᚗcomᚋarviansᚑidᚋgoᚑportfolioᚋinternalᚋhttpᚋcontrollerᚋmodelᚐProjectImage(ctx, sel, v[i])
 		}
 		if isLen1 {
 			f(i)
@@ -14518,11 +14499,11 @@ func (ec *executionContext) marshalOProjectImages2ᚕᚖgithubᚗcomᚋarvians�
 	return ret
 }
 
-func (ec *executionContext) marshalOProjectImages2ᚖgithubᚗcomᚋarviansᚑidᚋgoᚑportfolioᚋinternalᚋhttpᚋcontrollerᚋmodelᚐProjectImages(ctx context.Context, sel ast.SelectionSet, v *model.ProjectImages) graphql.Marshaler {
+func (ec *executionContext) marshalOProjectImage2ᚖgithubᚗcomᚋarviansᚑidᚋgoᚑportfolioᚋinternalᚋhttpᚋcontrollerᚋmodelᚐProjectImage(ctx context.Context, sel ast.SelectionSet, v *model.ProjectImage) graphql.Marshaler {
 	if v == nil {
 		return graphql.Null
 	}
-	return ec._ProjectImages(ctx, sel, v)
+	return ec._ProjectImage(ctx, sel, v)
 }
 
 func (ec *executionContext) marshalOSkill2ᚕᚖgithubᚗcomᚋarviansᚑidᚋgoᚑportfolioᚋinternalᚋhttpᚋcontrollerᚋmodelᚐSkill(ctx context.Context, sel ast.SelectionSet, v []*model.Skill) graphql.Marshaler {
@@ -14625,6 +14606,44 @@ func (ec *executionContext) marshalOString2ᚖstring(ctx context.Context, sel as
 	}
 	res := graphql.MarshalString(*v)
 	return res
+}
+
+func (ec *executionContext) unmarshalOUpload2ᚕᚖgithubᚗcomᚋ99designsᚋgqlgenᚋgraphqlᚐUploadᚄ(ctx context.Context, v interface{}) ([]*graphql.Upload, error) {
+	if v == nil {
+		return nil, nil
+	}
+	var vSlice []interface{}
+	if v != nil {
+		vSlice = graphql.CoerceList(v)
+	}
+	var err error
+	res := make([]*graphql.Upload, len(vSlice))
+	for i := range vSlice {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithIndex(i))
+		res[i], err = ec.unmarshalNUpload2ᚖgithubᚗcomᚋ99designsᚋgqlgenᚋgraphqlᚐUpload(ctx, vSlice[i])
+		if err != nil {
+			return nil, err
+		}
+	}
+	return res, nil
+}
+
+func (ec *executionContext) marshalOUpload2ᚕᚖgithubᚗcomᚋ99designsᚋgqlgenᚋgraphqlᚐUploadᚄ(ctx context.Context, sel ast.SelectionSet, v []*graphql.Upload) graphql.Marshaler {
+	if v == nil {
+		return graphql.Null
+	}
+	ret := make(graphql.Array, len(v))
+	for i := range v {
+		ret[i] = ec.marshalNUpload2ᚖgithubᚗcomᚋ99designsᚋgqlgenᚋgraphqlᚐUpload(ctx, sel, v[i])
+	}
+
+	for _, e := range ret {
+		if e == graphql.Null {
+			return graphql.Null
+		}
+	}
+
+	return ret
 }
 
 func (ec *executionContext) unmarshalOUpload2ᚖgithubᚗcomᚋ99designsᚋgqlgenᚋgraphqlᚐUpload(ctx context.Context, v interface{}) (*graphql.Upload, error) {

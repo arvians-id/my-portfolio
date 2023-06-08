@@ -13,6 +13,7 @@ type ProjectRepositoryContract interface {
 	FindAllByIDs(ctx context.Context, id []int64) ([]*entity.Project, error)
 	FindAllByCategory(ctx context.Context, category string) ([]*entity.Project, error)
 	FindByID(ctx context.Context, id int64) (*entity.Project, error)
+	FindAllImagesByProjectID(ctx context.Context, projectID int64) ([]*entity.ProjectImage, error)
 	Create(ctx context.Context, project *entity.Project) (*entity.Project, error)
 	Update(ctx context.Context, project *entity.Project) error
 	Delete(ctx context.Context, id int64) error
@@ -85,6 +86,18 @@ func (repository *ProjectRepository) FindByID(ctx context.Context, id int64) (*e
 	}
 
 	return &project, nil
+}
+
+func (repository *ProjectRepository) FindAllImagesByProjectID(ctx context.Context, projectID int64) ([]*entity.ProjectImage, error) {
+	query := "SELECT * FROM project_images WHERE project_id = ?"
+	var images []*entity.ProjectImage
+	err := repository.DB.WithContext(ctx).Raw(query, projectID).Scan(&images).Error
+	if err != nil {
+		log.Println("[ProjectRepository][FindImagesByProjectID] problem querying to db, err: ", err.Error())
+		return nil, err
+	}
+
+	return images, nil
 }
 
 func (repository *ProjectRepository) Create(ctx context.Context, project *entity.Project) (*entity.Project, error) {

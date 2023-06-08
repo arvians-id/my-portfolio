@@ -4,6 +4,7 @@ import (
 	"context"
 	"github.com/arvians-id/go-portfolio/internal/entity"
 	"github.com/arvians-id/go-portfolio/internal/repository"
+	"github.com/arvians-id/go-portfolio/util"
 	"log"
 )
 
@@ -56,7 +57,7 @@ func (service *ContactService) Create(ctx context.Context, contact *entity.Conta
 }
 
 func (service *ContactService) Update(ctx context.Context, contact *entity.Contact) (*entity.Contact, error) {
-	_, err := service.ContactRepository.FindByID(ctx, contact.ID)
+	contactCheck, err := service.ContactRepository.FindByID(ctx, contact.ID)
 	if err != nil {
 		log.Println("[ContactService][FindByID] problem calling repository, err: ", err.Error())
 		return nil, err
@@ -66,6 +67,14 @@ func (service *ContactService) Update(ctx context.Context, contact *entity.Conta
 	if err != nil {
 		log.Println("[ContactService][Update] problem calling repository, err: ", err.Error())
 		return nil, err
+	}
+
+	if contactCheck.Icon != contact.Icon {
+		path := "images/contact"
+		err = util.DeleteFile(path, *contactCheck.Icon)
+		if err != nil {
+			return nil, err
+		}
 	}
 
 	contactUpdated, err := service.ContactRepository.FindByID(ctx, contact.ID)
@@ -88,6 +97,14 @@ func (service *ContactService) Delete(ctx context.Context, id int64) error {
 	if err != nil {
 		log.Println("[ContactService][Delete] problem calling repository, err: ", err.Error())
 		return err
+	}
+
+	if contactCheck.Icon != nil {
+		path := "images/contact"
+		err = util.DeleteFile(path, *contactCheck.Icon)
+		if err != nil {
+			return err
+		}
 	}
 
 	return nil
