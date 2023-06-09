@@ -3308,3 +3308,175 @@ query history:  query FindAllProject {
         }
     }
 }
+[09 Jun 23 14:59 +07] | query history:  query FindAllUser {
+    FindAllUser {
+        id
+        name
+        email
+        bio
+        pronouns
+        country
+        job_title
+        image
+        created_at
+        updated_at
+    }
+}
+[09 Jun 23 15:00 +07] | query history:  query FindAllUser {
+    FindAllUser {
+        id
+        name
+        email
+        bio
+        pronouns
+        country
+        job_title
+        image
+        created_at
+        updated_at
+    }
+}
+[09 Jun 23 15:00 +07] | query history:  query FindAllUser {
+    FindAllUser {
+        id
+        name
+        email
+        bio
+        pronouns
+        country
+        job_title
+        image
+        created_at
+        updated_at
+    }
+}
+[09 Jun 23 15:00 +07] | query history:  query FindAllUser {
+    FindAllUser {
+        id
+        name
+        email
+        bio
+        pronouns
+        country
+        job_title
+        image
+        created_at
+        updated_at
+    }
+}
+[09 Jun 23 15:02 +07] | query history:  query FindAllUser {
+    FindAllUser {
+        id
+        name
+        email
+        bio
+        pronouns
+        country
+        job_title
+        image
+        created_at
+        updated_at
+    }
+}
+[09 Jun 23 15:12 +07] | query history:  query FindAllUser {
+    FindAllUser {
+        id
+        name
+        email
+        bio
+        pronouns
+        country
+        job_title
+        image
+        created_at
+        updated_at
+    }
+}
+[09 Jun 23 15:15 +07] | query history:  query FindAllUser {
+    FindAllUser {
+        id
+        name
+        email
+        bio
+        pronouns
+        country
+        job_title
+        image
+        created_at
+        updated_at
+    }
+}
+[09 Jun 23 15:15 +07] | query history:  query FindAllUser {
+    FindAllUser {
+        id
+        name
+        email
+        bio
+        pronouns
+        country
+        job_title
+        image
+        created_at
+        updated_at
+    }
+}
+[09 Jun 23 15:16 +07] | query history:  query FindAllUser {
+    FindAllUser {
+        id
+        name
+        email
+        bio
+        pronouns
+        country
+        job_title
+        image
+        created_at
+        updated_at
+    }
+}
+[09 Jun 23 15:17 +07] | query history:  query FindAllUser {
+    FindAllUser {
+        id
+        name
+        email
+        bio
+        pronouns
+        country
+        job_title
+        image
+        created_at
+        updated_at
+    }
+}
+[09 Jun 23 15:18 +07] | query history:  query FindByIDProject ($id: ID!) {
+    FindByIDProject (id: $id) {
+        id
+        category
+        title
+        description
+        url
+        is_featured
+        date
+        working_type
+        skills {
+            name
+            icon
+        }
+        created_at
+        updated_at
+    }
+}
+[09 Jun 23 15:21 +07] | query history:  query FindAllUser {
+    FindAllUser {
+        id
+        name
+        email
+        bio
+        pronouns
+        country
+        job_title
+        image
+        created_at
+        updated_at
+    }
+}

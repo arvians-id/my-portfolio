@@ -45,14 +45,6 @@ func NewInitializedRoutes(configuration config.Config, logFile *os.File) (*fiber
 	app.Use(etag.New())
 	app.Use(requestid.New())
 	app.Use(recover.New())
-	//app.Use(logger.New(logger.Config{
-	//	Format:     "[${time}] | ${status} | ${latency} | ${ip} | ${method} | ${path} | ${error}\n",
-	//	Output:     logFile,
-	//	TimeFormat: "02-Jan-2006 15:04:05",
-	//	Done: func(c *fiber.Ctx, logString []byte) {
-	//		fmt.Print(string(logString))
-	//	},
-	//}))
 	app.Use(cors.New(cors.Config{
 		AllowOrigins:     "*",
 		AllowHeaders:     "Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization, accept, origin, Cache-Control, X-Requested-With, X-API-KEY",
@@ -60,6 +52,7 @@ func NewInitializedRoutes(configuration config.Config, logFile *os.File) (*fiber
 		AllowCredentials: true,
 	}))
 	app.Use(middleware.ExposeFiberContext())
+	app.Use(middleware.XApiKey(configuration))
 
 	db, err := config.NewPostgresSQLGorm(configuration)
 	if err != nil {
