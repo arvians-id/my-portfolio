@@ -18,6 +18,7 @@ type Resolver struct {
 	CategorySkillService  service.CategorySkillServiceContract
 	WorkExperienceService service.WorkExperienceServiceContract
 	SkillService          service.SkillServiceContract
+	ProjectImagService    service.ProjectImageServiceContract
 }
 
 // Mutation returns graph.MutationResolver implementation.
@@ -47,6 +48,7 @@ func (r *Resolver) WorkExperience() gql.WorkExperienceResolver {
 }
 
 type mutationResolver struct{ *Resolver }
+
 type queryResolver struct{ *Resolver }
 type categorySkillResolver struct{ *Resolver }
 type projectResolver struct{ *Resolver }

@@ -24,6 +24,9 @@ type Mutation {
     UpdateProject(input: UpdateProjectRequest!): Project! @isLoggedIn(isLogged: true)
     DeleteProject(id: ID!): Boolean! @isLoggedIn(isLogged: true)
 
+    # ProjectImage
+    DeleteProjectImage(id: ID!): Boolean! @isLoggedIn(isLogged: true)
+
     # Skill
     CreateSkill(input: CreateSkillRequest!): Skill! @isLoggedIn(isLogged: true)
     UpdateSkill(input: UpdateSkillRequest!): Skill! @isLoggedIn(isLogged: true)

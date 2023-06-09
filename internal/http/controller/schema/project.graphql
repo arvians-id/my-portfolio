@@ -13,12 +13,6 @@ type Project {
     updated_at: String!
 }
 
-type ProjectImage {
-    id: ID!
-    project_id: ID!
-    image: String!
-}
-
 input CreateProjectRequest {
     category: String!
     title: String!

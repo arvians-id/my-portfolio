@@ -92,8 +92,11 @@ func NewInitializedRoutes(configuration config.Config, logFile *os.File) (*fiber
 	certificateRepository := repository.NewCertificateRepository(db)
 	certificateService := service.NewCertificateService(certificateRepository)
 
+	projectImageRepository := repository.NewProjectImageRepository(db)
+	projectImageService := service.NewProjectImageService(projectImageRepository)
+
 	projectRepository := repository.NewProjectRepository(db)
-	projectService := service.NewProjectService(projectRepository, bleveSearchService)
+	projectService := service.NewProjectService(projectRepository, projectImageRepository, bleveSearchService)
 
 	categorySkillRepository := repository.NewCategorySkillRepository(db)
 	categorySkillService := service.NewCategorySkillService(categorySkillRepository)
@@ -114,7 +117,7 @@ func NewInitializedRoutes(configuration config.Config, logFile *os.File) (*fiber
 		return nil
 	})
 
-	app.Use(middleware.DataLoaders(skillService, categorySkillService, projectService))
+	app.Use(middleware.DataLoaders(skillService, categorySkillService, projectImageService))
 	app.Post("/query", func(c *fiber.Ctx) error {
 		fasthttpadaptor.NewFastHTTPHandlerFunc(func(writer http.ResponseWriter, request *http.Request) {
 			generatedConfig := gql.Config{
@@ -127,6 +130,7 @@ func NewInitializedRoutes(configuration config.Config, logFile *os.File) (*fiber
 					CategorySkillService:  categorySkillService,
 					WorkExperienceService: workExperienceService,
 					SkillService:          skillService,
+					ProjectImagService:    projectImageService,
 				},
 			}
 			generatedConfig.Directives.IsLoggedIn = middleware.NewJWTMiddlewareGraphQL

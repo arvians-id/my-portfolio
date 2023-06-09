@@ -3232,3 +3232,79 @@ query history:  query FindAllProject {
         }
     }
 }
+[09 Jun 23 13:53 +07] | query history:  query FindAllProject($search: String) {
+    FindAllProject(name: $search) {
+        id
+        category
+        title
+        description
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+        skills {
+            name
+            category_skill {
+                name
+            }
+        }
+        images {
+            image
+        }
+    }
+}
+[09 Jun 23 13:53 +07] | query history:  query FindAllProject($search: String) {
+    FindAllProject(name: $search) {
+        id
+        category
+        title
+        description
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+        skills {
+            name
+            category_skill {
+                name
+            }
+        }
+        images {
+            id
+            project_id
+            image
+        }
+    }
+}
+[09 Jun 23 14:30 +07] | query history:  mutation DeleteProjectImage ($id: ID!) {
+    DeleteProjectImage (id: $id)
+}
+[09 Jun 23 14:30 +07] | query history:  query FindAllProject($search: String) {
+    FindAllProject(name: $search) {
+        id
+        category
+        title
+        description
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+        skills {
+            name
+            category_skill {
+                name
+            }
+        }
+        images {
+            id
+            project_id
+            image
+        }
+    }
+}

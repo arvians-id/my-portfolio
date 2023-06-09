@@ -13,7 +13,6 @@ type ProjectServiceContract interface {
 	Query(ctx context.Context, query string) ([]*entity.Project, error)
 	FindAll(ctx context.Context) ([]*entity.Project, error)
 	FindAllByCategory(ctx context.Context, category string) ([]*entity.Project, error)
-	FindAllImagesByIDs(ctx context.Context, id []int64) ([]*entity.ProjectImage, error)
 	FindByID(ctx context.Context, id int64) (*entity.Project, error)
 	Create(ctx context.Context, project *entity.Project) (*entity.Project, error)
 	Update(ctx context.Context, project *entity.Project) (*entity.Project, error)
@@ -21,14 +20,16 @@ type ProjectServiceContract interface {
 }
 
 type ProjectService struct {
-	ProjectRepository repository.ProjectRepositoryContract
-	BleveSearch       BleveSearchServiceContract
+	ProjectRepository      repository.ProjectRepositoryContract
+	ProjectImageRepository repository.ProjectImageRepositoryContract
+	BleveSearch            BleveSearchServiceContract
 }
 
-func NewProjectService(projectRepository repository.ProjectRepositoryContract, bleveSearch BleveSearchServiceContract) ProjectServiceContract {
+func NewProjectService(projectRepository repository.ProjectRepositoryContract, projectImageRepository repository.ProjectImageRepositoryContract, bleveSearch BleveSearchServiceContract) ProjectServiceContract {
 	return &ProjectService{
-		ProjectRepository: projectRepository,
-		BleveSearch:       bleveSearch,
+		ProjectRepository:      projectRepository,
+		ProjectImageRepository: projectImageRepository,
+		BleveSearch:            bleveSearch,
 	}
 }
 
@@ -69,15 +70,6 @@ func (service *ProjectService) FindAllByCategory(ctx context.Context, category s
 	projects, err := service.ProjectRepository.FindAllByCategory(ctx, category)
 	if err != nil {
 		log.Println("[ProjectService][FindAll] problem calling repository, err: ", err.Error())
-		return nil, err
-	}
-
-	return projects, nil
-}
-
-func (service *ProjectService) FindAllImagesByIDs(ctx context.Context, id []int64) ([]*entity.ProjectImage, error) {
-	projects, err := service.ProjectRepository.FindAllImagesByIDs(ctx, id)
-	if err != nil {
 		return nil, err
 	}
 
@@ -151,7 +143,7 @@ func (service *ProjectService) Delete(ctx context.Context, id int64) error {
 		return err
 	}
 
-	images, err := service.ProjectRepository.FindAllImagesByProjectID(ctx, projectCheck.ID)
+	images, err := service.ProjectImageRepository.FindAllByProjectID(ctx, projectCheck.ID)
 	if err != nil {
 		log.Println("[ProjectService][FindAllImagesByProjectID] problem calling repository, err: ", err.Error())
 		return err

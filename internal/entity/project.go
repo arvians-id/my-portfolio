@@ -18,9 +18,3 @@ type Project struct {
 	CreatedAt   time.Time       `json:"created_at,omitempty"`
 	UpdatedAt   time.Time       `json:"updated_at,omitempty"`
 }
-
-type ProjectImage struct {
-	ID        int64  `json:"id"`
-	ProjectID int64  `json:"project_id"`
-	Image     string `json:"image"`
-}

@@ -104,6 +104,7 @@ type ComplexityRoot struct {
 		DeleteContact        func(childComplexity int, id int64) int
 		DeleteEducation      func(childComplexity int, id int64) int
 		DeleteProject        func(childComplexity int, id int64) int
+		DeleteProjectImage   func(childComplexity int, id int64) int
 		DeleteSkill          func(childComplexity int, id int64) int
 		DeleteUser           func(childComplexity int, id int64) int
 		DeleteWorkExperience func(childComplexity int, id int64) int
@@ -214,6 +215,7 @@ type MutationResolver interface {
 	CreateProject(ctx context.Context, input model.CreateProjectRequest) (*model.Project, error)
 	UpdateProject(ctx context.Context, input model.UpdateProjectRequest) (*model.Project, error)
 	DeleteProject(ctx context.Context, id int64) (bool, error)
+	DeleteProjectImage(ctx context.Context, id int64) (bool, error)
 	CreateSkill(ctx context.Context, input model.CreateSkillRequest) (*model.Skill, error)
 	UpdateSkill(ctx context.Context, input model.UpdateSkillRequest) (*model.Skill, error)
 	DeleteSkill(ctx context.Context, id int64) (bool, error)
@@ -600,6 +602,18 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.Mutation.DeleteProject(childComplexity, args["id"].(int64)), true
+
+	case "Mutation.DeleteProjectImage":
+		if e.complexity.Mutation.DeleteProjectImage == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_DeleteProjectImage_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.DeleteProjectImage(childComplexity, args["id"].(int64)), true
 
 	case "Mutation.DeleteSkill":
 		if e.complexity.Mutation.DeleteSkill == nil {
@@ -1285,7 +1299,7 @@ func (ec *executionContext) introspectType(name string) (*introspection.Type, er
 	return introspection.WrapTypeFromDef(parsedSchema, parsedSchema.Types[name]), nil
 }
 
-//go:embed "schema/auth.graphql" "schema/category_skill.graphql" "schema/certificate.graphql" "schema/contact.graphql" "schema/education.graphql" "schema/main.graphql" "schema/mutation.graphql" "schema/project.graphql" "schema/query.graphql" "schema/skill.graphql" "schema/user.graphql" "schema/work_experience.graphql"
+//go:embed "schema/auth.graphql" "schema/category_skill.graphql" "schema/certificate.graphql" "schema/contact.graphql" "schema/education.graphql" "schema/main.graphql" "schema/mutation.graphql" "schema/project.graphql" "schema/project_image.graphql" "schema/query.graphql" "schema/skill.graphql" "schema/user.graphql" "schema/work_experience.graphql"
 var sourcesFS embed.FS
 
 func sourceData(filename string) string {
@@ -1305,6 +1319,7 @@ var sources = []*ast.Source{
 	{Name: "schema/main.graphql", Input: sourceData("schema/main.graphql"), BuiltIn: false},
 	{Name: "schema/mutation.graphql", Input: sourceData("schema/mutation.graphql"), BuiltIn: false},
 	{Name: "schema/project.graphql", Input: sourceData("schema/project.graphql"), BuiltIn: false},
+	{Name: "schema/project_image.graphql", Input: sourceData("schema/project_image.graphql"), BuiltIn: false},
 	{Name: "schema/query.graphql", Input: sourceData("schema/query.graphql"), BuiltIn: false},
 	{Name: "schema/skill.graphql", Input: sourceData("schema/skill.graphql"), BuiltIn: false},
 	{Name: "schema/user.graphql", Input: sourceData("schema/user.graphql"), BuiltIn: false},
@@ -1497,6 +1512,21 @@ func (ec *executionContext) field_Mutation_DeleteContact_args(ctx context.Contex
 }
 
 func (ec *executionContext) field_Mutation_DeleteEducation_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	var err error
+	args := map[string]interface{}{}
+	var arg0 int64
+	if tmp, ok := rawArgs["id"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
+		arg0, err = ec.unmarshalNID2int64(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["id"] = arg0
+	return args, nil
+}
+
+func (ec *executionContext) field_Mutation_DeleteProjectImage_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
 	var err error
 	args := map[string]interface{}{}
 	var arg0 int64
@@ -4367,6 +4397,85 @@ func (ec *executionContext) fieldContext_Mutation_DeleteProject(ctx context.Cont
 	}()
 	ctx = graphql.WithFieldContext(ctx, fc)
 	if fc.Args, err = ec.field_Mutation_DeleteProject_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Mutation_DeleteProjectImage(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_DeleteProjectImage(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		directive0 := func(rctx context.Context) (interface{}, error) {
+			ctx = rctx // use context from middleware stack in children
+			return ec.resolvers.Mutation().DeleteProjectImage(rctx, fc.Args["id"].(int64))
+		}
+		directive1 := func(ctx context.Context) (interface{}, error) {
+			isLogged, err := ec.unmarshalNBoolean2bool(ctx, true)
+			if err != nil {
+				return nil, err
+			}
+			if ec.directives.IsLoggedIn == nil {
+				return nil, errors.New("directive isLoggedIn is not implemented")
+			}
+			return ec.directives.IsLoggedIn(ctx, nil, directive0, isLogged)
+		}
+
+		tmp, err := directive1(rctx)
+		if err != nil {
+			return nil, graphql.ErrorOnPath(ctx, err)
+		}
+		if tmp == nil {
+			return nil, nil
+		}
+		if data, ok := tmp.(bool); ok {
+			return data, nil
+		}
+		return nil, fmt.Errorf(`unexpected type %T from directive, should be bool`, tmp)
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(bool)
+	fc.Result = res
+	return ec.marshalNBoolean2bool(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_DeleteProjectImage(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Boolean does not have child fields")
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_DeleteProjectImage_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
 		ec.Error(ctx, err)
 		return
 	}
@@ -12172,6 +12281,15 @@ func (ec *executionContext) _Mutation(ctx context.Context, sel ast.SelectionSet)
 
 			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
 				return ec._Mutation_DeleteProject(ctx, field)
+			})
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "DeleteProjectImage":
+
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_DeleteProjectImage(ctx, field)
 			})
 
 			if out.Values[i] == graphql.Null {

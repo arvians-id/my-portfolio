@@ -130,12 +130,12 @@ func FindCategoryBySkillIDs(ctx context.Context, categoryService service.Categor
 	}
 }
 
-func FindAllImagesByProjectIDs(ctx context.Context, projectService service.ProjectServiceContract) ProjectImagesLoader {
+func FindAllImagesByProjectIDs(ctx context.Context, projectImageService service.ProjectImageServiceContract) ProjectImagesLoader {
 	return ProjectImagesLoader{
 		wait:     2 * time.Millisecond,
 		maxBatch: 100,
 		fetch: func(keys []int64) ([][]*ProjectImage, []error) {
-			images, err := projectService.FindAllImagesByIDs(ctx, keys)
+			images, err := projectImageService.FindAllByProjectIDs(ctx, keys)
 			if err != nil {
 				return nil, []error{err}
 			}
