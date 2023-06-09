@@ -78,7 +78,13 @@ func (service *CategorySkillService) Update(ctx context.Context, categorySkill *
 		return nil, err
 	}
 
-	return categoryCheck, nil
+	categoryUpdated, err := service.CategorySkillRepository.FindByID(ctx, categoryCheck.ID)
+	if err != nil {
+		log.Println("[CategorySkillService][FindByID] problem calling repository, err: ", err.Error())
+		return nil, err
+	}
+
+	return categoryUpdated, nil
 
 }
 

@@ -41,7 +41,7 @@ type Contact struct {
 }
 
 type CreateCategorySkillRequest struct {
-	Name string `json:"name"`
+	Name string `json:"name" validate:"required,min=3"`
 }
 
 type CreateCertificateRequest struct {
@@ -147,8 +147,8 @@ type Skill struct {
 }
 
 type UpdateCategorySkillRequest struct {
-	ID   int64   `json:"id"`
-	Name *string `json:"name,omitempty"`
+	ID   int64   `json:"id" validate:"required,number"`
+	Name *string `json:"name,omitempty" validate:"required,min=3"`
 }
 
 type UpdateCertificateRequest struct {

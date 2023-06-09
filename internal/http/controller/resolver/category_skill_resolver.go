@@ -4,6 +4,7 @@ import (
 	"context"
 	"github.com/arvians-id/go-portfolio/internal/entity"
 	"github.com/arvians-id/go-portfolio/internal/http/controller/model"
+	"github.com/arvians-id/go-portfolio/util"
 )
 
 func (q queryResolver) FindAllCategorySkill(ctx context.Context) ([]*model.CategorySkill, error) {
@@ -40,6 +41,11 @@ func (q queryResolver) FindByIDCategorySkill(ctx context.Context, id int64) (*mo
 }
 
 func (m mutationResolver) CreateCategorySkill(ctx context.Context, input model.CreateCategorySkillRequest) (*model.CategorySkill, error) {
+	err := util.ValidateStruct(ctx, input)
+	if err != nil {
+		return nil, err
+	}
+
 	categorySkill, err := m.CategorySkillService.Create(ctx, &entity.CategorySkill{
 		Name: input.Name,
 	})
@@ -56,6 +62,11 @@ func (m mutationResolver) CreateCategorySkill(ctx context.Context, input model.C
 }
 
 func (m mutationResolver) UpdateCategorySkill(ctx context.Context, input model.UpdateCategorySkillRequest) (*model.CategorySkill, error) {
+	err := util.ValidateStruct(ctx, input)
+	if err != nil {
+		return nil, err
+	}
+
 	categorySkill, err := m.CategorySkillService.Update(ctx, &entity.CategorySkill{
 		ID:   input.ID,
 		Name: *input.Name,

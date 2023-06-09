@@ -7,10 +7,10 @@ type CategorySkill {
 }
 
 input CreateCategorySkillRequest {
-    name: String!
+    name: String! @goTag(key: "validate", value: "required,min=3")
 }
 
 input UpdateCategorySkillRequest {
-    id: ID!
-    name: String
+    id: ID! @goTag(key: "validate", value: "required,number")
+    name: String @goTag(key: "validate", value: "required,min=3")
 }
