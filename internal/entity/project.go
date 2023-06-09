@@ -4,12 +4,6 @@ import (
 	"time"
 )
 
-type ProjectImage struct {
-	ID        int64  `json:"id"`
-	ProjectID int64  `json:"project_id"`
-	Image     string `json:"image"`
-}
-
 type Project struct {
 	ID          int64           `json:"id"`
 	Category    string          `json:"category"`
@@ -23,4 +17,10 @@ type Project struct {
 	Images      []*ProjectImage `json:"images,omitempty"`
 	CreatedAt   time.Time       `json:"created_at,omitempty"`
 	UpdatedAt   time.Time       `json:"updated_at,omitempty"`
+}
+
+type ProjectImage struct {
+	ID        int64  `json:"id"`
+	ProjectID int64  `json:"project_id"`
+	Image     string `json:"image"`
 }

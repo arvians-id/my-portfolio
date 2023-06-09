@@ -1,4 +1,4 @@
-package routes
+package http
 
 import (
 	"context"
@@ -8,7 +8,7 @@ import (
 	"github.com/99designs/gqlgen/graphql/handler"
 	"github.com/99designs/gqlgen/graphql/playground"
 	"github.com/arvians-id/go-portfolio/cmd/config"
-	gql "github.com/arvians-id/go-portfolio/internal/http/controller"
+	"github.com/arvians-id/go-portfolio/internal/http/controller"
 	"github.com/arvians-id/go-portfolio/internal/http/controller/resolver"
 	"github.com/arvians-id/go-portfolio/internal/http/middleware"
 	"github.com/arvians-id/go-portfolio/internal/http/response"
@@ -114,7 +114,7 @@ func NewInitializedRoutes(configuration config.Config, logFile *os.File) (*fiber
 		return nil
 	})
 
-	app.Use(middleware.DataLoaders(skillService, categorySkillService))
+	app.Use(middleware.DataLoaders(skillService, categorySkillService, projectService))
 	app.Post("/query", func(c *fiber.Ctx) error {
 		fasthttpadaptor.NewFastHTTPHandlerFunc(func(writer http.ResponseWriter, request *http.Request) {
 			generatedConfig := gql.Config{

@@ -16,7 +16,9 @@ dataloaden:
 	go run github.com/vektah/dataloaden ProjectSkillsLoader int64 []*github.com/arvians-id/go-portfolio/internal/http/controller/model.Skill && \
 	go run github.com/vektah/dataloaden WorkExperienceSkillsLoader int64 []*github.com/arvians-id/go-portfolio/internal/http/controller/model.Skill && \
 	go run github.com/vektah/dataloaden CategorySkillsLoader int64 []*github.com/arvians-id/go-portfolio/internal/http/controller/model.Skill && \
-	go run github.com/vektah/dataloaden SkillsCategoryLoader int64 *github.com/arvians-id/go-portfolio/internal/http/controller/model.CategorySkill
+	go run github.com/vektah/dataloaden SkillsCategoryLoader int64 *github.com/arvians-id/go-portfolio/internal/http/controller/model.CategorySkill && \
+	go run github.com/vektah/dataloaden ProjectImagesLoader int64 []*github.com/arvians-id/go-portfolio/internal/http/controller/model.ProjectImage
+
 
 assets-image:
 	cd assets/images && mkdir certificate contact project skill user

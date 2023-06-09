@@ -129,3 +129,33 @@ func FindCategoryBySkillIDs(ctx context.Context, categoryService service.Categor
 		},
 	}
 }
+
+func FindAllImagesByProjectIDs(ctx context.Context, projectService service.ProjectServiceContract) ProjectImagesLoader {
+	return ProjectImagesLoader{
+		wait:     2 * time.Millisecond,
+		maxBatch: 100,
+		fetch: func(keys []int64) ([][]*ProjectImage, []error) {
+			images, err := projectService.FindAllImagesByIDs(ctx, keys)
+			if err != nil {
+				return nil, []error{err}
+			}
+
+			u := make(map[int64][]*ProjectImage, len(images))
+			for _, image := range images {
+				u[image.ProjectID] = append(u[image.ProjectID], &ProjectImage{
+					ID:        image.ID,
+					ProjectID: image.ProjectID,
+					Image:     image.Image,
+				})
+			}
+
+			result := make([][]*ProjectImage, len(keys))
+
+			for i, key := range keys {
+				result[i] = u[key]
+			}
+
+			return result, nil
+		},
+	}
+}

@@ -3169,3 +3169,66 @@ query history:  query FindAllProject {
     DeleteProject (id: $id)
 }
 [08 Jun 23 21:52 +07] | query history:  mutation CreateProject ($input: CreateProjectRequest!) { CreateProject (input: $input) { id category title description url is_featured date working_type created_at updated_at } }
+[09 Jun 23 13:51 +07] | query history:  query FindAllProject($search: String) {
+    FindAllProject(name: $search) {
+        id
+        category
+        title
+        description
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+        skills {
+            name
+            category_skill {
+                name
+            }
+        }
+    }
+}
+[09 Jun 23 13:51 +07] | query history:  query FindAllProject($search: String) {
+    FindAllProject(name: $search) {
+        id
+        category
+        title
+        description
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+        skills {
+            name
+            category_skill {
+                name
+            }
+        }
+    }
+}
+[09 Jun 23 13:51 +07] | query history:  query FindAllProject($search: String) {
+    FindAllProject(name: $search) {
+        id
+        category
+        title
+        description
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+        skills {
+            name
+            category_skill {
+                name
+            }
+        }
+        images {
+            image
+        }
+    }
+}

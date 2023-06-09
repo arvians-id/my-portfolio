@@ -11,11 +11,13 @@ type Loaders struct {
 	ListSkillsByWorkExperienceIDs model.WorkExperienceSkillsLoader
 	ListSkillsByCategoryIDs       model.CategorySkillsLoader
 	ListCategoryBySkillIDs        model.SkillsCategoryLoader
+	ListImagesByProjectIDs        model.ProjectImagesLoader
 }
 
 func DataLoaders(
 	skillService service.SkillServiceContract,
 	categorySkillService service.CategorySkillServiceContract,
+	projectService service.ProjectServiceContract,
 ) fiber.Handler {
 	return func(c *fiber.Ctx) error {
 		loaders := Loaders{
@@ -23,6 +25,7 @@ func DataLoaders(
 			ListSkillsByWorkExperienceIDs: model.FindAllSkillsByWorkExperienceIDs(c.Context(), skillService),
 			ListSkillsByCategoryIDs:       model.FindAllSkillsByCategoryIDs(c.Context(), skillService),
 			ListCategoryBySkillIDs:        model.FindCategoryBySkillIDs(c.Context(), categorySkillService),
+			ListImagesByProjectIDs:        model.FindAllImagesByProjectIDs(c.Context(), projectService),
 		}
 
 		c.Locals("loaders", &loaders)

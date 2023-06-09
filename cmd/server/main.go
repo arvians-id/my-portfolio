@@ -2,7 +2,7 @@ package main
 
 import (
 	"github.com/arvians-id/go-portfolio/cmd/config"
-	"github.com/arvians-id/go-portfolio/internal/http/routes"
+	"github.com/arvians-id/go-portfolio/internal/http"
 	"os"
 )
 
@@ -15,7 +15,7 @@ func main() {
 	defer file.Close()
 
 	configuration := config.New()
-	router, err := routes.NewInitializedRoutes(configuration, file)
+	router, err := http.NewInitializedRoutes(configuration, file)
 	if err != nil {
 		panic(err)
 	}

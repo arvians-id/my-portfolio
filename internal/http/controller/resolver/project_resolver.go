@@ -240,6 +240,11 @@ func (p projectResolver) Skills(ctx context.Context, obj *model.Project) ([]*mod
 }
 
 func (p projectResolver) Images(ctx context.Context, obj *model.Project) ([]*model.ProjectImage, error) {
-	//TODO implement me
-	panic("implement me")
+	images, err := GetLoaders(ctx).ListImagesByProjectIDs.Load(obj.ID)
+	if err != nil {
+		return nil, err
+	}
+
+	return images, nil
+
 }
