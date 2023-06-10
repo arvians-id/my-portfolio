@@ -22,12 +22,13 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/requestid"
 	"github.com/valyala/fasthttp/fasthttpadaptor"
 	"github.com/vektah/gqlparser/v2/gqlerror"
+	"gorm.io/gorm"
 	"net/http"
 	"os"
 	"time"
 )
 
-func NewInitializedRoutes(configuration config.Config, logFile *os.File) (*fiber.App, error) {
+func NewInitializedRoutes(configuration config.Config, logFile *os.File, db *gorm.DB) (*fiber.App, error) {
 	app := fiber.New(fiber.Config{
 		JSONEncoder: json.Marshal,
 		JSONDecoder: json.Unmarshal,
@@ -68,11 +69,6 @@ func NewInitializedRoutes(configuration config.Config, logFile *os.File) (*fiber
 	}))
 	app.Use(middleware.ExposeFiberContext())
 	app.Use(middleware.XApiKey(configuration))
-
-	db, err := config.NewPostgresSQLGorm(configuration)
-	if err != nil {
-		return nil, err
-	}
 
 	mapping := bleve.NewIndexMapping()
 	index, err := bleve.New("./database/bleve", mapping)

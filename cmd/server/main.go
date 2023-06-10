@@ -14,8 +14,17 @@ func main() {
 	}
 	defer file.Close()
 
+	// Init Configuration
 	configuration := config.New()
-	router, err := http.NewInitializedRoutes(configuration, file)
+
+	// Init DB
+	db, err := config.NewPostgresSQLGorm(configuration)
+	if err != nil {
+		panic(err)
+	}
+
+	// Init Server
+	router, err := http.NewInitializedRoutes(configuration, file, db)
 	if err != nil {
 		panic(err)
 	}

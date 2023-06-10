@@ -10,6 +10,8 @@ table:
 gql:
 	cd internal/http/controller && go run github.com/99designs/gqlgen@v0.17.31 generate
 
+test:
+	cd tests/integration && go test -v
 
 dataloaden:
 	cd internal/http/controller/model && \
@@ -18,7 +20,6 @@ dataloaden:
 	go run github.com/vektah/dataloaden CategorySkillsLoader int64 []*github.com/arvians-id/go-portfolio/internal/http/controller/model.Skill && \
 	go run github.com/vektah/dataloaden SkillsCategoryLoader int64 *github.com/arvians-id/go-portfolio/internal/http/controller/model.CategorySkill && \
 	go run github.com/vektah/dataloaden ProjectImagesLoader int64 []*github.com/arvians-id/go-portfolio/internal/http/controller/model.ProjectImage
-
 
 assets-image:
 	cd assets/images && mkdir certificate contact project skill user
