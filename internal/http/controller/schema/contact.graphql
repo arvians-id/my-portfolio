@@ -6,14 +6,14 @@ type Contact {
 }
 
 input CreateContactRequest {
-    platform: String!
-    url: String!
-    icon: Upload!
+    platform: String! @goTag(key: "validate", value: "required,max=250")
+    url: String! @goTag(key: "validate", value: "required,max=250")
+    icon: Upload! @goTag(key: "validate", value: "required")
 }
 
 input UpdateContactRequest {
-    id: ID!
-    platform: String
-    url: String
-    icon: Upload
+    id: ID! @goTag(key: "validate", value: "required,number")
+    platform: String @goTag(key: "validate", value: "omitempty,max=250")
+    url: String @goTag(key: "validate", value: "omitempty,max=250")
+    icon: Upload @goTag(key: "validate", value: "omitempty")
 }

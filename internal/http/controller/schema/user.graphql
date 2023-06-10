@@ -13,21 +13,21 @@ type User {
 }
 
 input CreateUserRequest {
-    name: String!
-    email: String!
-    password: String!
-    pronouns: String!
-    country: String!
-    job_title: String!
+    name: String! @goTag(key: "validate", value: "required,max=250")
+    email: String! @goTag(key: "validate", value: "required,email,max=250")
+    password: String! @goTag(key: "validate", value: "required,max=255")
+    pronouns: String! @goTag(key: "validate", value: "required,max=20")
+    country: String! @goTag(key: "validate", value: "required,max=100")
+    job_title: String! @goTag(key: "validate", value: "required,max=100")
 }
 
 input UpdateUserRequest {
-    id: ID!
-    name: String
-    password: String
-    bio: String
-    pronouns: String
-    country: String
-    job_title: String
-    image: Upload
+    id: ID! @goTag(key: "validate", value: "required,number")
+    name: String @goTag(key: "validate", value: "max=250")
+    password: String @goTag(key: "validate", value: "max=255")
+    bio: String @goTag(key: "validate", value: "max=500")
+    pronouns: String @goTag(key: "validate", value: "max=20")
+    country: String @goTag(key: "validate", value: "max=100")
+    job_title: String @goTag(key: "validate", value: "max=100")
+    image: Upload @goTag(key: "validate", value: "omitempty")
 }

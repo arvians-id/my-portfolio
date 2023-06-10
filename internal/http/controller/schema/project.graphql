@@ -14,26 +14,26 @@ type Project {
 }
 
 input CreateProjectRequest {
-    category: String!
-    title: String!
-    description: String
-    url: String
-    is_featured: Boolean
-    date: String!
-    working_type: String!
-    skills: [ID!]!
-    images: [Upload!]!
+    category: String! @goTag(key: "validate", value: "required,max=250")
+    title: String! @goTag(key: "validate", value: "required,max=250")
+    description: String @goTag(key: "validate", value: "max=500")
+    url: String @goTag(key: "validate", value: "max=250")
+    is_featured: Boolean @goTag(key: "validate", value: "required,boolean")
+    date: String! @goTag(key: "validate", value: "required")
+    working_type: String! @goTag(key: "validate", value: "required,max=250")
+    skills: [ID!]! @goTag(key: "validate", value: "required")
+    images: [Upload!]! @goTag(key: "validate", value: "required")
 }
 
 input UpdateProjectRequest {
-    id: ID!
-    category: String!
-    title: String!
-    description: String
-    url: String
-    is_featured: Boolean
-    date: String!
-    working_type: String!
-    skills: [ID!]!
-    images: [Upload!]
+    id: ID! @goTag(key: "validate", value: "required,number")
+    category: String! @goTag(key: "validate", value: "required,max=250")
+    title: String! @goTag(key: "validate", value: "required,max=250")
+    description: String @goTag(key: "validate", value: "max=500")
+    url: String @goTag(key: "validate", value: "max=250")
+    is_featured: Boolean @goTag(key: "validate", value: "required,boolean")
+    date: String! @goTag(key: "validate", value: "required")
+    working_type: String! @goTag(key: "validate", value: "required,max=250")
+    skills: [ID!]! @goTag(key: "validate", value: "required")
+    images: [Upload!] @goTag(key: "validate", value: "omitempty")
 }

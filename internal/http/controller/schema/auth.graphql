@@ -1,6 +1,6 @@
 input AuthLoginRequest {
-    email: String!
-    password: String!
+    email: String! @goTag(key: "validate", value: "required,email")
+    password: String! @goTag(key: "validate", value: "required")
 }
 
 type AuthLoginResponse {

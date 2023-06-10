@@ -12,22 +12,22 @@ type WorkExperience {
 }
 
 input CreateWorkExperienceRequest {
-    role: String!
-    company: String!
-    description: String
-    start_date: String!
-    end_date: String
-    job_type: String!
-    skills: [ID!]!
+    role: String! @goTag(key: "validate", value: "required,max=250")
+    company: String! @goTag(key: "validate", value: "required,max=250")
+    description: String @goTag(key: "validate", value: "max=500")
+    start_date: String! @goTag(key: "validate", value: "required")
+    end_date: String @goTag(key: "validate", value: "omitempty")
+    job_type: String! @goTag(key: "validate", value: "required,max=250")
+    skills: [ID!]! @goTag(key: "validate", value: "required")
 }
 
 input UpdateWorkExperienceRequest {
-    id: ID!
-    role: String
-    company: String
-    description: String
-    start_date: String
-    end_date: String
-    job_type: String
-    skills: [ID!]!
+    id: ID! @goTag(key: "validate", value: "required")
+    role: String @goTag(key: "validate", value: "max=250")
+    company: String @goTag(key: "validate", value: "max=250")
+    description: String @goTag(key: "validate", value: "max=500")
+    start_date: String @goTag(key: "validate", value: "omitempty")
+    end_date: String @goTag(key: "validate", value: "omitempty")
+    job_type: String @goTag(key: "validate", value: "max=250")
+    skills: [ID!]! @goTag(key: "validate", value: "required")
 }

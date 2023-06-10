@@ -41,6 +41,11 @@ func (q queryResolver) FindByIDSkill(ctx context.Context, id int64) (*model.Skil
 }
 
 func (m mutationResolver) CreateSkill(ctx context.Context, input model.CreateSkillRequest) (*model.Skill, error) {
+	err := util.ValidateStruct(ctx, input)
+	if err != nil {
+		return nil, err
+	}
+
 	fileName, err := util.UploadFile("images/skill", input.Icon)
 	if err != nil {
 		return nil, err
@@ -64,8 +69,12 @@ func (m mutationResolver) CreateSkill(ctx context.Context, input model.CreateSki
 }
 
 func (m mutationResolver) UpdateSkill(ctx context.Context, input model.UpdateSkillRequest) (*model.Skill, error) {
+	err := util.ValidateStruct(ctx, input)
+	if err != nil {
+		return nil, err
+	}
+
 	var fileName string
-	var err error
 	path := "images/skill"
 	if input.Icon != nil {
 		fileName, err = util.UploadFile(path, *input.Icon)

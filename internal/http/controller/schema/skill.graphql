@@ -7,14 +7,14 @@ type Skill {
 }
 
 input CreateSkillRequest {
-    category_skill_id: ID!
-    name: String!
-    icon: Upload!
+    category_skill_id: ID! @goTag(key: "validate", value: "required,number")
+    name: String! @goTag(key: "validate", value: "required,max=250")
+    icon: Upload! @goTag(key: "validate", value: "required")
 }
 
 input UpdateSkillRequest {
-    id: ID!
-    category_skill_id: ID!
-    name: String!
-    icon: Upload
+    id: ID! @goTag(key: "validate", value: "required,number")
+    category_skill_id: ID! @goTag(key: "validate", value: "required,number")
+    name: String! @goTag(key: "validate", value: "required,max=250")
+    icon: Upload @goTag(key: "validate", value: "omitempty")
 }

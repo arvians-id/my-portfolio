@@ -4,6 +4,7 @@ import (
 	"context"
 	"github.com/arvians-id/go-portfolio/internal/entity"
 	"github.com/arvians-id/go-portfolio/internal/http/controller/model"
+	"github.com/arvians-id/go-portfolio/util"
 )
 
 func (q queryResolver) FindAllWorkExperience(ctx context.Context) ([]*model.WorkExperience, error) {
@@ -50,6 +51,11 @@ func (q queryResolver) FindByIDWorkExperience(ctx context.Context, id int64) (*m
 }
 
 func (m mutationResolver) CreateWorkExperience(ctx context.Context, input model.CreateWorkExperienceRequest) (*model.WorkExperience, error) {
+	err := util.ValidateStruct(ctx, input)
+	if err != nil {
+		return nil, err
+	}
+
 	var skills []*entity.Skill
 	for _, id := range input.Skills {
 		skills = append(skills, &entity.Skill{
@@ -84,6 +90,11 @@ func (m mutationResolver) CreateWorkExperience(ctx context.Context, input model.
 }
 
 func (m mutationResolver) UpdateWorkExperience(ctx context.Context, input model.UpdateWorkExperienceRequest) (*model.WorkExperience, error) {
+	err := util.ValidateStruct(ctx, input)
+	if err != nil {
+		return nil, err
+	}
+
 	var skills []*entity.Skill
 	for _, id := range input.Skills {
 		skills = append(skills, &entity.Skill{

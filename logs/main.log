@@ -3852,3 +3852,557 @@ query history:  query FindAllProject {
         updated_at
     }
 }
+[10 Jun 23 09:13 +07] | query history:  mutation CreateCategorySkill ($input: CreateCategorySkillRequest!) {
+    CreateCategorySkill (input: $input) {
+        id
+        name
+        created_at
+        updated_at
+    }
+}
+[10 Jun 23 09:17 +07] | query history:  mutation CreateCategorySkill ($input: CreateCategorySkillRequest!) {
+    CreateCategorySkill (input: $input) {
+        id
+        name
+        created_at
+        updated_at
+    }
+}
+[10 Jun 23 09:21 +07] | query history:  mutation CreateCategorySkill ($input: CreateCategorySkillRequest!) {
+    CreateCategorySkill (input: $input) {
+        id
+        name
+        created_at
+        updated_at
+    }
+}
+[10 Jun 23 09:39 +07] | query history:  mutation CreateCategorySkill ($input: CreateCategorySkillRequest!) {
+    CreateCategorySkill (input: $input) {
+        id
+        name
+        created_at
+        updated_at
+    }
+}
+[10 Jun 23 09:48 +07] | query history:  mutation CreateCertificate ($input: CreateCertificateRequest!) { CreateCertificate (input: $input) { id name organization issue_date expiration_date credential_id image }}
+[10 Jun 23 09:48 +07] | query history:  mutation Login($request: AuthLoginRequest!) {
+    loggedIn: Login(input: $request) {
+        token
+    }
+}
+[10 Jun 23 09:48 +07] | query history:  mutation Login($request: AuthLoginRequest!) {
+    loggedIn: Login(input: $request) {
+        token
+    }
+}
+[10 Jun 23 09:48 +07] | query history:  mutation CreateCertificate ($input: CreateCertificateRequest!) { CreateCertificate (input: $input) { id name organization issue_date expiration_date credential_id image }}
+[10 Jun 23 09:49 +07] | query history:  mutation CreateCertificate ($input: CreateCertificateRequest!) { CreateCertificate (input: $input) { id name organization issue_date expiration_date credential_id image }}
+[10 Jun 23 09:50 +07] | query history:  mutation CreateCertificate ($input: CreateCertificateRequest!) { CreateCertificate (input: $input) { id name organization issue_date expiration_date credential_id image }}
+[10 Jun 23 10:08 +07] | query history:  mutation CreateCertificate ($input: CreateCertificateRequest!) { CreateCertificate (input: $input) { id name organization issue_date expiration_date credential_id image }}
+[10 Jun 23 10:08 +07] | query history:  mutation CreateCertificate ($input: CreateCertificateRequest!) { CreateCertificate (input: $input) { id name organization issue_date expiration_date credential_id image }}
+[10 Jun 23 10:09 +07] | query history:  mutation CreateCertificate ($input: CreateCertificateRequest!) { CreateCertificate (input: $input) { id name organization issue_date expiration_date credential_id image }}
+[10 Jun 23 10:09 +07] | query history:  mutation CreateCertificate ($input: CreateCertificateRequest!) { CreateCertificate (input: $input) { id name organization issue_date expiration_date credential_id image }}
+[10 Jun 23 10:15 +07] | query history:  mutation CreateCertificate ($input: CreateCertificateRequest!) { CreateCertificate (input: $input) { id name organization issue_date expiration_date credential_id image }}
+[10 Jun 23 10:29 +07] | query history:  mutation CreateProject ($input: CreateProjectRequest!) { CreateProject (input: $input) { id category title description url is_featured date working_type created_at updated_at } }
+[10 Jun 23 10:30 +07] | query history:  mutation CreateProject ($input: CreateProjectRequest!) { CreateProject (input: $input) { id category title description url is_featured date working_type created_at updated_at } }
+[10 Jun 23 10:31 +07] | query history:  mutation CreateProject ($input: CreateProjectRequest!) { CreateProject (input: $input) { id category title description url is_featured date working_type created_at updated_at } }
+[10 Jun 23 10:31 +07] | query history:  query FindAllProject($search: String) {
+    FindAllProject(name: $search) {
+        id
+        category
+        title
+        description
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+        skills {
+            name
+            category_skill {
+                name
+            }
+        }
+        images {
+            id
+            project_id
+            image
+        }
+    }
+}
+[10 Jun 23 10:31 +07] | query history:  query FindAllProject($search: String) {
+    FindAllProject(name: $search) {
+        id
+        category
+        title
+        description
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+        skills {
+            name
+            category_skill {
+                name
+            }
+        }
+        images {
+            id
+            project_id
+            image
+        }
+    }
+}
+[10 Jun 23 10:31 +07] | query history:  query FindAllProject($search: String) {
+    FindAllProject(name: $search) {
+        id
+        category
+        title
+        description
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+        skills {
+            name
+            category_skill {
+                name
+            }
+        }
+        images {
+            id
+            project_id
+            image
+        }
+    }
+}
+[10 Jun 23 10:31 +07] | query history:  query FindAllProject($search: String) {
+    FindAllProject(name: $search) {
+        id
+        category
+        title
+        description
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+        skills {
+            name
+            category_skill {
+                name
+            }
+        }
+        images {
+            id
+            project_id
+            image
+        }
+    }
+}
+[10 Jun 23 10:31 +07] | query history:  query FindAllProject($search: String) {
+    FindAllProject(name: $search) {
+        id
+        category
+        title
+        description
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+        skills {
+            name
+            category_skill {
+                name
+            }
+        }
+        images {
+            id
+            project_id
+            image
+        }
+    }
+}
+[10 Jun 23 10:31 +07] | query history:  query FindAllProject($search: String) {
+    FindAllProject(name: $search) {
+        id
+        category
+        title
+        description
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+        skills {
+            name
+            category_skill {
+                name
+            }
+        }
+        images {
+            id
+            project_id
+            image
+        }
+    }
+}
+[10 Jun 23 10:33 +07] | query history:  query FindAllProject($search: String) {
+    FindAllProject(name: $search) {
+        id
+        category
+        title
+        description
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+        skills {
+            name
+            category_skill {
+                name
+            }
+        }
+        images {
+            id
+            project_id
+            image
+        }
+    }
+}
+[10 Jun 23 10:33 +07] | query history:  query FindAllProject($search: String) {
+    FindAllProject(name: $search) {
+        id
+        category
+        title
+        description
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+        skills {
+            name
+            category_skill {
+                name
+            }
+        }
+        images {
+            id
+            project_id
+            image
+        }
+    }
+}
+[10 Jun 23 10:33 +07] | query history:  query FindAllProject($search: String) {
+    FindAllProject(name: $search) {
+        id
+        category
+        title
+        description
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+        skills {
+            name
+            category_skill {
+                name
+            }
+        }
+        images {
+            id
+            project_id
+            image
+        }
+    }
+}
+[10 Jun 23 10:34 +07] | query history:  query FindAllProject($search: String) {
+    FindAllProject(name: $search) {
+        id
+        category
+        title
+        description
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+        skills {
+            name
+            category_skill {
+                name
+            }
+        }
+        images {
+            id
+            project_id
+            image
+        }
+    }
+}
+[10 Jun 23 10:34 +07] | query history:  query FindAllProject($search: String) {
+    FindAllProject(name: $search) {
+        id
+        category
+        title
+        description
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+        skills {
+            name
+            category_skill {
+                name
+            }
+        }
+        images {
+            id
+            project_id
+            image
+        }
+    }
+}
+[10 Jun 23 10:35 +07] | query history:  query FindAllProject($search: String) {
+    FindAllProject(name: $search) {
+        id
+        category
+        title
+        description
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+        skills {
+            name
+            category_skill {
+                name
+            }
+        }
+        images {
+            id
+            project_id
+            image
+        }
+    }
+}
+[10 Jun 23 10:36 +07] | query history:  query FindAllProject($search: String) {
+    FindAllProject(name: $search) {
+        id
+        category
+        title
+        description
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+        skills {
+            name
+            category_skill {
+                name
+            }
+        }
+        images {
+            id
+            project_id
+            image
+        }
+    }
+}
+[10 Jun 23 10:36 +07] | query history:  query FindAllProject($search: String) {
+    FindAllProject(name: $search) {
+        id
+        category
+        title
+        description
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+        skills {
+            name
+            category_skill {
+                name
+            }
+        }
+        images {
+            id
+            project_id
+            image
+        }
+    }
+}
+[10 Jun 23 10:36 +07] | query history:  query FindAllProject($search: String) {
+    FindAllProject(name: $search) {
+        id
+        category
+        title
+        description
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+        skills {
+            name
+            category_skill {
+                name
+            }
+        }
+        images {
+            id
+            project_id
+            image
+        }
+    }
+}
+[10 Jun 23 10:37 +07] | query history:  query FindAllProject($search: String) {
+    FindAllProject(name: $search) {
+        id
+        category
+        title
+        description
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+        skills {
+            name
+            category_skill {
+                name
+            }
+        }
+        images {
+            id
+            project_id
+            image
+        }
+    }
+}
+[10 Jun 23 10:37 +07] | query history:  query FindAllProject($search: String) {
+    FindAllProject(name: $search) {
+        id
+        category
+        title
+        description
+        url
+        is_featured
+        date
+        working_type
+        created_at
+        updated_at
+        skills {
+            name
+            category_skill {
+                name
+            }
+        }
+        images {
+            id
+            project_id
+            image
+        }
+    }
+}
+[10 Jun 23 10:38 +07] | query history:  query FindByIDProject ($id: ID!) {
+    FindByIDProject (id: $id) {
+        id
+        category
+        title
+        description
+        url
+        is_featured
+        date
+        working_type
+        skills {
+            name
+            icon
+        }
+        created_at
+        updated_at
+    }
+}
+[10 Jun 23 10:38 +07] | query history:  query FindByIDProject ($id: ID!) {
+    FindByIDProject (id: $id) {
+        id
+        category
+        title
+        description
+        url
+        is_featured
+        date
+        working_type
+        skills {
+            name
+            icon
+        }
+        images {
+            image
+        }
+        created_at
+        updated_at
+    }
+}
+[10 Jun 23 10:39 +07] | query history:  query FindByIDProject ($id: ID!) {
+    FindByIDProject (id: $id) {
+        id
+        category
+        title
+        description
+        url
+        is_featured
+        date
+        working_type
+        skills {
+            name
+            icon
+        }
+        images {
+            image
+        }
+        created_at
+        updated_at
+    }
+}
+[10 Jun 23 10:45 +07] | query history:  mutation Login($request: AuthLoginRequest!) {
+    loggedIn: Login(input: $request) {
+        token
+    }
+}
+[10 Jun 23 10:55 +07] | query history:  mutation Login($request: AuthLoginRequest!) {
+    loggedIn: Login(input: $request) {
+        token
+    }
+}
+[10 Jun 23 10:55 +07] | query history:  mutation Login($request: AuthLoginRequest!) {
+    loggedIn: Login(input: $request) {
+        token
+    }
+}

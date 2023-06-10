@@ -53,6 +53,11 @@ func (q queryResolver) FindByIDUser(ctx context.Context, id int64) (*model.User,
 }
 
 func (m mutationResolver) CreateUser(ctx context.Context, input model.CreateUserRequest) (*model.User, error) {
+	err := util.ValidateStruct(ctx, input)
+	if err != nil {
+		return nil, err
+	}
+
 	user, err := m.UserService.Create(ctx, &entity.User{
 		Name:     input.Name,
 		Email:    input.Email,
@@ -80,8 +85,12 @@ func (m mutationResolver) CreateUser(ctx context.Context, input model.CreateUser
 }
 
 func (m mutationResolver) UpdateUser(ctx context.Context, input model.UpdateUserRequest) (*model.User, error) {
+	err := util.ValidateStruct(ctx, input)
+	if err != nil {
+		return nil, err
+	}
+
 	var fileName string
-	var err error
 	path := "images/user"
 	if input.Image != nil {
 		fileName, err = util.UploadFile(path, *input.Image)

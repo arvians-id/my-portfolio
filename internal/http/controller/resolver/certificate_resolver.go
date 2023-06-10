@@ -47,6 +47,11 @@ func (q queryResolver) FindByIDCertificate(ctx context.Context, id int64) (*mode
 }
 
 func (m mutationResolver) CreateCertificate(ctx context.Context, input model.CreateCertificateRequest) (*model.Certificate, error) {
+	err := util.ValidateStruct(ctx, input)
+	if err != nil {
+		return nil, err
+	}
+
 	fileName, err := util.UploadFile("images/certificate", input.Image)
 	if err != nil {
 		return nil, err
@@ -76,8 +81,12 @@ func (m mutationResolver) CreateCertificate(ctx context.Context, input model.Cre
 }
 
 func (m mutationResolver) UpdateCertificate(ctx context.Context, input model.UpdateCertificateRequest) (*model.Certificate, error) {
+	err := util.ValidateStruct(ctx, input)
+	if err != nil {
+		return nil, err
+	}
+
 	var fileName string
-	var err error
 	path := "images/certificate"
 	if input.Image != nil {
 		fileName, err = util.UploadFile(path, *input.Image)

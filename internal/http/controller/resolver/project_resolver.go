@@ -12,13 +12,13 @@ func (q queryResolver) FindAllProject(ctx context.Context, name *string) ([]*mod
 	var projects []*entity.Project
 	var err error
 
-	projects, err = q.ProjectService.FindAll(ctx)
-	if err != nil {
-		return nil, err
-	}
-
 	if name != nil && *name != "" {
 		projects, err = q.ProjectService.Query(ctx, *name)
+		if err != nil {
+			return nil, err
+		}
+	} else {
+		projects, err = q.ProjectService.FindAll(ctx)
 		if err != nil {
 			return nil, err
 		}
@@ -91,6 +91,11 @@ func (q queryResolver) FindByIDProject(ctx context.Context, id int64) (*model.Pr
 }
 
 func (m mutationResolver) CreateProject(ctx context.Context, input model.CreateProjectRequest) (*model.Project, error) {
+	err := util.ValidateStruct(ctx, input)
+	if err != nil {
+		return nil, err
+	}
+
 	var skills []*entity.Skill
 	var images []*entity.ProjectImage
 	var mu sync.Mutex
@@ -156,6 +161,11 @@ func (m mutationResolver) CreateProject(ctx context.Context, input model.CreateP
 }
 
 func (m mutationResolver) UpdateProject(ctx context.Context, input model.UpdateProjectRequest) (*model.Project, error) {
+	err := util.ValidateStruct(ctx, input)
+	if err != nil {
+		return nil, err
+	}
+
 	var skills []*entity.Skill
 	var images []*entity.ProjectImage
 	var mu sync.Mutex

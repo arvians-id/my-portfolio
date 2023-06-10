@@ -41,6 +41,11 @@ func (q queryResolver) FindByIDContact(ctx context.Context, id int64) (*model.Co
 }
 
 func (m mutationResolver) CreateContact(ctx context.Context, input model.CreateContactRequest) (*model.Contact, error) {
+	err := util.ValidateStruct(ctx, input)
+	if err != nil {
+		return nil, err
+	}
+
 	fileName, err := util.UploadFile("images/contact", input.Icon)
 	if err != nil {
 		return nil, err
@@ -64,8 +69,12 @@ func (m mutationResolver) CreateContact(ctx context.Context, input model.CreateC
 }
 
 func (m mutationResolver) UpdateContact(ctx context.Context, input model.UpdateContactRequest) (*model.Contact, error) {
+	err := util.ValidateStruct(ctx, input)
+	if err != nil {
+		return nil, err
+	}
+
 	var fileName string
-	var err error
 	path := "images/contact"
 	if input.Icon != nil {
 		fileName, err = util.UploadFile(path, *input.Icon)

@@ -7,8 +7,8 @@ import (
 )
 
 type AuthLoginRequest struct {
-	Email    string `json:"email"`
-	Password string `json:"password"`
+	Email    string `json:"email" validate:"required,email"`
+	Password string `json:"password" validate:"required"`
 }
 
 type AuthLoginResponse struct {
@@ -41,69 +41,69 @@ type Contact struct {
 }
 
 type CreateCategorySkillRequest struct {
-	Name string `json:"name" validate:"required,min=3"`
+	Name string `json:"name" validate:"required,max=250"`
 }
 
 type CreateCertificateRequest struct {
-	Name           string         `json:"name"`
-	Organization   string         `json:"organization"`
-	IssueDate      string         `json:"issue_date"`
-	ExpirationDate *string        `json:"expiration_date,omitempty"`
-	CredentialID   *string        `json:"credential_id,omitempty"`
-	Image          graphql.Upload `json:"image"`
+	Name           string         `json:"name" validate:"required,max=250"`
+	Organization   string         `json:"organization" validate:"required,max=250"`
+	IssueDate      string         `json:"issue_date" validate:"required"`
+	ExpirationDate *string        `json:"expiration_date,omitempty" validate:"omitempty"`
+	CredentialID   *string        `json:"credential_id,omitempty" validate:"omitempty,max=250"`
+	Image          graphql.Upload `json:"image" validate:"required"`
 }
 
 type CreateContactRequest struct {
-	Platform string         `json:"platform"`
-	URL      string         `json:"url"`
-	Icon     graphql.Upload `json:"icon"`
+	Platform string         `json:"platform" validate:"required,max=250"`
+	URL      string         `json:"url" validate:"required,max=250"`
+	Icon     graphql.Upload `json:"icon" validate:"required"`
 }
 
 type CreateEducationRequest struct {
-	Institution  string  `json:"institution"`
-	Degree       string  `json:"degree"`
-	FieldOfStudy string  `json:"field_of_study"`
-	Grade        float64 `json:"grade"`
-	Description  *string `json:"description,omitempty"`
-	StartDate    string  `json:"start_date"`
-	EndDate      *string `json:"end_date,omitempty"`
+	Institution  string  `json:"institution" validate:"required,max=250"`
+	Degree       string  `json:"degree" validate:"required,max=250"`
+	FieldOfStudy string  `json:"field_of_study" validate:"required,max=250"`
+	Grade        float64 `json:"grade" validate:"required"`
+	Description  *string `json:"description,omitempty" validate:"max=500"`
+	StartDate    string  `json:"start_date" validate:"required"`
+	EndDate      *string `json:"end_date,omitempty" validate:"omitempty"`
 }
 
 type CreateProjectRequest struct {
-	Category    string            `json:"category"`
-	Title       string            `json:"title"`
-	Description *string           `json:"description,omitempty"`
-	URL         *string           `json:"url,omitempty"`
-	IsFeatured  *bool             `json:"is_featured,omitempty"`
-	Date        string            `json:"date"`
-	WorkingType string            `json:"working_type"`
-	Skills      []int64           `json:"skills"`
-	Images      []*graphql.Upload `json:"images"`
+	Category    string            `json:"category" validate:"required,max=250"`
+	Title       string            `json:"title" validate:"required,max=250"`
+	Description *string           `json:"description,omitempty" validate:"max=500"`
+	URL         *string           `json:"url,omitempty" validate:"max=250"`
+	IsFeatured  *bool             `json:"is_featured,omitempty" validate:"required,boolean"`
+	Date        string            `json:"date" validate:"required"`
+	WorkingType string            `json:"working_type" validate:"required,max=250"`
+	Skills      []int64           `json:"skills" validate:"required"`
+	Images      []*graphql.Upload `json:"images" validate:"required"`
 }
 
 type CreateSkillRequest struct {
-	CategorySkillID int64          `json:"category_skill_id"`
-	Name            string         `json:"name"`
-	Icon            graphql.Upload `json:"icon"`
+	CategorySkillID int64          `json:"category_skill_id" validate:"required,number"`
+	Name            string         `json:"name" validate:"required,max=250"`
+	Icon            graphql.Upload `json:"icon" validate:"required"`
 }
 
 type CreateUserRequest struct {
-	Name     string `json:"name"`
-	Email    string `json:"email"`
-	Password string `json:"password"`
-	Pronouns string `json:"pronouns"`
-	Country  string `json:"country"`
-	JobTitle string `json:"job_title"`
+	Name     string `json:"name" validate:"required,max=250"`
+	Email    string `json:"email" validate:"required,email,max=250"`
+	Password string `json:"password" validate:"required,max=255"`
+	Pronouns string `json:"pronouns" validate:"required,max=20"`
+	Country  string `json:"country" validate:"required,max=100"`
+	JobTitle string `json:"job_title" validate:"required,max=100"`
 }
 
 type CreateWorkExperienceRequest struct {
-	Role        string  `json:"role"`
-	Company     string  `json:"company"`
-	Description *string `json:"description,omitempty"`
-	StartDate   string  `json:"start_date"`
-	EndDate     *string `json:"end_date,omitempty"`
-	JobType     string  `json:"job_type"`
-	Skills      []int64 `json:"skills"`
+	Role        string  `json:"role" validate:"required,max=250"`
+	Company     string  `json:"company" validate:"required,max=250"`
+	Description *string `json:"description,omitempty" validate:"max=500"`
+	StartDate   string  `json:"start_date" validate:"required"`
+	EndDate     *string `json:"end_date,omitempty" validate:"omitempty"`
+	JobType     string  `json:"job_type" validate:"required,max=250"`
+	Skills      []int64 `json:"skills" validate:"required"`
 }
 
 type Education struct {
@@ -148,77 +148,77 @@ type Skill struct {
 
 type UpdateCategorySkillRequest struct {
 	ID   int64   `json:"id" validate:"required,number"`
-	Name *string `json:"name,omitempty" validate:"required,min=3"`
+	Name *string `json:"name,omitempty" validate:"omitempty,max=250"`
 }
 
 type UpdateCertificateRequest struct {
-	ID             int64           `json:"id"`
-	Name           *string         `json:"name,omitempty"`
-	Organization   *string         `json:"organization,omitempty"`
-	IssueDate      *string         `json:"issue_date,omitempty"`
-	ExpirationDate *string         `json:"expiration_date,omitempty"`
-	CredentialID   *string         `json:"credential_id,omitempty"`
-	Image          *graphql.Upload `json:"image,omitempty"`
+	ID             int64           `json:"id" validate:"required,number"`
+	Name           *string         `json:"name,omitempty" validate:"max=250"`
+	Organization   *string         `json:"organization,omitempty" validate:"max=250"`
+	IssueDate      *string         `json:"issue_date,omitempty" validate:"omitempty"`
+	ExpirationDate *string         `json:"expiration_date,omitempty" validate:"omitempty"`
+	CredentialID   *string         `json:"credential_id,omitempty" validate:"omitempty,max=250"`
+	Image          *graphql.Upload `json:"image,omitempty" validate:"omitempty"`
 }
 
 type UpdateContactRequest struct {
-	ID       int64           `json:"id"`
-	Platform *string         `json:"platform,omitempty"`
-	URL      *string         `json:"url,omitempty"`
-	Icon     *graphql.Upload `json:"icon,omitempty"`
+	ID       int64           `json:"id" validate:"required,number"`
+	Platform *string         `json:"platform,omitempty" validate:"omitempty,max=250"`
+	URL      *string         `json:"url,omitempty" validate:"omitempty,max=250"`
+	Icon     *graphql.Upload `json:"icon,omitempty" validate:"omitempty"`
 }
 
 type UpdateEducationRequest struct {
-	ID           int64    `json:"id"`
-	Institution  *string  `json:"institution,omitempty"`
-	Degree       *string  `json:"degree,omitempty"`
-	FieldOfStudy *string  `json:"field_of_study,omitempty"`
-	Grade        *float64 `json:"grade,omitempty"`
-	Description  *string  `json:"description,omitempty"`
-	StartDate    *string  `json:"start_date,omitempty"`
-	EndDate      *string  `json:"end_date,omitempty"`
+	ID           int64    `json:"id" validate:"required,number"`
+	Institution  *string  `json:"institution,omitempty" validate:"max=250"`
+	Degree       *string  `json:"degree,omitempty" validate:"max=250"`
+	FieldOfStudy *string  `json:"field_of_study,omitempty" validate:"max=250"`
+	Grade        *float64 `json:"grade,omitempty" validate:"omitempty"`
+	Description  *string  `json:"description,omitempty" validate:"max=500"`
+	StartDate    *string  `json:"start_date,omitempty" validate:"omitempty"`
+	EndDate      *string  `json:"end_date,omitempty" validate:"omitempty"`
 }
 
 type UpdateProjectRequest struct {
-	ID          int64             `json:"id"`
-	Category    string            `json:"category"`
-	Title       string            `json:"title"`
-	Description *string           `json:"description,omitempty"`
-	URL         *string           `json:"url,omitempty"`
-	IsFeatured  *bool             `json:"is_featured,omitempty"`
-	Date        string            `json:"date"`
-	WorkingType string            `json:"working_type"`
-	Skills      []int64           `json:"skills"`
-	Images      []*graphql.Upload `json:"images,omitempty"`
+	ID          int64             `json:"id" validate:"required,number"`
+	Category    string            `json:"category" validate:"required,max=250"`
+	Title       string            `json:"title" validate:"required,max=250"`
+	Description *string           `json:"description,omitempty" validate:"max=500"`
+	URL         *string           `json:"url,omitempty" validate:"max=250"`
+	IsFeatured  *bool             `json:"is_featured,omitempty" validate:"required,boolean"`
+	Date        string            `json:"date" validate:"required"`
+	WorkingType string            `json:"working_type" validate:"required,max=250"`
+	Skills      []int64           `json:"skills" validate:"required"`
+	Images      []*graphql.Upload `json:"images,omitempty" validate:"omitempty"`
 }
 
 type UpdateSkillRequest struct {
-	ID              int64           `json:"id"`
-	CategorySkillID int64           `json:"category_skill_id"`
-	Name            string          `json:"name"`
-	Icon            *graphql.Upload `json:"icon,omitempty"`
+	ID              int64           `json:"id" validate:"required,number"`
+	CategorySkillID int64           `json:"category_skill_id" validate:"required,number"`
+	Name            string          `json:"name" validate:"required,max=250"`
+	Icon            *graphql.Upload `json:"icon,omitempty" validate:"omitempty"`
 }
 
 type UpdateUserRequest struct {
-	ID       int64           `json:"id"`
-	Name     *string         `json:"name,omitempty"`
-	Password *string         `json:"password,omitempty"`
-	Bio      *string         `json:"bio,omitempty"`
-	Pronouns *string         `json:"pronouns,omitempty"`
-	Country  *string         `json:"country,omitempty"`
-	JobTitle *string         `json:"job_title,omitempty"`
-	Image    *graphql.Upload `json:"image,omitempty"`
+	ID       int64           `json:"id" validate:"required,number"`
+	Name     *string         `json:"name,omitempty" validate:"max=250"`
+	Password *string         `json:"password,omitempty" validate:"max=255"`
+	Bio      *string         `json:"bio,omitempty" validate:"max=500"`
+	Pronouns *string         `json:"pronouns,omitempty" validate:"max=20"`
+	Country  *string         `json:"country,omitempty" validate:"max=100"`
+	JobTitle *string         `json:"job_title,omitempty" validate:"max=100"`
+	Image    *graphql.Upload `json:"image,omitempty" validate:"omitempty"`
 }
 
 type UpdateWorkExperienceRequest struct {
-	ID          int64   `json:"id"`
-	Role        *string `json:"role,omitempty"`
-	Company     *string `json:"company,omitempty"`
-	Description *string `json:"description,omitempty"`
-	StartDate   *string `json:"start_date,omitempty"`
-	EndDate     *string `json:"end_date,omitempty"`
-	JobType     *string `json:"job_type,omitempty"`
-	Skills      []int64 `json:"skills"`
+	ID          int64   `json:"id" validate:"required"`
+	Role        *string `json:"role,omitempty" validate:"max=250"`
+	Company     *string `json:"company,omitempty" validate:"max=250"`
+	Description *string `json:"description,omitempty" validate:"max=500"`
+	StartDate   *string `json:"start_date,omitempty" validate:"omitempty"`
+	EndDate     *string `json:"end_date,omitempty" validate:"omitempty"`
+	JobType     *string `json:"job_type,omitempty" validate:"max=250"`
+	Skills      []int64 `json:"skills" validate:"required"`
 }
 
 type User struct {

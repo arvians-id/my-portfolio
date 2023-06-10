@@ -4,6 +4,7 @@ import (
 	"context"
 	"github.com/arvians-id/go-portfolio/internal/entity"
 	"github.com/arvians-id/go-portfolio/internal/http/controller/model"
+	"github.com/arvians-id/go-portfolio/util"
 )
 
 func (q queryResolver) FindAllEducation(ctx context.Context) ([]*model.Education, error) {
@@ -48,6 +49,11 @@ func (q queryResolver) FindByIDEducation(ctx context.Context, id int64) (*model.
 }
 
 func (m mutationResolver) CreateEducation(ctx context.Context, input model.CreateEducationRequest) (*model.Education, error) {
+	err := util.ValidateStruct(ctx, input)
+	if err != nil {
+		return nil, err
+	}
+
 	education, err := m.EducationService.Create(ctx, &entity.Education{
 		Institution:  input.Institution,
 		Degree:       input.Degree,
@@ -74,6 +80,11 @@ func (m mutationResolver) CreateEducation(ctx context.Context, input model.Creat
 }
 
 func (m mutationResolver) UpdateEducation(ctx context.Context, input model.UpdateEducationRequest) (*model.Education, error) {
+	err := util.ValidateStruct(ctx, input)
+	if err != nil {
+		return nil, err
+	}
+
 	education, err := m.EducationService.Update(ctx, &entity.Education{
 		ID:           input.ID,
 		Institution:  *input.Institution,

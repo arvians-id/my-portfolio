@@ -10,22 +10,22 @@ type Education {
 }
 
 input CreateEducationRequest {
-    institution: String!
-    degree: String!
-    field_of_study: String!
-    grade: Float!
-    description: String
-    start_date: String!
-    end_date: String
+    institution: String! @goTag(key: "validate", value: "required,max=250")
+    degree: String! @goTag(key: "validate", value: "required,max=250")
+    field_of_study: String! @goTag(key: "validate", value: "required,max=250")
+    grade: Float! @goTag(key: "validate", value: "required")
+    description: String @goTag(key: "validate", value: "max=500")
+    start_date: String! @goTag(key: "validate", value: "required")
+    end_date: String @goTag(key: "validate", value: "omitempty")
 }
 
 input UpdateEducationRequest {
-    id: ID!
-    institution: String
-    degree: String
-    field_of_study: String
-    grade: Float
-    description: String
-    start_date: String
-    end_date: String
+    id: ID! @goTag(key: "validate", value: "required,number")
+    institution: String @goTag(key: "validate", value: "max=250")
+    degree: String @goTag(key: "validate", value: "max=250")
+    field_of_study: String @goTag(key: "validate", value: "max=250")
+    grade: Float @goTag(key: "validate", value: "omitempty")
+    description: String @goTag(key: "validate", value: "max=500")
+    start_date: String @goTag(key: "validate", value: "omitempty")
+    end_date: String @goTag(key: "validate", value: "omitempty")
 }

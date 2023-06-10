@@ -21,10 +21,12 @@ func XApiKey(configuration config.Config) fiber.Handler {
 	return func(ctx *fiber.Ctx) error {
 		xApiKey := ctx.Get("X-API-KEY")
 		if xApiKey == "" {
+			ctx.Locals("middleware", "XApiKey Middleware")
 			return fiber.NewError(fiber.StatusForbidden, "access denied: please provide a valid API key to access this page.")
 		}
 
 		if xApiKey != configuration.Get("X_API_KEY") {
+			ctx.Locals("middleware", "XApiKey Middleware")
 			return fiber.NewError(fiber.StatusForbidden, "invalid key: the provided API key is incorrect. please make sure to use a valid API key to access this resource.")
 		}
 

@@ -11,7 +11,6 @@ import (
 	"github.com/arvians-id/go-portfolio/internal/http/controller"
 	"github.com/arvians-id/go-portfolio/internal/http/controller/resolver"
 	"github.com/arvians-id/go-portfolio/internal/http/middleware"
-	"github.com/arvians-id/go-portfolio/internal/http/response"
 	"github.com/arvians-id/go-portfolio/internal/repository"
 	"github.com/arvians-id/go-portfolio/internal/service"
 	"github.com/blevesearch/bleve"
@@ -22,6 +21,7 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/recover"
 	"github.com/gofiber/fiber/v2/middleware/requestid"
 	"github.com/valyala/fasthttp/fasthttpadaptor"
+	"github.com/vektah/gqlparser/v2/gqlerror"
 	"net/http"
 	"os"
 	"time"
@@ -39,7 +39,22 @@ func NewInitializedRoutes(configuration config.Config, logFile *os.File) (*fiber
 				code = e.Code
 			}
 
-			return response.ReturnError(ctx, code, err)
+			path := ctx.Locals("middleware")
+			if path == nil {
+				path = "getting an error from fiber's middleware"
+			}
+
+			path = fmt.Sprintf("getting an error from fiber's middleware: %s", path)
+
+			gqlError := &gqlerror.Error{
+				Message: err.Error(),
+				Extensions: map[string]interface{}{
+					"path": path,
+					"code": code,
+				},
+			}
+
+			return ctx.Status(http.StatusOK).JSON(gqlError)
 		},
 	})
 	app.Use(etag.New())
