@@ -141,14 +141,16 @@ func NewInitializedRoutes(configuration config.Config, logFile *os.File, db *gor
 
 			h := handler.NewDefaultServer(gql.NewExecutableSchema(generatedConfig))
 			h.AroundOperations(func(ctx context.Context, next graphql.OperationHandler) graphql.ResponseHandler {
-				oc := graphql.GetOperationContext(ctx)
-				_, err := logFile.WriteString(fmt.Sprintf("[%s] | query history: %s %s\n",
-					time.Now().Format(time.RFC822),
-					oc.OperationName,
-					oc.RawQuery,
-				))
-				if err != nil {
-					panic(err)
+				if logFile != nil {
+					oc := graphql.GetOperationContext(ctx)
+					_, err = logFile.WriteString(fmt.Sprintf("[%s] | query history: %s %s\n",
+						time.Now().Format(time.RFC822),
+						oc.OperationName,
+						oc.RawQuery,
+					))
+					if err != nil {
+						panic(err)
+					}
 				}
 
 				return next(ctx)

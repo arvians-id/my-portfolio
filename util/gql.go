@@ -13,7 +13,7 @@ func CleanQuery(query string) string {
 	return queryGraphQL
 }
 
-func CleanMutation(query string, variables string) string {
+func CleanQueryWithVariables(query string, variables string) string {
 	query = strings.ReplaceAll(query, "\n", "")
 	query = strings.ReplaceAll(query, "\t", " ")
 

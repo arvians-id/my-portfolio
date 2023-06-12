@@ -4546,3 +4546,111 @@ query history:  query FindAllProject {
         }
     }
 }
+[12 Jun 23 14:27 +07] | query history:  query FindAllCategorySkill {
+    FindAllCategorySkill {
+        id
+        name
+        created_at
+        updated_at
+        skills {
+            name
+        }
+    }
+}
+[12 Jun 23 14:27 +07] | query history:  query FindAllCategorySkill {
+    FindAllCategorySkill {
+        id
+        name
+        created_at
+        updated_at
+        skills {
+            name
+        }
+    }
+}
+[12 Jun 23 14:53 +07] | query history:  query FindByIDCategorySkill ($id: ID!) {
+    FindByIDCategorySkill (id: $id) {
+        id
+        name
+        created_at
+        updated_at
+    }
+}
+[12 Jun 23 14:54 +07] | query history:  query FindByIDCategorySkill ($id: ID!) {
+    FindByIDCategorySkill (id: $id) {
+        id
+        name
+        created_at
+        updated_at
+    }
+}
+[12 Jun 23 15:16 +07] | query history:  mutation CreateCategorySkill ($input: CreateCategorySkillRequest!) {
+    CreateCategorySkill (input: $input) {
+        id
+        name
+        created_at
+        updated_at
+    }
+}
+[12 Jun 23 15:19 +07] | query history:  mutation UpdateCategorySkill ($input: UpdateCategorySkillRequest!) {
+    UpdateCategorySkill (input: $input) {
+        id
+        name
+        created_at
+        updated_at
+    }
+}
+[12 Jun 23 15:19 +07] | query history:  mutation UpdateCategorySkill ($input: UpdateCategorySkillRequest!) {
+    UpdateCategorySkill (input: $input) {
+        id
+        name
+        created_at
+        updated_at
+    }
+}
+[12 Jun 23 15:19 +07] | query history:  mutation UpdateCategorySkill ($input: UpdateCategorySkillRequest!) {
+    UpdateCategorySkill (input: $input) {
+        id
+        name
+        created_at
+        updated_at
+    }
+}
+[12 Jun 23 15:19 +07] | query history:  mutation UpdateCategorySkill ($input: UpdateCategorySkillRequest!) {
+    UpdateCategorySkill (input: $input) {
+        id
+        name
+        created_at
+        updated_at
+    }
+}
+[12 Jun 23 15:27 +07] | query history:  mutation UpdateCategorySkill ($input: UpdateCategorySkillRequest!) {
+    UpdateCategorySkill (input: $input) {
+        id
+        name
+        created_at
+        updated_at
+    }
+}
+[12 Jun 23 15:30 +07] | query history:  mutation UpdateCategorySkill ($input: UpdateCategorySkillRequest!) {
+    UpdateCategorySkill (input: $input) {
+        id
+        name
+        created_at
+        updated_at
+    }
+}
+[12 Jun 23 15:30 +07] | query history:  mutation UpdateCategorySkill ($input: UpdateCategorySkillRequest!) {
+    UpdateCategorySkill (input: $input) {
+        id
+        name
+        created_at
+        updated_at
+    }
+}
+[12 Jun 23 15:32 +07] | query history:  mutation DeleteCategorySkill ($id: ID!) {
+    DeleteCategorySkill (id: $id)
+}
+[12 Jun 23 15:32 +07] | query history:  mutation DeleteCategorySkill ($id: ID!) {
+    DeleteCategorySkill (id: $id)
+}

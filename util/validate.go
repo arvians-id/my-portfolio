@@ -28,7 +28,7 @@ func ValidateStruct(ctx context.Context, entity interface{}) error {
 		for _, errValidation := range err.(validator.ValidationErrors) {
 			errors = append(errors, &gqlerror.Error{
 				Path:    graphql.GetPath(ctx),
-				Message: fmt.Sprintf("valdation error on field '%s'", errValidation.Field()),
+				Message: fmt.Sprintf("validation error on field '%s'", errValidation.Field()),
 				Extensions: map[string]interface{}{
 					"failed_field": errValidation.StructNamespace(),
 					"tag":          errValidation.Tag(),
