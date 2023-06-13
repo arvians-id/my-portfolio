@@ -6,3 +6,12 @@ input AuthLoginRequest {
 type AuthLoginResponse {
     token: String!
 }
+
+input AuthRegisterRequest {
+    name: String! @goTag(key: "validate", value: "required,max=250")
+    email: String! @goTag(key: "validate", value: "required,email,max=250")
+    password: String! @goTag(key: "validate", value: "required,max=255")
+    pronouns: String! @goTag(key: "validate", value: "required,max=20")
+    country: String! @goTag(key: "validate", value: "required,max=100")
+    job_title: String! @goTag(key: "validate", value: "required,max=100")
+}

@@ -44,4 +44,6 @@ type Mutation {
 
     # Auth
     Login(input: AuthLoginRequest!): AuthLoginResponse! @isLoggedIn(isLogged: false)
+    Logout: Boolean! @isLoggedIn(isLogged: true)
+    Register(input: AuthRegisterRequest!): User! @isLoggedIn(isLogged: false)
 }

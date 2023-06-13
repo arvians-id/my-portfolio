@@ -2,29 +2,14 @@ package integration
 
 import (
 	"fmt"
-	"github.com/arvians-id/go-portfolio/cmd/config"
-	httpfiber "github.com/arvians-id/go-portfolio/internal/http"
 	"github.com/arvians-id/go-portfolio/internal/http/controller/model"
 	"github.com/arvians-id/go-portfolio/util"
 	"github.com/goccy/go-json"
 	"github.com/gofiber/fiber/v2"
-	"github.com/stretchr/testify/suite"
-	"gorm.io/gorm"
 	"net/http"
 	"net/http/httptest"
 	"strings"
-	"testing"
 )
-
-type Error struct {
-	Message    string          `json:"message"`
-	Path       []string        `json:"path"`
-	Extensions ErrorExtensions `json:"extensions"`
-}
-
-type ErrorExtensions struct {
-	Code string `json:"code"`
-}
 
 type ListCategorySkillResponse struct {
 	Errors []Error `json:"errors"`
@@ -40,41 +25,8 @@ type CategorySkillResponse struct {
 	} `json:"data"`
 }
 
-type CategorySkillSuite struct {
-	suite.Suite
-	configuration config.Config
-	server        *fiber.App
-	db            *gorm.DB
-}
-
-func TestCategorySkillSuite(t *testing.T) {
-	suite.Run(t, new(CategorySkillSuite))
-}
-
-func (suite *CategorySkillSuite) SetupSuite() {
-	// Init Config
-	configuration := config.New("../../.env")
-
-	// Init DB
-	db, err := config.NewPostgresSQLGormTest(configuration)
-	suite.Require().NoError(err)
-
-	// Init Server
-	server, err := httpfiber.NewInitializedRoutes(configuration, nil, db)
-	suite.Assertions.NoError(err)
-
-	// Set Suite Variables
-	suite.configuration = configuration
-	suite.server = server
-	suite.db = db
-}
-
-func (suite *CategorySkillSuite) TearDownTest() {
-	suite.NoError(config.TearDownDBTest(suite.db))
-}
-
-func (suite *CategorySkillSuite) TestFindAllSuccess() {
-	_ = suite.TestCreateSuccess()
+func (suite *E2ETestSuite) TestCategorySkill_FindAllSuccess() {
+	_ = suite.TestCategorySkill_CreateSuccess()
 
 	suite.Run("The category_skills table is not empty, should return all data", func() {
 		query := `query FindAllCategorySkill {
@@ -107,7 +59,7 @@ func (suite *CategorySkillSuite) TestFindAllSuccess() {
 	})
 }
 
-func (suite *CategorySkillSuite) TestFindAllError() {
+func (suite *E2ETestSuite) TestCategorySkill_FindAllError() {
 	suite.Run("The category_skills table is empty, failed to get all data", func() {
 		query := `query FindAllCategorySkill {
 			category_skills: FindAllCategorySkill {
@@ -137,10 +89,10 @@ func (suite *CategorySkillSuite) TestFindAllError() {
 	})
 }
 
-func (suite *CategorySkillSuite) TestFindOneSuccess() string {
-	id := suite.TestCreateSuccess()
+func (suite *E2ETestSuite) TestCategorySkill_FindOneSuccess() model.CategorySkill {
+	id := suite.TestCategorySkill_CreateSuccess()
 
-	var name string
+	var CategorySkill model.CategorySkill
 	suite.Run("The category_skills table is not empty, should return one data", func() {
 		query := `query FindByIDCategorySkill ($id: ID!) {
 					category_skill: FindByIDCategorySkill (id: $id) {
@@ -169,13 +121,13 @@ func (suite *CategorySkillSuite) TestFindOneSuccess() string {
 		suite.Assertions.NotEmpty(responseBody.Data.CategorySkill)
 		suite.Assertions.Equal(responseBody.Data.CategorySkill.Name, "Frameworks")
 
-		name = responseBody.Data.CategorySkill.Name
+		CategorySkill = *responseBody.Data.CategorySkill
 	})
 
-	return name
+	return CategorySkill
 }
 
-func (suite *CategorySkillSuite) TestFindOneError() {
+func (suite *E2ETestSuite) TestCategorySkill_FindOneError() {
 	suite.Run("The category_skills table is empty, failed to get one data", func() {
 		query := `query FindByIDCategorySkill ($id: ID!) {
 					category_skill: FindByIDCategorySkill (id: $id) {
@@ -205,7 +157,7 @@ func (suite *CategorySkillSuite) TestFindOneError() {
 	})
 }
 
-func (suite *CategorySkillSuite) TestCreateSuccess() int64 {
+func (suite *E2ETestSuite) TestCategorySkill_CreateSuccess() int64 {
 	var id int64
 	suite.Run("Create category skill", func() {
 		query := `mutation CreateCategorySkill ($input: CreateCategorySkillRequest!) {
@@ -244,7 +196,7 @@ func (suite *CategorySkillSuite) TestCreateSuccess() int64 {
 	return id
 }
 
-func (suite *CategorySkillSuite) TestCreateError() {
+func (suite *E2ETestSuite) TestCategorySkill_CreateError() {
 	suite.Run("The name field is empty, failed to create category skill", func() {
 		query := `mutation CreateCategorySkill ($input: CreateCategorySkillRequest!) {
 						category_skill: CreateCategorySkill (input: $input) {
@@ -278,8 +230,8 @@ func (suite *CategorySkillSuite) TestCreateError() {
 	})
 }
 
-func (suite *CategorySkillSuite) TestUpdateSuccess() {
-	id := suite.TestCreateSuccess()
+func (suite *E2ETestSuite) TestCategorySkill_UpdateSuccess() {
+	id := suite.TestCategorySkill_CreateSuccess()
 
 	suite.Run("Update category skill", func() {
 		query := `mutation UpdateCategorySkill ($input: UpdateCategorySkillRequest!) {
@@ -291,9 +243,9 @@ func (suite *CategorySkillSuite) TestUpdateSuccess() {
 						}
 					}`
 		variables := fmt.Sprintf(`"input": {
-						"id": %d,
-						"name": "Tools"
-					  }`, id)
+											"id": %d,
+											"name": "Tools"
+										  }`, id)
 
 		query = util.CleanQueryWithVariables(query, variables)
 		bodyRequest := strings.NewReader(query)
@@ -315,7 +267,7 @@ func (suite *CategorySkillSuite) TestUpdateSuccess() {
 	})
 }
 
-func (suite *CategorySkillSuite) TestUpdateError() {
+func (suite *E2ETestSuite) TestCategorySkill_UpdateError() {
 	suite.Run("The id field is empty, failed to update category skill", func() {
 		query := `mutation UpdateCategorySkill ($input: UpdateCategorySkillRequest!) {
 						category_skill: UpdateCategorySkill (input: $input) {
@@ -350,8 +302,8 @@ func (suite *CategorySkillSuite) TestUpdateError() {
 	})
 }
 
-func (suite *CategorySkillSuite) TestDeleteSuccess() {
-	id := suite.TestCreateSuccess()
+func (suite *E2ETestSuite) TestCategorySkill_DeleteSuccess() {
+	id := suite.TestCategorySkill_CreateSuccess()
 
 	suite.Run("Delete category skill", func() {
 		query := `mutation DeleteCategorySkill ($id: ID!) {

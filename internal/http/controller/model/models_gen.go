@@ -15,6 +15,15 @@ type AuthLoginResponse struct {
 	Token string `json:"token"`
 }
 
+type AuthRegisterRequest struct {
+	Name     string `json:"name" validate:"required,max=250"`
+	Email    string `json:"email" validate:"required,email,max=250"`
+	Password string `json:"password" validate:"required,max=255"`
+	Pronouns string `json:"pronouns" validate:"required,max=20"`
+	Country  string `json:"country" validate:"required,max=100"`
+	JobTitle string `json:"job_title" validate:"required,max=100"`
+}
+
 type CategorySkill struct {
 	ID        int64    `json:"id"`
 	Name      string   `json:"name"`

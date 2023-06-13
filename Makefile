@@ -13,6 +13,9 @@ gql:
 test:
 	cd tests/integration && go test -v
 
+test-fn:
+	cd tests/integration && go test -v -run ${fn}
+
 dataloaden:
 	cd internal/http/controller/model && \
 	go run github.com/vektah/dataloaden ProjectSkillsLoader int64 []*github.com/arvians-id/go-portfolio/internal/http/controller/model.Skill && \

@@ -4654,3 +4654,97 @@ query history:  query FindAllProject {
 [12 Jun 23 15:32 +07] | query history:  mutation DeleteCategorySkill ($id: ID!) {
     DeleteCategorySkill (id: $id)
 }
+[12 Jun 23 15:32 +07] | query history:  mutation DeleteCategorySkill ($id: ID!) {
+    DeleteCategorySkill (id: $id)
+}
+[12 Jun 23 15:32 +07] | query history:  mutation DeleteCategorySkill ($id: ID!) {
+    DeleteCategorySkill (id: $id)
+}
+[12 Jun 23 15:32 +07] | query history:  mutation DeleteCategorySkill ($id: ID!) {
+    DeleteCategorySkill (id: $id)
+}
+[13 Jun 23 10:46 +07] | query history:  mutation Login($request: AuthLoginRequest!) {
+    loggedIn: Login(input: $request) {
+        token
+    }
+}
+[13 Jun 23 10:46 +07] | query history:  mutation Login($request: AuthLoginRequest!) {
+    loggedIn: Login(input: $request) {
+        token
+    }
+}
+[13 Jun 23 10:46 +07] | query history:  mutation CreateUser ($input: CreateUserRequest!) {
+    CreateUser (input: $input) {
+        id
+        name
+        email
+        password
+        bio
+        pronouns
+        country
+        job_title
+        image
+        created_at
+        updated_at
+    }
+}
+[13 Jun 23 10:56 +07] | query history:  mutation Register($request: AuthRegisterRequest!) {
+    registered: Register(input: $request) {
+        id
+        name
+        email
+    }
+}
+[13 Jun 23 10:58 +07] | query history:  mutation Register($request: AuthRegisterRequest!) {
+    registered: Register(input: $request) {
+        id
+        name
+        email
+    }
+}
+[13 Jun 23 10:59 +07] | query history:  mutation Login($request: AuthLoginRequest!) {
+    loggedIn: Login(input: $request) {
+        token
+    }
+}
+[13 Jun 23 10:59 +07] | query history:  mutation Login($request: AuthLoginRequest!) {
+    loggedIn: Login(input: $request) {
+        token
+    }
+}
+[13 Jun 23 11:11 +07] | query history:  mutation CreateEducation ($input: CreateEducationRequest!) {
+    CreateEducation (input: $input) {
+        id
+        institution
+        degree
+        field_of_study
+        grade
+        description
+        start_date
+        end_date
+    }
+}
+[13 Jun 23 11:58 +07] | query history:  mutation CreateEducation ($input: CreateEducationRequest!) {
+    CreateEducation (input: $input) {
+        id
+        institution
+        degree
+        field_of_study
+        grade
+        description
+        start_date
+        end_date
+    }
+}
+[13 Jun 23 11:59 +07] | query history:  query FindByIDEducation ($id: ID!) {
+    FindByIDEducation (id: $id) {
+        id
+        institution
+        degree
+        field_of_study
+        grade
+        description
+        start_date
+        end_date
+    }
+}
