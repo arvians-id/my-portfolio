@@ -19,8 +19,8 @@ input CreateCertificateRequest {
 
 input UpdateCertificateRequest {
     id: ID! @goTag(key: "validate", value: "required,number")
-    name: String @goTag(key: "validate", value: "max=250")
-    organization: String @goTag(key: "validate", value: "max=250")
+    name: String @goTag(key: "validate", value: "omitempty,max=250")
+    organization: String @goTag(key: "validate", value: "omitempty,max=250")
     issue_date: String @goTag(key: "validate", value: "omitempty")
     expiration_date: String @goTag(key: "validate", value: "omitempty")
     credential_id: String @goTag(key: "validate", value: "omitempty,max=250")

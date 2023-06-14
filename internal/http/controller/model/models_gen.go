@@ -73,7 +73,7 @@ type CreateEducationRequest struct {
 	Degree       string  `json:"degree" validate:"required,max=250"`
 	FieldOfStudy string  `json:"field_of_study" validate:"required,max=250"`
 	Grade        float64 `json:"grade" validate:"required"`
-	Description  *string `json:"description,omitempty" validate:"max=500"`
+	Description  *string `json:"description,omitempty" validate:"omitempty,max=500"`
 	StartDate    string  `json:"start_date" validate:"required"`
 	EndDate      *string `json:"end_date,omitempty" validate:"omitempty"`
 }
@@ -81,8 +81,8 @@ type CreateEducationRequest struct {
 type CreateProjectRequest struct {
 	Category    string            `json:"category" validate:"required,max=250"`
 	Title       string            `json:"title" validate:"required,max=250"`
-	Description *string           `json:"description,omitempty" validate:"max=500"`
-	URL         *string           `json:"url,omitempty" validate:"max=250"`
+	Description *string           `json:"description,omitempty" validate:"omitempty,max=500"`
+	URL         *string           `json:"url,omitempty" validate:"omitempty,max=250"`
 	IsFeatured  *bool             `json:"is_featured,omitempty" validate:"required,boolean"`
 	Date        string            `json:"date" validate:"required"`
 	WorkingType string            `json:"working_type" validate:"required,max=250"`
@@ -108,7 +108,7 @@ type CreateUserRequest struct {
 type CreateWorkExperienceRequest struct {
 	Role        string  `json:"role" validate:"required,max=250"`
 	Company     string  `json:"company" validate:"required,max=250"`
-	Description *string `json:"description,omitempty" validate:"max=500"`
+	Description *string `json:"description,omitempty" validate:"omitempty,max=500"`
 	StartDate   string  `json:"start_date" validate:"required"`
 	EndDate     *string `json:"end_date,omitempty" validate:"omitempty"`
 	JobType     string  `json:"job_type" validate:"required,max=250"`
@@ -162,8 +162,8 @@ type UpdateCategorySkillRequest struct {
 
 type UpdateCertificateRequest struct {
 	ID             int64           `json:"id" validate:"required,number"`
-	Name           *string         `json:"name,omitempty" validate:"max=250"`
-	Organization   *string         `json:"organization,omitempty" validate:"max=250"`
+	Name           *string         `json:"name,omitempty" validate:"omitempty,max=250"`
+	Organization   *string         `json:"organization,omitempty" validate:"omitempty,max=250"`
 	IssueDate      *string         `json:"issue_date,omitempty" validate:"omitempty"`
 	ExpirationDate *string         `json:"expiration_date,omitempty" validate:"omitempty"`
 	CredentialID   *string         `json:"credential_id,omitempty" validate:"omitempty,max=250"`
@@ -179,11 +179,11 @@ type UpdateContactRequest struct {
 
 type UpdateEducationRequest struct {
 	ID           int64    `json:"id" validate:"required,number"`
-	Institution  *string  `json:"institution,omitempty" validate:"max=250"`
-	Degree       *string  `json:"degree,omitempty" validate:"max=250"`
-	FieldOfStudy *string  `json:"field_of_study,omitempty" validate:"max=250"`
+	Institution  *string  `json:"institution,omitempty" validate:"omitempty,max=250"`
+	Degree       *string  `json:"degree,omitempty" validate:"omitempty,max=250"`
+	FieldOfStudy *string  `json:"field_of_study,omitempty" validate:"omitempty,max=250"`
 	Grade        *float64 `json:"grade,omitempty" validate:"omitempty"`
-	Description  *string  `json:"description,omitempty" validate:"max=500"`
+	Description  *string  `json:"description,omitempty" validate:"omitempty,max=500"`
 	StartDate    *string  `json:"start_date,omitempty" validate:"omitempty"`
 	EndDate      *string  `json:"end_date,omitempty" validate:"omitempty"`
 }
@@ -192,8 +192,8 @@ type UpdateProjectRequest struct {
 	ID          int64             `json:"id" validate:"required,number"`
 	Category    string            `json:"category" validate:"required,max=250"`
 	Title       string            `json:"title" validate:"required,max=250"`
-	Description *string           `json:"description,omitempty" validate:"max=500"`
-	URL         *string           `json:"url,omitempty" validate:"max=250"`
+	Description *string           `json:"description,omitempty" validate:"omitempty,max=500"`
+	URL         *string           `json:"url,omitempty" validate:"omitempty,max=250"`
 	IsFeatured  *bool             `json:"is_featured,omitempty" validate:"required,boolean"`
 	Date        string            `json:"date" validate:"required"`
 	WorkingType string            `json:"working_type" validate:"required,max=250"`
@@ -210,23 +210,23 @@ type UpdateSkillRequest struct {
 
 type UpdateUserRequest struct {
 	ID       int64           `json:"id" validate:"required,number"`
-	Name     *string         `json:"name,omitempty" validate:"max=250"`
-	Password *string         `json:"password,omitempty" validate:"max=255"`
-	Bio      *string         `json:"bio,omitempty" validate:"max=500"`
-	Pronouns *string         `json:"pronouns,omitempty" validate:"max=20"`
-	Country  *string         `json:"country,omitempty" validate:"max=100"`
-	JobTitle *string         `json:"job_title,omitempty" validate:"max=100"`
+	Name     *string         `json:"name,omitempty" validate:"omitempty,max=250"`
+	Password *string         `json:"password,omitempty" validate:"omitempty,max=255"`
+	Bio      *string         `json:"bio,omitempty" validate:"omitempty,max=500"`
+	Pronouns *string         `json:"pronouns,omitempty" validate:"omitempty,max=20"`
+	Country  *string         `json:"country,omitempty" validate:"omitempty,max=100"`
+	JobTitle *string         `json:"job_title,omitempty" validate:"omitempty,max=100"`
 	Image    *graphql.Upload `json:"image,omitempty" validate:"omitempty"`
 }
 
 type UpdateWorkExperienceRequest struct {
 	ID          int64   `json:"id" validate:"required"`
-	Role        *string `json:"role,omitempty" validate:"max=250"`
-	Company     *string `json:"company,omitempty" validate:"max=250"`
-	Description *string `json:"description,omitempty" validate:"max=500"`
+	Role        *string `json:"role,omitempty" validate:"omitempty,max=250"`
+	Company     *string `json:"company,omitempty" validate:"omitempty,max=250"`
+	Description *string `json:"description,omitempty" validate:"omitempty,max=500"`
 	StartDate   *string `json:"start_date,omitempty" validate:"omitempty"`
 	EndDate     *string `json:"end_date,omitempty" validate:"omitempty"`
-	JobType     *string `json:"job_type,omitempty" validate:"max=250"`
+	JobType     *string `json:"job_type,omitempty" validate:"omitempty,max=250"`
 	Skills      []int64 `json:"skills" validate:"required"`
 }
 

@@ -4748,3 +4748,175 @@ query history:  query FindAllProject {
         end_date
     }
 }
+[14 Jun 23 07:45 +07] | query history:  mutation DeleteWorkExperience ($id: ID!) {
+    DeleteWorkExperience (id: $id)
+}
+[14 Jun 23 07:52 +07] | query history:  mutation CreateWorkExperience ($input: CreateWorkExperienceRequest!) {
+    CreateWorkExperience (input: $input) {
+        id
+        role
+        company
+        description
+        start_date
+        end_date
+        job_type
+        created_at
+        updated_at
+    }
+}
+[14 Jun 23 07:53 +07] | query history:  mutation CreateEducation ($input: CreateEducationRequest!) {
+    CreateEducation (input: $input) {
+        id
+        institution
+        degree
+        field_of_study
+        grade
+        description
+        start_date
+        end_date
+    }
+}
+[14 Jun 23 07:54 +07] | query history:  mutation CreateEducation ($input: CreateEducationRequest!) {
+    CreateEducation (input: $input) {
+        id
+        institution
+        degree
+        field_of_study
+        grade
+        description
+        start_date
+        end_date
+    }
+}
+[14 Jun 23 07:58 +07] | query history:  mutation CreateEducation ($input: CreateEducationRequest!) {
+    CreateEducation (input: $input) {
+        id
+        institution
+        degree
+        field_of_study
+        grade
+        description
+        start_date
+        end_date
+    }
+}
+[14 Jun 23 08:00 +07] | query history:  mutation CreateEducation ($input: CreateEducationRequest!) {
+    CreateEducation (input: $input) {
+        id
+        institution
+        degree
+        field_of_study
+        grade
+        description
+        start_date
+        end_date
+    }
+}
+[14 Jun 23 08:00 +07] | query history:  mutation CreateEducation ($input: CreateEducationRequest!) {
+    CreateEducation (input: $input) {
+        id
+        institution
+        degree
+        field_of_study
+        grade
+        description
+        start_date
+        end_date
+    }
+}
+[14 Jun 23 08:01 +07] | query history:  mutation CreateEducation ($input: CreateEducationRequest!) {
+    CreateEducation (input: $input) {
+        id
+        institution
+        degree
+        field_of_study
+        grade
+        description
+        start_date
+        end_date
+    }
+}
+[14 Jun 23 08:04 +07] | query history:  mutation CreateEducation ($input: CreateEducationRequest!) {
+    CreateEducation (input: $input) {
+        id
+        institution
+        degree
+        field_of_study
+        grade
+        description
+        start_date
+        end_date
+    }
+}
+[14 Jun 23 08:05 +07] | query history:  mutation CreateEducation ($input: CreateEducationRequest!) {
+    CreateEducation (input: $input) {
+        id
+        institution
+        degree
+        field_of_study
+        grade
+        description
+        start_date
+        end_date
+    }
+}
+[14 Jun 23 08:05 +07] | query history:  mutation CreateEducation ($input: CreateEducationRequest!) {
+    CreateEducation (input: $input) {
+        id
+        institution
+        degree
+        field_of_study
+        grade
+        description
+        start_date
+        end_date
+    }
+}
+[14 Jun 23 08:05 +07] | query history:  mutation CreateEducation ($input: CreateEducationRequest!) {
+    CreateEducation (input: $input) {
+        id
+        institution
+        degree
+        field_of_study
+        grade
+        description
+        start_date
+        end_date
+    }
+}
+[14 Jun 23 08:05 +07] | query history:  mutation CreateEducation ($input: CreateEducationRequest!) {
+    CreateEducation (input: $input) {
+        id
+        institution
+        degree
+        field_of_study
+        grade
+        description
+        start_date
+        end_date
+    }
+}
+[14 Jun 23 08:45 +07] | query history:  mutation CreateSkill ($input: CreateSkillRequest!) { CreateSkill (input: $input) { id category_skill_id name icon } }
+[14 Jun 23 08:46 +07] | query history:  mutation CreateSkill ($input: CreateSkillRequest!) { CreateSkill (input: $input) { id category_skill_id name icon } }
+[14 Jun 23 09:15 +07] | query history:  query FindAllSkill {
+    FindAllSkill {
+        id
+        category_skill_id
+        name
+        icon
+        category_skill {
+            name
+        }
+    }
+}
+[14 Jun 23 09:31 +07] | query history:  mutation CreateSkill ($input: CreateSkillRequest!) { CreateSkill (input: $input) { id category_skill_id name icon } }
+[14 Jun 23 09:31 +07] | query history:  mutation CreateSkill ($input: CreateSkillRequest!) { CreateSkill (input: $input) { id category_skill_id name icon } }
+[14 Jun 23 09:32 +07] | query history:  mutation CreateSkill ($input: CreateSkillRequest!) { CreateSkill (input: $input) { id category_skill_id name icon } }
+[14 Jun 23 09:50 +07] | query history:  mutation CreateSkill ($input: CreateSkillRequest!) { CreateSkill (input: $input) { id category_skill_id name icon } }
+[14 Jun 23 09:51 +07] | query history:  mutation CreateSkill ($input: CreateSkillRequest!) { CreateSkill (input: $input) { id category_skill_id name icon } }
+[14 Jun 23 09:51 +07] | query history:  mutation CreateSkill ($input: CreateSkillRequest!) { CreateSkill (input: $input) { id category_skill_id name icon } }
+[14 Jun 23 09:51 +07] | query history:  mutation CreateSkill ($input: CreateSkillRequest!) { CreateSkill (input: $input) { id category_skill_id name icon } }
+[14 Jun 23 09:51 +07] | query history:  mutation CreateSkill ($input: CreateSkillRequest!) { CreateSkill (input: $input) { id category_skill_id name icon } }
+[14 Jun 23 09:51 +07] | query history:  mutation CreateSkill ($input: CreateSkillRequest!) { CreateSkill (input: $input) { id category_skill_id name icon } }
+[14 Jun 23 09:51 +07] | query history:  mutation CreateSkill ($input: CreateSkillRequest!) { CreateSkill (input: $input) { id category_skill_id name icon } }
+[14 Jun 23 09:51 +07] | query history:  mutation CreateSkill ($input: CreateSkillRequest!) { CreateSkill (input: $input) { id category_skill_id name icon } }

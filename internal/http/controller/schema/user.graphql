@@ -23,11 +23,11 @@ input CreateUserRequest {
 
 input UpdateUserRequest {
     id: ID! @goTag(key: "validate", value: "required,number")
-    name: String @goTag(key: "validate", value: "max=250")
-    password: String @goTag(key: "validate", value: "max=255")
-    bio: String @goTag(key: "validate", value: "max=500")
-    pronouns: String @goTag(key: "validate", value: "max=20")
-    country: String @goTag(key: "validate", value: "max=100")
-    job_title: String @goTag(key: "validate", value: "max=100")
+    name: String @goTag(key: "validate", value: "omitempty,max=250")
+    password: String @goTag(key: "validate", value: "omitempty,max=255")
+    bio: String @goTag(key: "validate", value: "omitempty,max=500")
+    pronouns: String @goTag(key: "validate", value: "omitempty,max=20")
+    country: String @goTag(key: "validate", value: "omitempty,max=100")
+    job_title: String @goTag(key: "validate", value: "omitempty,max=100")
     image: Upload @goTag(key: "validate", value: "omitempty")
 }

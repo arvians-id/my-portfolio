@@ -70,7 +70,7 @@ func (suite *E2ETestSuite) TestEducation_FindAllSuccess() {
 func (suite *E2ETestSuite) TestEducation_FindByIDSuccess() model.Education {
 	id := suite.TestEducation_CreateSuccess()
 
-	var Education model.Education
+	var education model.Education
 	suite.Run("Find education by ID", func() {
 		query := `query FindByIDEducation ($id: ID!) {
 						education: FindByIDEducation (id: $id) {
@@ -108,10 +108,10 @@ func (suite *E2ETestSuite) TestEducation_FindByIDSuccess() model.Education {
 		suite.Assertions.Equal(responseBody.Data.Education.Grade, 3.55)
 		suite.Assertions.Equal(responseBody.Data.Education.Description, proto.String("Test"))
 
-		Education = *responseBody.Data.Education
+		education = *responseBody.Data.Education
 	})
 
-	return Education
+	return education
 }
 
 func (suite *E2ETestSuite) TestEducation_CreateSuccess() int64 {
@@ -223,17 +223,8 @@ func (suite *E2ETestSuite) TestEducation_DeleteSuccess() {
 
 	suite.Run("Delete education skill", func() {
 		query := `mutation DeleteEducation ($id: ID!) {
-						deleted: DeleteEducation (id: $id) {
-							id
-							institution
-							degree
-							field_of_study
-							grade
-							description
-							start_date
-							end_date
-						}
-					}`
+					deleted: DeleteEducation (id: $id)
+				}`
 		variables := `"id": ` + fmt.Sprintf("%d", id)
 
 		query = util.CleanQueryWithVariables(query, variables)
@@ -250,8 +241,7 @@ func (suite *E2ETestSuite) TestEducation_DeleteSuccess() {
 		err = json.NewDecoder(res.Body).Decode(&responseBody)
 		suite.Assertions.NoError(err)
 
-		suite.Assertions.NotEmpty(responseBody.Errors)
-		suite.Assertions.Empty(responseBody.Data.Education)
+		suite.Assertions.Empty(responseBody.Errors)
 	})
 
 	suite.Run("Find education by ID", func() {
@@ -283,12 +273,7 @@ func (suite *E2ETestSuite) TestEducation_DeleteSuccess() {
 		err = json.NewDecoder(res.Body).Decode(&responseBody)
 		suite.Assertions.NoError(err)
 
-		suite.Assertions.Empty(responseBody.Errors)
-		suite.Assertions.NotEmpty(responseBody.Data.Education)
-		suite.Assertions.Equal(responseBody.Data.Education.Institution, "UMMI")
-		suite.Assertions.Equal(responseBody.Data.Education.Degree, "Bachelor")
-		suite.Assertions.Equal(responseBody.Data.Education.FieldOfStudy, "Computer Science")
-		suite.Assertions.Equal(responseBody.Data.Education.Grade, 3.55)
-		suite.Assertions.Equal(responseBody.Data.Education.Description, proto.String("Test"))
+		suite.Assertions.NotEmpty(responseBody.Errors)
+		suite.Assertions.Empty(responseBody.Data.Education)
 	})
 }

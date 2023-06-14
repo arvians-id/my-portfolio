@@ -89,10 +89,10 @@ func (suite *E2ETestSuite) TestCategorySkill_FindAllError() {
 	})
 }
 
-func (suite *E2ETestSuite) TestCategorySkill_FindOneSuccess() model.CategorySkill {
+func (suite *E2ETestSuite) TestCategorySkill_FindByIDSuccess() model.CategorySkill {
 	id := suite.TestCategorySkill_CreateSuccess()
 
-	var CategorySkill model.CategorySkill
+	var categorySkill model.CategorySkill
 	suite.Run("The category_skills table is not empty, should return one data", func() {
 		query := `query FindByIDCategorySkill ($id: ID!) {
 					category_skill: FindByIDCategorySkill (id: $id) {
@@ -121,13 +121,13 @@ func (suite *E2ETestSuite) TestCategorySkill_FindOneSuccess() model.CategorySkil
 		suite.Assertions.NotEmpty(responseBody.Data.CategorySkill)
 		suite.Assertions.Equal(responseBody.Data.CategorySkill.Name, "Frameworks")
 
-		CategorySkill = *responseBody.Data.CategorySkill
+		categorySkill = *responseBody.Data.CategorySkill
 	})
 
-	return CategorySkill
+	return categorySkill
 }
 
-func (suite *E2ETestSuite) TestCategorySkill_FindOneError() {
+func (suite *E2ETestSuite) TestCategorySkill_FindByIDError() {
 	suite.Run("The category_skills table is empty, failed to get one data", func() {
 		query := `query FindByIDCategorySkill ($id: ID!) {
 					category_skill: FindByIDCategorySkill (id: $id) {
