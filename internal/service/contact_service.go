@@ -69,7 +69,7 @@ func (service *ContactService) Update(ctx context.Context, contact *entity.Conta
 		return nil, err
 	}
 
-	if contactCheck.Icon != contact.Icon {
+	if contactCheck.Icon != contact.Icon && contactCheck.Icon != nil {
 		path := "images/contact"
 		err = util.DeleteFile(path, *contactCheck.Icon)
 		if err != nil {

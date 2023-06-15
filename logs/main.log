@@ -4930,3 +4930,30 @@ query history:  query FindAllProject {
 [14 Jun 23 09:51 +07] | query history:  mutation CreateSkill ($input: CreateSkillRequest!) { CreateSkill (input: $input) { id category_skill_id name icon } }
 [14 Jun 23 09:51 +07] | query history:  mutation CreateSkill ($input: CreateSkillRequest!) { CreateSkill (input: $input) { id category_skill_id name icon } }
 [14 Jun 23 09:51 +07] | query history:  mutation CreateSkill ($input: CreateSkillRequest!) { CreateSkill (input: $input) { id category_skill_id name icon } }
+[15 Jun 23 08:26 +07] | query history:  query FindAllCategorySkill {
+    FindAllCategorySkill {
+        id
+        name
+        created_at
+        updated_at
+        skills {
+            name
+        }
+    }
+}
+[15 Jun 23 08:28 +07] | query history:  mutation CreateCategorySkill ($input: CreateCategorySkillRequest!) {
+    CreateCategorySkill (input: $input) {
+        id
+        name
+        created_at
+        updated_at
+    }
+}
+[15 Jun 23 08:30 +07] | query history:  mutation CreateSkill($input: CreateSkillRequest!) {
+    skill: CreateSkill(input: $input) {
+        id
+        name
+    }
+}
+[15 Jun 23 08:31 +07] | query history:  mutation CreateSkill ($input: CreateSkillRequest!) { CreateSkill (input: $input) { id category_skill_id name icon } }
+[15 Jun 23 08:37 +07] | query history:  mutation UpdateSkill ($input: UpdateSkillRequest!) { UpdateSkill (input: $input) { id category_skill_id name icon } }

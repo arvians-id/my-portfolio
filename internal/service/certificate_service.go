@@ -69,7 +69,7 @@ func (service *CertificateService) Update(ctx context.Context, certificate *enti
 		return nil, err
 	}
 
-	if certificateCheck.Image != certificate.Image {
+	if certificateCheck.Image != certificate.Image && certificateCheck.Image != nil {
 		path := "images/certificate"
 		err = util.DeleteFile(path, *certificateCheck.Image)
 		if err != nil {

@@ -100,7 +100,7 @@ func (service *SkillService) Update(ctx context.Context, skill *entity.Skill) (*
 		return nil, err
 	}
 
-	if skillCheck.Icon != skill.Icon {
+	if skillCheck.Icon != skill.Icon && skillCheck.Icon != nil {
 		path := "images/skill"
 		err = util.DeleteFile(path, *skillCheck.Icon)
 		if err != nil {
