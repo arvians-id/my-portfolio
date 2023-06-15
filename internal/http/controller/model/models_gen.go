@@ -54,18 +54,18 @@ type CreateCategorySkillRequest struct {
 }
 
 type CreateCertificateRequest struct {
-	Name           string         `json:"name" validate:"required,max=250"`
-	Organization   string         `json:"organization" validate:"required,max=250"`
-	IssueDate      string         `json:"issue_date" validate:"required"`
-	ExpirationDate *string        `json:"expiration_date,omitempty" validate:"omitempty"`
-	CredentialID   *string        `json:"credential_id,omitempty" validate:"omitempty,max=250"`
-	Image          graphql.Upload `json:"image" validate:"required"`
+	Name           string          `json:"name" validate:"required,max=250"`
+	Organization   string          `json:"organization" validate:"required,max=250"`
+	IssueDate      string          `json:"issue_date" validate:"required"`
+	ExpirationDate *string         `json:"expiration_date,omitempty" validate:"omitempty"`
+	CredentialID   *string         `json:"credential_id,omitempty" validate:"omitempty,max=250"`
+	Image          *graphql.Upload `json:"image,omitempty" validate:"omitempty"`
 }
 
 type CreateContactRequest struct {
-	Platform string         `json:"platform" validate:"required,max=250"`
-	URL      string         `json:"url" validate:"required,max=250"`
-	Icon     graphql.Upload `json:"icon" validate:"required"`
+	Platform string          `json:"platform" validate:"required,max=250"`
+	URL      string          `json:"url" validate:"required,max=250"`
+	Icon     *graphql.Upload `json:"icon,omitempty" validate:"omitempty"`
 }
 
 type CreateEducationRequest struct {
@@ -87,13 +87,13 @@ type CreateProjectRequest struct {
 	Date        string            `json:"date" validate:"required"`
 	WorkingType string            `json:"working_type" validate:"required,max=250"`
 	Skills      []int64           `json:"skills" validate:"required"`
-	Images      []*graphql.Upload `json:"images" validate:"required"`
+	Images      []*graphql.Upload `json:"images,omitempty" validate:"omitempty"`
 }
 
 type CreateSkillRequest struct {
-	CategorySkillID int64          `json:"category_skill_id" validate:"required,number"`
-	Name            string         `json:"name" validate:"required,max=250"`
-	Icon            graphql.Upload `json:"icon" validate:"required"`
+	CategorySkillID int64           `json:"category_skill_id" validate:"required,number"`
+	Name            string          `json:"name" validate:"required,max=250"`
+	Icon            *graphql.Upload `json:"icon,omitempty" validate:"omitempty"`
 }
 
 type CreateUserRequest struct {

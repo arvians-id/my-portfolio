@@ -46,9 +46,13 @@ func (m mutationResolver) CreateSkill(ctx context.Context, input model.CreateSki
 		return nil, err
 	}
 
-	fileName, err := util.UploadFile("images/skill", input.Icon)
-	if err != nil {
-		return nil, err
+	var fileName string
+	if input.Icon != nil {
+		path := "images/skill"
+		fileName, err = util.UploadFile(path, *input.Icon)
+		if err != nil {
+			return nil, err
+		}
 	}
 
 	skill, err := m.SkillService.Create(ctx, &entity.Skill{
@@ -75,8 +79,8 @@ func (m mutationResolver) UpdateSkill(ctx context.Context, input model.UpdateSki
 	}
 
 	var fileName string
-	path := "images/skill"
 	if input.Icon != nil {
+		path := "images/skill"
 		fileName, err = util.UploadFile(path, *input.Icon)
 		if err != nil {
 			return nil, err

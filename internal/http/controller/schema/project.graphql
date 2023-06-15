@@ -22,7 +22,7 @@ input CreateProjectRequest {
     date: String! @goTag(key: "validate", value: "required")
     working_type: String! @goTag(key: "validate", value: "required,max=250")
     skills: [ID!]! @goTag(key: "validate", value: "required")
-    images: [Upload!]! @goTag(key: "validate", value: "required")
+    images: [Upload!] @goTag(key: "validate", value: "omitempty")
 }
 
 input UpdateProjectRequest {

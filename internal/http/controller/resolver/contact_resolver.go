@@ -46,9 +46,13 @@ func (m mutationResolver) CreateContact(ctx context.Context, input model.CreateC
 		return nil, err
 	}
 
-	fileName, err := util.UploadFile("images/contact", input.Icon)
-	if err != nil {
-		return nil, err
+	var fileName string
+	if input.Icon != nil {
+		path := "images/contact"
+		fileName, err = util.UploadFile(path, *input.Icon)
+		if err != nil {
+			return nil, err
+		}
 	}
 
 	contact, err := m.ContactService.Create(ctx, &entity.Contact{
@@ -75,8 +79,8 @@ func (m mutationResolver) UpdateContact(ctx context.Context, input model.UpdateC
 	}
 
 	var fileName string
-	path := "images/contact"
 	if input.Icon != nil {
+		path := "images/contact"
 		fileName, err = util.UploadFile(path, *input.Icon)
 		if err != nil {
 			return nil, err

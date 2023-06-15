@@ -14,7 +14,7 @@ input CreateCertificateRequest {
     issue_date: String! @goTag(key: "validate", value: "required")
     expiration_date: String @goTag(key: "validate", value: "omitempty")
     credential_id: String @goTag(key: "validate", value: "omitempty,max=250")
-    image: Upload! @goTag(key: "validate", value: "required")
+    image: Upload @goTag(key: "validate", value: "omitempty")
 }
 
 input UpdateCertificateRequest {

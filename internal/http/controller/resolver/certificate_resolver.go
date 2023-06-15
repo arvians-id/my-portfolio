@@ -52,9 +52,13 @@ func (m mutationResolver) CreateCertificate(ctx context.Context, input model.Cre
 		return nil, err
 	}
 
-	fileName, err := util.UploadFile("images/certificate", input.Image)
-	if err != nil {
-		return nil, err
+	var fileName string
+	if input.Image != nil {
+		path := "images/certificate"
+		fileName, err = util.UploadFile(path, *input.Image)
+		if err != nil {
+			return nil, err
+		}
 	}
 
 	certificate, err := m.CertificateService.Create(ctx, &entity.Certificate{
@@ -87,8 +91,8 @@ func (m mutationResolver) UpdateCertificate(ctx context.Context, input model.Upd
 	}
 
 	var fileName string
-	path := "images/certificate"
 	if input.Image != nil {
+		path := "images/certificate"
 		fileName, err = util.UploadFile(path, *input.Image)
 		if err != nil {
 			return nil, err

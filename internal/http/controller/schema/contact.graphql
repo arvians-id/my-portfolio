@@ -8,7 +8,7 @@ type Contact {
 input CreateContactRequest {
     platform: String! @goTag(key: "validate", value: "required,max=250")
     url: String! @goTag(key: "validate", value: "required,max=250")
-    icon: Upload! @goTag(key: "validate", value: "required")
+    icon: Upload @goTag(key: "validate", value: "omitempty")
 }
 
 input UpdateContactRequest {

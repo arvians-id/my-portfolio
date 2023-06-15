@@ -4920,3 +4920,13 @@ query history:  query FindAllProject {
 [14 Jun 23 09:51 +07] | query history:  mutation CreateSkill ($input: CreateSkillRequest!) { CreateSkill (input: $input) { id category_skill_id name icon } }
 [14 Jun 23 09:51 +07] | query history:  mutation CreateSkill ($input: CreateSkillRequest!) { CreateSkill (input: $input) { id category_skill_id name icon } }
 [14 Jun 23 09:51 +07] | query history:  mutation CreateSkill ($input: CreateSkillRequest!) { CreateSkill (input: $input) { id category_skill_id name icon } }
+[14 Jun 23 09:51 +07] | query history:  mutation CreateSkill ($input: CreateSkillRequest!) { CreateSkill (input: $input) { id category_skill_id name icon } }
+[14 Jun 23 09:51 +07] | query history:  mutation CreateSkill ($input: CreateSkillRequest!) { CreateSkill (input: $input) { id category_skill_id name icon } }
+[14 Jun 23 09:51 +07] | query history:  mutation CreateSkill ($input: CreateSkillRequest!) { CreateSkill (input: $input) { id category_skill_id name icon } }
+[14 Jun 23 09:51 +07] | query history:  mutation CreateSkill ($input: CreateSkillRequest!) { CreateSkill (input: $input) { id category_skill_id name icon } }
+[14 Jun 23 09:51 +07] | query history:  mutation CreateSkill ($input: CreateSkillRequest!) { CreateSkill (input: $input) { id category_skill_id name icon } }
+[14 Jun 23 09:51 +07] | query history:  mutation CreateSkill ($input: CreateSkillRequest!) { CreateSkill (input: $input) { id category_skill_id name icon } }
+[14 Jun 23 09:51 +07] | query history:  mutation CreateSkill ($input: CreateSkillRequest!) { CreateSkill (input: $input) { id category_skill_id name icon } }
+[14 Jun 23 09:51 +07] | query history:  mutation CreateSkill ($input: CreateSkillRequest!) { CreateSkill (input: $input) { id category_skill_id name icon } }
+[14 Jun 23 09:51 +07] | query history:  mutation CreateSkill ($input: CreateSkillRequest!) { CreateSkill (input: $input) { id category_skill_id name icon } }
+[14 Jun 23 09:51 +07] | query history:  mutation CreateSkill ($input: CreateSkillRequest!) { CreateSkill (input: $input) { id category_skill_id name icon } }
