@@ -6,6 +6,8 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/stretchr/testify/suite"
 	"gorm.io/gorm"
+	"os"
+	"path/filepath"
 	"testing"
 )
 
@@ -49,7 +51,19 @@ func (suite *E2ETestSuite) SetupSuite() {
 }
 
 func (suite *E2ETestSuite) TearDownSuite() {
-	suite.Require().NoError(suite.server.Shutdown())
+	folderPath := "./assets/images"
+
+	folderList, err := filepath.Glob(filepath.Join(folderPath, "*"))
+	suite.Require().NoError(err)
+
+	for _, folder := range folderList {
+		fileList, err := filepath.Glob(filepath.Join(folder, "*"))
+		suite.Require().NoError(err)
+
+		for _, file := range fileList {
+			_ = os.Remove(file)
+		}
+	}
 }
 
 func (suite *E2ETestSuite) TearDownTest() {
