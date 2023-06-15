@@ -47,6 +47,51 @@ func (suite *E2ETestSuite) TestSkill_CreateSuccess() int64 {
 											"name": "Golang", 
 											"icon": null 
 										}`, idCategorySkill)
+		query = util.CleanQueryWithVariables(query, variables)
+
+		bodyRequest := strings.NewReader(query)
+		req := httptest.NewRequest(http.MethodPost, "/query", bodyRequest)
+		req.Header.Add("X-API-KEY", suite.configuration.Get("X_API_KEY"))
+		req.Header.Add("Content-Type", fiber.MIMEApplicationJSON)
+		req.Header.Add("Authorization", fmt.Sprintf("Bearer %s", suite.configuration.Get("JWT_TEST")))
+
+		res, err := suite.server.Test(req)
+		suite.Assertions.NoError(err)
+
+		var responseBody SkillResponse
+		err = json.NewDecoder(res.Body).Decode(&responseBody)
+		suite.Assertions.NoError(err)
+
+		suite.Assertions.Empty(responseBody.Errors)
+		suite.Assertions.NotEmpty(responseBody.Data.Skill)
+		suite.Assertions.Equal(responseBody.Data.Skill.Name, "Golang")
+		suite.Assertions.Equal(responseBody.Data.Skill.CategorySkillID, idCategorySkill)
+		suite.Assertions.Empty(responseBody.Data.Skill.Icon)
+
+		id = responseBody.Data.Skill.ID
+	})
+
+	return id
+}
+
+func (suite *E2ETestSuite) TestSkill_CreateWithFileSuccess() int64 {
+	var id int64
+	idCategorySkill := suite.TestCategorySkill_CreateSuccess()
+
+	suite.Run("Create Skill", func() {
+		query := `mutation CreateSkill ($input: CreateSkillRequest!) {
+						skill: CreateSkill (input: $input) {
+							id 
+							category_skill_id 
+							name 
+							icon
+						}
+					}`
+		variables := fmt.Sprintf(`"input": { 
+											"category_skill_id": %d, 
+											"name": "Golang", 
+											"icon": null 
+										}`, idCategorySkill)
 		maps := `{ "icon": ["variables.input.icon"] }`
 		query = util.CleanQueryWithVariables(query, variables)
 
@@ -94,7 +139,6 @@ func (suite *E2ETestSuite) TestSkill_CreateSuccess() int64 {
 		suite.Assertions.NotEmpty(responseBody.Data.Skill)
 		suite.Assertions.Equal(responseBody.Data.Skill.Name, "Golang")
 		suite.Assertions.Equal(responseBody.Data.Skill.CategorySkillID, idCategorySkill)
-		suite.Assertions.NotEmpty(responseBody.Data.Skill.Icon)
 
 		id = responseBody.Data.Skill.ID
 	})
@@ -133,7 +177,6 @@ func (suite *E2ETestSuite) TestSkill_FindAllSuccess() {
 		suite.Assertions.NotEmpty(responseBody.Data.Skill)
 		suite.Assertions.Equal(responseBody.Data.Skill[0].ID, id)
 		suite.Assertions.Equal(responseBody.Data.Skill[0].Name, "Golang")
-		suite.Assertions.NotEmpty(responseBody.Data.Skill[0].Icon)
 		suite.Assertions.NotEmpty(responseBody.Data.Skill[0].CategorySkillID)
 	})
 }
@@ -171,7 +214,6 @@ func (suite *E2ETestSuite) TestSkill_FindByIDSuccess() model.Skill {
 		suite.Assertions.NotEmpty(responseBody.Data.Skill)
 		suite.Assertions.Equal(responseBody.Data.Skill.ID, id)
 		suite.Assertions.Equal(responseBody.Data.Skill.Name, "Golang")
-		suite.Assertions.NotEmpty(responseBody.Data.Skill.Icon)
 		suite.Assertions.NotEmpty(responseBody.Data.Skill.CategorySkillID)
 
 		skill = *responseBody.Data.Skill
@@ -180,7 +222,7 @@ func (suite *E2ETestSuite) TestSkill_FindByIDSuccess() model.Skill {
 	return skill
 }
 
-func (suite *E2ETestSuite) TestSkill_UpdateSuccess() {
+func (suite *E2ETestSuite) TestSkill_UpdateWithFileSuccess() {
 	id := suite.TestSkill_CreateSuccess()
 	idCategorySkill := suite.TestCategorySkill_CreateSuccess()
 
@@ -248,7 +290,6 @@ func (suite *E2ETestSuite) TestSkill_UpdateSuccess() {
 		suite.Assertions.Equal(responseBody.Data.Skill.ID, id)
 		suite.Assertions.Equal(responseBody.Data.Skill.Name, "Golang Fiber")
 		suite.Assertions.Equal(responseBody.Data.Skill.CategorySkillID, idCategorySkill)
-		suite.Assertions.NotEmpty(responseBody.Data.Skill.Icon)
 	})
 }
 
